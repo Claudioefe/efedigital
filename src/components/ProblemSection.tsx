@@ -53,7 +53,7 @@ export function ProblemSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="px-4 md:px-12 py-16 md:py-20 flex items-center"
+              className="px-4 md:px-12 py-16 md:py-20 flex items-start md:items-center"
               style={{ backgroundColor: "#ff0000" }}
             >
               <div className="w-full max-w-2xl mx-auto space-y-6">
@@ -80,7 +80,7 @@ export function ProblemSection() {
                   ].map((item, i) => (
                     <motion.div
                       key={i}
-                      className="border-b py-2 flex items-center gap-3"
+                      className="border-b py-2 flex items-start gap-3 min-h-[2.5rem]"
                       style={{ borderColor: "rgba(255, 255, 255, 0.2)" }}
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -89,15 +89,17 @@ export function ProblemSection() {
                     >
                       <X
                         size={16}
-                        className="flex-shrink-0"
+                        className="flex-shrink-0 mt-0.5"
                         style={{ color: "#ffffff" }}
                       />
                       <span
-                        className="text-base"
+                        className="text-base flex-1 break-words"
                         style={{
                           fontFamily: "var(--font-heading)",
                           fontWeight: 300,
                           color: "#ffffff",
+                          wordBreak: "break-word",
+                          overflowWrap: "break-word",
                         }}
                       >
                         {item}
@@ -154,7 +156,7 @@ export function ProblemSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-black px-4 md:px-12 py-16 md:py-20 flex items-center"
+              className="bg-black px-4 md:px-12 py-16 md:py-20 flex items-start md:items-center"
             >
               <div className="w-full max-w-2xl mx-auto space-y-6">
                 <h3
@@ -180,7 +182,7 @@ export function ProblemSection() {
                   ].map((item, i) => (
                     <motion.div
                       key={i}
-                      className="border-b py-2 flex items-center gap-3"
+                      className="border-b py-2 flex items-start gap-3 min-h-[2.5rem]"
                       style={{ borderColor: "rgba(255, 255, 255, 0.2)" }}
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -189,11 +191,11 @@ export function ProblemSection() {
                     >
                       <Check
                         size={16}
-                        className="flex-shrink-0"
+                        className="flex-shrink-0 mt-0.5"
                         style={{ color: "#ffffff" }}
                       />
                       <span
-                        className="text-base break-words"
+                        className="text-base flex-1 break-words"
                         style={{
                           fontFamily: "var(--font-heading)",
                           fontWeight: 300,

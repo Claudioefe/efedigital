@@ -11,6 +11,7 @@ interface AnimatedButtonProps {
     middle: string;
     end: string;
   };
+  ariaLabel?: string;
 }
 
 export function AnimatedButton({
@@ -21,8 +22,9 @@ export function AnimatedButton({
   gradientColors = {
     start: "var(--neon-green)",
     middle: "var(--neon-blue)",
-    end: "var(--neon-pink)"
-  }
+    end: "var(--neon-pink)",
+  },
+  ariaLabel,
 }: AnimatedButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -34,10 +36,11 @@ export function AnimatedButton({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
+      aria-label={ariaLabel}
     >
       <svg
         className="absolute inset-0 w-full h-full"
-        style={{ borderRadius: '0.5rem' }}
+        style={{ borderRadius: "0.5rem" }}
       >
         <rect
           x="2"
@@ -50,7 +53,7 @@ export function AnimatedButton({
           strokeWidth="2"
           style={{
             opacity: isHovered ? 0 : 1,
-            transition: 'opacity 0.3s'
+            transition: "opacity 0.3s",
           }}
         />
         <rect
@@ -66,7 +69,9 @@ export function AnimatedButton({
           strokeDashoffset="1000"
           style={{
             opacity: isHovered ? 1 : 0,
-            animation: isHovered ? 'draw-border 1s ease-in-out forwards' : 'none'
+            animation: isHovered
+              ? "draw-border 1s ease-in-out forwards"
+              : "none",
           }}
         />
         <defs>
@@ -77,7 +82,9 @@ export function AnimatedButton({
           </linearGradient>
         </defs>
       </svg>
-      <div className="relative z-10 text-white flex items-center gap-3">{children}</div>
+      <div className="relative z-10 text-white flex items-center gap-3">
+        {children}
+      </div>
     </motion.button>
   );
 }

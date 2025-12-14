@@ -1,25 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
+  <title>efedigital | Desarrollo Web, Automatización e Inteligencia Artificial</title>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
     content="Sistemas que trabajan solos. Desarrollo web, automatización e inteligencia artificial para tu negocio. E-commerce, integraciones API y soluciones a medida." />
-  <link rel="icon" type="image/png" href="/src/favicon.png" />
-  <title>efedigital</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="canonical" href="https://efedigital.com.ar/" />
+  <meta name="robots" content="index, follow" />
 
-  <!-- Google Fonts -->
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://efedigital.com.ar/" />
+  <meta property="og:title" content="efedigital | Desarrollo Web, Automatización e Inteligencia Artificial" />
+  <meta property="og:description"
+    content="Sistemas que trabajan solos. Desarrollo web, automatización e inteligencia artificial para tu negocio. E-commerce, integraciones API y soluciones a medida." />
+  <meta property="og:image" content="https://efedigital.com.ar/socialimage.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="EFE DIGITAL - Desarrollo Web, Automatización e Inteligencia Artificial" />
+  <meta property="og:site_name" content="efedigital" />
+  <meta property="og:locale" content="es_AR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://efedigital.com.ar/" />
+  <meta name="twitter:title" content="efedigital | Desarrollo Web, Automatización e Inteligencia Artificial" />
+  <meta name="twitter:description"
+    content="Sistemas que trabajan solos. Desarrollo web, automatización e inteligencia artificial para tu negocio. E-commerce, integraciones API y soluciones a medida." />
+  <meta name="twitter:image" content="https://efedigital.com.ar/socialimage.png" />
+  <meta name="twitter:image:alt" content="EFE DIGITAL - Desarrollo Web, Automatización e Inteligencia Artificial" />
+
+  <!-- Additional Meta Tags -->
+  <meta name="author" content="efedigital" />
+  <meta name="theme-color" content="#ff0000" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HY78M19P0F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-HY78M19P0F');
+  </script>
+
+  <!-- Google Fonts - Optimized for performance (non-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Science+Gothic:wght@100;300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Science+Gothic:wght@100;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
+  </noscript>
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Formulario Decoy para Netlify Forms (requerido para React) -->
+  <form name="contacto" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="nombre" />
+    <input type="email" name="email" />
+    <input type="text" name="servicio" />
+    <textarea name="mensaje"></textarea>
+    <input type="text" name="bot-field" />
+  </form>
 </body>
 
 </html>

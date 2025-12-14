@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://efedigital.com.ar/sitemap.xml
+
+# Disallow specific paths if needed (none for now)
+# Disallow: /admin
+# Disallow: /private
+

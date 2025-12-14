@@ -179,6 +179,7 @@ export function PricingSection() {
                   middle: "var(--neon-red)",
                   end: "var(--neon-red)",
                 }}
+                ariaLabel="Conocer más sobre nuestros servicios"
               >
                 Conocer Más
               </AnimatedButton>

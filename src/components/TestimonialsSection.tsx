@@ -6,24 +6,30 @@ const testimonials = [
   {
     name: "Laura Pérez",
     role: "CEO, Tienda Artesanal",
-    content: "Antes tenía que pasar los pedidos de la web a un Excel manualmente. El equipo no solo renovó la tienda, sino que ahora todo se hace solo. Me ahorran 10 horas a la semana.",
+    content:
+      "Antes tenía que pasar los pedidos de la web a un Excel manualmente. El equipo no solo renovó la tienda, sino que ahora todo se hace solo. Me ahorran 10 horas a la semana.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop"
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
   },
   {
     name: "Roberto Silva",
     role: "Director, Consultoría Legal",
-    content: "La automatización con n8n transformó completamente nuestro flujo de trabajo. Los leads se distribuyen automáticamente y reciben respuestas instantáneas. Cerramos 40% más casos.",
+    content:
+      "La automatización con n8n transformó completamente nuestro flujo de trabajo. Los leads se distribuyen automáticamente y reciben respuestas instantáneas. Cerramos 40% más casos.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
   },
   {
     name: "Carmen Vega",
     role: "Fundadora, E-commerce Moda",
-    content: "Integraron mi tienda con mi sistema de facturación y WhatsApp. Cada venta genera factura automática y notifica al cliente. Es magia pura.",
+    content:
+      "Integraron mi tienda con mi sistema de facturación y WhatsApp. Cada venta genera factura automática y notifica al cliente. Es magia pura.",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop"
-  }
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+  },
 ];
 
 export function TestimonialsSection() {
@@ -42,18 +48,18 @@ export function TestimonialsSection() {
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
-      opacity: 0
+      opacity: 0,
     }),
     center: {
       zIndex: 1,
       x: 0,
-      opacity: 1
+      opacity: 1,
     },
     exit: (direction: number) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
+      opacity: 0,
+    }),
   };
 
   const paginate = (newDirection: number) => {
@@ -84,7 +90,10 @@ export function TestimonialsSection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-6xl text-white mb-4">
-            Lo que dicen nuestros <span className="bg-gradient-to-r from-[var(--neon-green)] to-[var(--neon-pink)] bg-clip-text text-transparent">Clientes</span>
+            Lo que dicen nuestros{" "}
+            <span className="bg-gradient-to-r from-[var(--neon-green)] to-[var(--neon-pink)] bg-clip-text text-transparent">
+              Clientes
+            </span>
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto">
             Testimonios reales de clientes satisfechos con nuestro trabajo
@@ -104,21 +113,27 @@ export function TestimonialsSection() {
                 exit="exit"
                 transition={{
                   x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 }
+                  opacity: { duration: 0.2 },
                 }}
                 className="absolute inset-0"
               >
                 <div className="bg-[#1a1a1a] border border-white/10 rounded-lg p-8 md:p-12 h-full relative overflow-hidden group">
                   {/* Glitch Border Effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
-                    boxShadow: "0 0 20px var(--neon-green), 0 0 40px var(--neon-green)"
-                  }}></div>
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      boxShadow:
+                        "0 0 20px var(--neon-green), 0 0 40px var(--neon-green)",
+                    }}
+                  ></div>
 
                   {/* Content */}
                   <div className="relative z-10 flex flex-col h-full">
                     {/* Rating */}
                     <div className="flex gap-1 mb-6">
-                      {Array.from({ length: testimonials[currentIndex].rating }).map((_, i) => (
+                      {Array.from({
+                        length: testimonials[currentIndex].rating,
+                      }).map((_, i) => (
                         <Star
                           key={i}
                           size={20}
@@ -145,8 +160,12 @@ export function TestimonialsSection() {
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300 bg-gradient-to-r from-[var(--neon-pink)] to-[var(--neon-blue)] mix-blend-screen"></div>
                       </div>
                       <div>
-                        <div className="text-white">{testimonials[currentIndex].name}</div>
-                        <div className="text-white/50 text-sm">{testimonials[currentIndex].role}</div>
+                        <div className="text-white">
+                          {testimonials[currentIndex].name}
+                        </div>
+                        <div className="text-white/50 text-sm">
+                          {testimonials[currentIndex].role}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -168,17 +187,27 @@ export function TestimonialsSection() {
               onClick={() => paginate(-1)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              aria-label="Testimonio anterior"
             >
               <ChevronLeft size={24} />
             </motion.button>
 
             {/* Indicators */}
-            <div className="flex gap-2">
+            <div
+              className="flex gap-2"
+              role="tablist"
+              aria-label="Navegación de testimonios"
+            >
               {testimonials.map((_, index) => (
                 <button
                   key={index}
+                  role="tab"
+                  aria-selected={index === currentIndex}
+                  aria-label={`Ir al testimonio ${index + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? 'w-8 bg-[var(--neon-green)]' : 'w-2 bg-white/20'
+                    index === currentIndex
+                      ? "w-8 bg-[var(--neon-green)]"
+                      : "w-2 bg-white/20"
                   }`}
                   onClick={() => {
                     setDirection(index > currentIndex ? 1 : -1);
@@ -194,6 +223,7 @@ export function TestimonialsSection() {
               onClick={() => paginate(1)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              aria-label="Siguiente testimonio"
             >
               <ChevronRight size={24} />
             </motion.button>

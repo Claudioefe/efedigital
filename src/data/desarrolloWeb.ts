@@ -11,7 +11,7 @@ export const serviciosDesarrolloWeb: ServicioDesarrolloWeb[] = [
     id: "sitios-corporativos",
     titulo: "Sitios Corporativos",
     descripcionBreve:
-      "Creamos sitios web profesionales que reflejan la identidad de tu marca y convierten visitantes en clientes. Diseño moderno, responsive y optimizado para buscadores. Contáctanos para más información.",
+      "Creamos sitios web profesionales que reflejan la identidad de tu marca y convierten visitantes en clientes. Diseño moderno, responsivo y optimizado para buscadores. Contactanos para más información.",
     diagramaFlujo: [
       "Analizamos tu marca y objetivos de negocio",
       "Diseñamos la estructura y experiencia de usuario",
@@ -27,7 +27,7 @@ export const serviciosDesarrolloWeb: ServicioDesarrolloWeb[] = [
     id: "ecommerce",
     titulo: "Ecommerce",
     descripcionBreve:
-      "Tiendas online completas con pasarelas de pago integradas, gestión de inventario y pedidos automática. Desde productos físicos hasta servicios digitales, creamos la tienda perfecta para tu negocio. Contáctanos para más información.",
+      "Tiendas online completas con pasarelas de pago integradas y gestión de inventario. Desde productos físicos hasta servicios digitales, creamos la tienda perfecta para tu negocio. Contactanos para más información.",
     diagramaFlujo: [
       "Configuramos tu catálogo de productos",
       "Integramos pasarelas de pago seguras",
@@ -43,7 +43,7 @@ export const serviciosDesarrolloWeb: ServicioDesarrolloWeb[] = [
     id: "landing-pages",
     titulo: "Landing Pages",
     descripcionBreve:
-      "Páginas de aterrizaje de alto impacto diseñadas para convertir visitantes en leads o ventas. Diseño enfocado en conversión, formularios optimizados y integración con tus herramientas de marketing. Contáctanos para más información.",
+      "Páginas de alto impacto diseñadas para convertir visitantes en clientes o ventas. Diseño enfocado en conversión, formularios optimizados e integración con tus herramientas de marketing. Contactanos para más información.",
     diagramaFlujo: [
       "Definimos el objetivo de conversión",
       "Diseñamos la página enfocada en resultados",
@@ -59,7 +59,7 @@ export const serviciosDesarrolloWeb: ServicioDesarrolloWeb[] = [
     id: "rediseño-web",
     titulo: "Rediseño Web",
     descripcionBreve:
-      "Modernizamos tu sitio web existente mejorando diseño, velocidad, SEO y experiencia de usuario. Mantenemos tu contenido pero lo llevamos al siguiente nivel con las últimas tecnologías y mejores prácticas. Contáctanos para más información.",
+      "Modernizamos tu sitio web existente mejorando diseño, velocidad, SEO y experiencia de usuario. Mantenemos tu contenido pero lo llevamos al siguiente nivel con las últimas tecnologías y mejores prácticas. Contactanos para más información.",
     diagramaFlujo: [
       "Analizamos tu sitio actual y métricas",
       "Identificamos oportunidades de mejora",
@@ -77,7 +77,7 @@ export const desarrolloWebAMedida = {
   titulo: "Sistemas Web a",
   tituloDestacado: "Medida",
   descripcion:
-    "Cuando necesitas algo más complejo que una web tradicional, creamos soluciones personalizadas para tu negocio. Desarrollamos portales con funcionalidades avanzadas, aplicaciones web que funcionan como apps y sistemas escalables que crecen contigo.",
+    "Cuando necesitás algo más complejo que una web tradicional, creamos soluciones personalizadas para tu negocio. Desarrollamos portales con funcionalidades avanzadas, aplicaciones web que funcionan como apps y sistemas escalables que crecen con vos.",
   servicios: [
     {
       titulo: "Portales Web",

@@ -265,7 +265,7 @@ export function Automatizaciones() {
                   className="text-white/80 text-base md:text-lg leading-relaxed"
                   style={{ fontFamily: "var(--font-heading)", fontWeight: 100 }}
                 >
-                  Soluciones que trabajan por ti, las 24 horas del día.
+                  Soluciones que trabajan por vos, las 24 horas del día.
                 </p>
                 <div className="flex items-center gap-4 text-white/60 text-sm">
                   <div className="flex items-center gap-2">

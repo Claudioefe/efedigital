@@ -38,6 +38,9 @@ export function Header() {
         className="fixed top-4 right-4 text-white p-4 bg-black/50 backdrop-blur-sm rounded-lg transition-colors"
         style={{ zIndex: 9999 }}
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+        aria-expanded={mobileMenuOpen}
+        aria-controls="mobile-menu"
       >
         {mobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
       </motion.button>
@@ -46,6 +49,10 @@ export function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -89,6 +96,7 @@ export function Header() {
                       100
                     );
                   }}
+                  aria-label="Ir a inicio"
                   className="group transition-colors text-left md:text-7xl lg:text-8xl menu-link-mobile"
                   style={{
                     fontFamily: "var(--font-heading)",

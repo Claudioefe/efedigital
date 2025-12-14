@@ -14,7 +14,7 @@ export const productosAutomatizacion: ProductoAutomatizacion[] = [
   {
     titulo: "NotifyPro",
     descripcionBreve:
-      "Recibe notificaciones automáticas por WhatsApp, Email o Slack cada vez que algo importante pasa en tu negocio. Tu equipo y clientes siempre estarán informados al instante. Contáctanos para más información.",
+      "Recibí notificaciones automáticas por WhatsApp, correo electrónico o otros medios cada vez que algo importante pase en tu negocio. Tu equipo y clientes siempre estarán informados al instante. Contactanos para más información.",
     queHace: [
       "Envía notificaciones instantáneas por WhatsApp, Email o Slack",
       "Se activa automáticamente cuando ocurre un evento en tu sistema",
@@ -51,7 +51,7 @@ export const productosAutomatizacion: ProductoAutomatizacion[] = [
   {
     titulo: "SheetSync",
     descripcionBreve:
-      "Cada venta, pedido o registro importante se anota automáticamente en Google Sheets. El sistema organiza todo en las columnas correctas y mantiene un historial completo. Contáctanos para más información.",
+      "Cada venta, pedido o registro importante se anota automáticamente en Google Sheets. El sistema organiza todo de manera eficiente y mantiene un historial completo. Contactanos para más información.",
     queHace: [
       "Anota información automáticamente en Google Sheets",
       "Agrega nuevas filas cuando ocurre algo nuevo",
@@ -83,7 +83,7 @@ export const productosAutomatizacion: ProductoAutomatizacion[] = [
   {
     titulo: "CartSaver",
     descripcionBreve:
-      "¿Sabías que la mayoría de clientes abandonan el carrito sin comprar? Este sistema detecta carritos abandonados y envía automáticamente un mensaje con descuento para recuperar la venta. Contáctanos para más información.",
+      "¿Sabías que la mayoría de clientes abandonan el carrito sin comprar? Este sistema detecta carritos abandonados y envía automáticamente un mensaje con descuentos para recuperar la venta. Contactanos para más información.",
     queHace: [
       "Detecta cuando alguien abandona su carrito de compras",
       "Espera el tiempo que configures antes de enviar el mensaje",
@@ -117,7 +117,7 @@ export const productosAutomatizacion: ProductoAutomatizacion[] = [
   {
     titulo: "ReviewBoost",
     descripcionBreve:
-      "Después de cada venta, tus clientes reciben automáticamente una encuesta. Si están contentos, el sistema los invita a dejar una reseña en Google Maps mejorando tu reputación online. Contáctanos para más información.",
+      "Después de cada venta, tus clientes reciben automáticamente una encuesta. Si están contentos, el sistema los invita a dejar una reseña en la plataforma de tu preferencia, mejorando tu reputación online. Contactanos para más información.",
     queHace: [
       "Envía encuestas automáticas después de cada venta",
       "Espera el tiempo perfecto antes de enviar",
@@ -149,7 +149,7 @@ export const productosAutomatizacion: ProductoAutomatizacion[] = [
   {
     titulo: "InvoicePro",
     descripcionBreve:
-      "Cada venta genera automáticamente su factura o remito en PDF con diseño profesional. Los documentos se guardan organizados en Google Drive, cada cliente en su carpeta. Contáctanos para más información.",
+      "Cada venta genera automáticamente su factura o remito en PDF con diseño profesional. Los documentos se guardan organizados en Google Drive, separando cada cliente por carpeta. Contactanos para más información.",
     queHace: [
       "Crea facturas y remitos en PDF automáticamente",
       "Usa un diseño profesional personalizable",
@@ -181,7 +181,7 @@ export const productosAutomatizacion: ProductoAutomatizacion[] = [
   {
     titulo: "SmartScan",
     descripcionBreve:
-      "Recibe documentos por email o WhatsApp y el sistema los lee automáticamente con IA. Extrae información importante y la guarda organizada en Google Sheets o tu sistema de gestión. Contáctanos para más información.",
+      "Recibí documentos por correo electrónico o WhatsApp y el sistema los lee automáticamente con IA. Extrae información importante y la guarda en Google Sheets. Contactanos para más información.",
     queHace: [
       "Recibe documentos que te envían por email o WhatsApp",
       "Lee el documento usando inteligencia artificial",

@@ -3,7 +3,7 @@ import { Automatizaciones } from "../components/servicios/automatizaciones";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
-export function AutomatizacionesPage() {
+export default function AutomatizacionesPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);

@@ -18,10 +18,10 @@ export const servicios: Servicio[] = [
     caracteristicas: [
       "Sitios web corporativos y landing pages de alto impacto",
       "Tiendas online con pasarelas de pago integradas",
-      "Diseño responsive optimizado para todos los dispositivos",
-      "SEO optimizado para aparecer en buscadores",
-      "Panel de administración fácil de usar",
-      "Integración con sistemas de gestión y analíticas",
+      "Diseño responsivo optimizado para todos los dispositivos",
+      "SEO optimizado",
+      "Panel de administración, fácil de usar",
+      "Integración con sistemas de gestión y de análisis",
     ],
     enlace: "/servicios/desarrollo-web",
     icono: "code",
@@ -33,7 +33,7 @@ export const servicios: Servicio[] = [
     descripcion:
       "Liberá tiempo y recursos automatizando tareas repetitivas. Creamos flujos de trabajo inteligentes que funcionan 24/7 sin intervención humana.",
     caracteristicas: [
-      "Notificaciones automáticas por WhatsApp, Email y Slack",
+      "Notificaciones automáticas por WhatsApp, Email y otros canales",
       "Sincronización de datos entre múltiples plataformas",
       "Automatización de reportes y análisis de datos",
       "Gestión automática de inventarios y pedidos",
