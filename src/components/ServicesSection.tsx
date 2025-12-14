@@ -20,13 +20,13 @@ const services = [
     icon: ShoppingCart,
     title: "E-commerce Avanzado",
     description:
-      "Tiendas online completas donde puedes vender tus productos. Gestiona inventarios, cobra de forma segura y administra todo desde un panel simple.",
+      "Tiendas online completas donde puedes vender tus productos. Gestioná inventarios, cobrá de forma segura y administrá todo desde un panel simple.",
   },
   {
     icon: Zap,
     title: "Automatización",
     description:
-      "Automatizamos las tareas repetitivas de tu negocio. Tu web trabaja mientras duermes: captura leads, envía notificaciones y sincroniza información.",
+      "Automatizamos las tareas repetitivas de tu negocio. Tu web trabaja mientras dormís: capturá leads, enviá notificaciones y sincronizá información.",
   },
   {
     icon: Brain,
@@ -44,7 +44,7 @@ const services = [
     icon: Settings,
     title: "Sistemas a Medida",
     description:
-      "Desarrollamos software a medida cuando necesitas algo específico para tu negocio que no existe en el mercado.",
+      "Desarrollamos software a medida cuando necesitás algo específico para tu negocio que no existe en el mercado.",
   },
 ];
 

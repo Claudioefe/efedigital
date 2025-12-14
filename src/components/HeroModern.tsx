@@ -364,8 +364,8 @@ export function HeroModern() {
               overflowWrap: "break-word",
             }}
           >
-            Convertimos tu web en un sistema que trabaja por ti. Menos tiempo en
-            tareas repetitivas, más tiempo haciendo crecer tu negocio.
+            Convertimos tu web en un sistema que trabaja por vos. Menos tiempo
+            en tareas repetitivas, más tiempo haciendo crecer tu negocio.
           </motion.p>
         </div>
       </div>

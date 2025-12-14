@@ -38,7 +38,7 @@ export function ProblemSection() {
                   overflowWrap: "break-word",
                 }}
               >
-                Tu web puede hacer mucho más que solo mostrar tu empresa
+                Tu web puede hacer mucho más que solo mostrar tu empresa.
               </p>
             </motion.div>
           </div>
@@ -140,9 +140,9 @@ export function ProblemSection() {
                       color: "#ffffff",
                     }}
                   >
-                    Tienes una web bonita, pero sigues haciendo todo manual:
-                    facturas, emails repetitivos y perdiendo clientes porque no
-                    respondes a tiempo.
+                    Tenés una web bonita, pero seguís haciendo todo manual:
+                    facturas, correos repetitivos y perdiendo clientes porque no
+                    respondés a tiempo.
                   </p>
                 </div>
               </div>
@@ -175,8 +175,8 @@ export function ProblemSection() {
                     "Automatización 24/7 sin intervención",
                     "Captura y seguimiento automático de leads",
                     "Sincronización en tiempo real",
-                    "10+ horas recuperadas cada semana",
-                    "Cero errores, máxima eficiencia",
+                    "Menos tiempo perdido en tareas repetitivas",
+                    "Menos errores, mayor eficiencia",
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -193,7 +193,7 @@ export function ProblemSection() {
                         style={{ color: "#ffffff" }}
                       />
                       <span
-                        className="text-sm md:text-base break-words"
+                        className="text-base break-words"
                         style={{
                           fontFamily: "var(--font-heading)",
                           fontWeight: 300,
@@ -210,7 +210,7 @@ export function ProblemSection() {
 
                 {/* Narrativa Después */}
                 <div
-                  className="border p-4 md:p-6 space-y-4"
+                  className="border p-6 space-y-4"
                   style={{ borderColor: "rgba(255, 255, 255, 0.2)" }}
                 >
                   <div
@@ -224,7 +224,7 @@ export function ProblemSection() {
                     SOLUCIÓN
                   </div>
                   <p
-                    className="text-sm md:text-base break-words"
+                    className="text-base break-words"
                     style={{
                       fontFamily: "var(--font-heading)",
                       fontWeight: 300,
@@ -234,19 +234,19 @@ export function ProblemSection() {
                     }}
                   >
                     No solo hacemos tu web; te regalamos tiempo. Convertimos lo
-                    que haces manualmente todos los días en procesos automáticos
+                    que hacés manualmente todos los días en procesos automáticos
                     que funcionan solos.
                   </p>
                   <p
-                    className="text-base md:text-lg leading-relaxed break-words"
+                    className="text-lg leading-relaxed break-words"
                     style={{
                       fontFamily: "var(--font-heading)",
                       fontWeight: 300,
                       color: "#ffffff",
                     }}
                   >
-                    Tu web empieza a trabajar para ti las 24 horas: captura
-                    clientes potenciales, organiza información y deja que tu
+                    Tu web empieza a trabajar para vos las 24 horas: capturá
+                    clientes potenciales, organizá información y dejá que tu
                     equipo se enfoque en lo importante.
                   </p>
                 </div>
@@ -265,11 +265,12 @@ export function ProblemSection() {
               transition={{ duration: 0.8 }}
             >
               <h3
-                className="text-2xl md:text-3xl lg:text-5xl text-white uppercase tracking-tighter mb-6 md:mb-12 break-words"
+                className="text-white uppercase tracking-tighter mb-6 md:mb-12 break-words"
                 style={{
                   fontFamily: "var(--font-heading)",
                   fontWeight: 900,
                   lineHeight: 1,
+                  fontSize: "clamp(1.75rem, 4.5vw, 4.5rem)",
                   wordBreak: "break-word",
                   overflowWrap: "break-word",
                 }}
@@ -289,7 +290,7 @@ export function ProblemSection() {
                 }}
               >
                 <span style={{ color: "var(--neon-red)" }}>
-                  Construimos sistemas que trabajan por ti
+                  Construimos sistemas que trabajan por vos.
                 </span>
               </p>
             </motion.div>

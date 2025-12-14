@@ -20,7 +20,7 @@ const steps = [
     number: "03",
     title: "Desarrollo Ágil",
     description:
-      "Desarrollamos de forma ágil, probamos contigo y vamos ajustando hasta que funcione perfecto.",
+      "Desarrollamos de forma ágil, probamos con vos y vamos ajustando hasta que funcione perfectamente.",
     icon: Code,
   },
   {
@@ -67,7 +67,7 @@ export function ProcessSection() {
               }}
             >
               Un proceso claro que te mantiene informado en cada paso y entrega
-              resultados que puedes medir
+              resultados que podés medir.
             </p>
           </motion.div>
 

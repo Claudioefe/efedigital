@@ -63,7 +63,7 @@ export function Footer() {
           >
             {isContactPage
               ? "Completa el formulario y te contactamos en menos de 24 horas para empezar a automatizar tu negocio."
-              : "Agenda una consultoría de 15 minutos y descubre cómo automatizar tu negocio"}
+              : "Agendá una consultoría de 15 minutos y descubrí cómo automatizar tu negocio"}
           </p>
           {!isContactPage && (
             <div className="mt-8 md:mt-10">
@@ -76,7 +76,7 @@ export function Footer() {
                     end: "var(--neon-red)",
                   }}
                 >
-                  Agenda una consultoría de 15 min
+                  Agendá una consultoría de 15 min
                 </AnimatedButton>
               </Link>
             </div>

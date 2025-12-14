@@ -7,7 +7,7 @@ const plans = [
     name: "PRESENCIA DIGITAL",
     tagline: "Tu presencia digital.",
     description:
-      "Perfecto si estás empezando o necesitas renovar tu imagen. Creamos tu sitio web profesional o tienda online que puedes manejar tú mismo, sin depender de nadie más.",
+      "Perfecto si estás empezando o necesitás renovar tu imagen. Creamos tu sitio web profesional o tienda online que podés manejar vos mismo, sin depender de nadie más.",
     features: [
       "Sitio web profesional autogestionable",
       "Diseño UX/UI personalizado",
@@ -22,9 +22,9 @@ const plans = [
   },
   {
     name: "AUTOMATIZACIÓN",
-    tagline: "Ahorra tiempo, crece más.",
+    tagline: "Ahorra tiempo, crecé más.",
     description:
-      "Ya tienes una web, pero pasas demasiado tiempo haciendo tareas repetitivas. Automatizamos tus procesos para que tu negocio funcione solo mientras tú te enfocas en lo importante.",
+      "Ya tenés una web, pero pasás demasiado tiempo haciendo tareas repetitivas. Automatizamos tus procesos para que tu negocio funcione solo mientras vos te enfocás en lo importante.",
     features: [
       "Todo del plan anterior incluido",
       "Flujos de automatización personalizados",
@@ -43,7 +43,7 @@ const plans = [
     name: "PARTNER INNOVATION",
     tagline: "Tu departamento tech.",
     description:
-      "Cuando necesitas soluciones complejas que no existen en el mercado. Desarrollamos software a medida, implementamos IA y te asignamos un equipo tech dedicado que trabaja exclusivamente en tu proyecto.",
+      "Cuando necesitás soluciones complejas que no existen en el mercado. Desarrollamos software a medida, implementamos IA y te asignamos un equipo tech dedicado que trabaja exclusivamente en tu proyecto.",
     features: [
       "Desarrollo de software a medida",
       "Implementación de IA (LLM/GPT)",
@@ -83,7 +83,7 @@ export function PricingSection() {
                 overflowWrap: "break-word",
               }}
             >
-              ELIGE TU <span style={{ color: "var(--neon-red)" }}>PLAN</span>
+              ELEGÍ TU <span style={{ color: "var(--neon-red)" }}>PLAN</span>
             </h2>
             <p
               className="text-base md:text-xl lg:text-2xl text-white/80 max-w-3xl break-words"
@@ -94,7 +94,7 @@ export function PricingSection() {
                 overflowWrap: "break-word",
               }}
             >
-              Elige el nivel que necesitas según dónde esté tu negocio
+              Elegí el nivel que necesitás según dónde esté tu negocio
             </p>
           </motion.div>
 
