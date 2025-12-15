@@ -95,14 +95,29 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      // Crear FormData para Netlify Forms
-      const formDataToSend = new FormData(e.currentTarget);
+      // Netlify Forms requiere que los datos estén codificados como x-www-form-urlencoded
+      const encode = (data: Record<string, string>) =>
+        Object.keys(data)
+          .map(
+            (key) =>
+              encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
+          )
+          .join("&");
 
-      // Enviar formulario a Netlify
-      const response = await fetch("/", {
+      const body = encode({
+        "form-name": "contacto",
+        nombre: formData.nombre,
+        email: formData.email,
+        servicio: formData.servicio,
+        mensaje: formData.mensaje,
+        // Campo honeypot (vacío en envíos válidos)
+        "bot-field": "",
+      });
+
+      const response = await fetch("/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formDataToSend as any).toString(),
+        body,
       });
 
       if (!response.ok) {
