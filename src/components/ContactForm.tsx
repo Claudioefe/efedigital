@@ -405,8 +405,8 @@ export function ContactForm() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-center text-green-400 text-sm"
-                  style={{ fontWeight: 100 }}
+                  className="text-center text-sm"
+                  style={{ fontWeight: 100, color: "#ffffff" }}
                 >
                   ¡Mensaje enviado! Te contactaremos pronto.
                 </motion.div>
@@ -417,8 +417,8 @@ export function ContactForm() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-center text-red-400 text-sm"
-                  style={{ fontWeight: 100 }}
+                  className="text-center text-sm"
+                  style={{ fontWeight: 100, color: "#ff0000" }}
                 >
                   Hubo un error al enviar el mensaje. Por favor intentá
                   nuevamente.
