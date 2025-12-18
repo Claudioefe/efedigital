@@ -372,27 +372,31 @@ export function Footer() {
                   className="flex-shrink-0"
                   style={{ color: "var(--neon-red)" }}
                 />
-                <a
-                  href="mailto:hola@efedigital.com.ar"
-                  className="text-white/80 hover:text-[#ff0000] transition-colors duration-300 relative group inline-block"
-                  style={{
-                    fontFamily: "var(--font-heading)",
-                    fontWeight: 100,
-                  }}
-                >
-                  hola@efedigital.com.ar
+                <div className="relative group inline-block">
+                  <a
+                    href="mailto:claudioefe@icloud.com"
+                    className="text-white/80 hover:text-[#ff0000] transition-colors duration-300 relative z-10 inline-block"
+                    style={{
+                      fontFamily: "var(--font-heading)",
+                      fontWeight: 100,
+                    }}
+                  >
+                    claudioefe@icloud.com
+                  </a>
                   <span
-                    className="absolute bottom-0 left-0 w-0 h-px group-hover:w-full transition-all duration-300"
+                    className="absolute bottom-0 left-0 w-0 h-px group-hover:w-full transition-all duration-300 pointer-events-none z-0"
                     style={{ backgroundColor: "#ff0000" }}
                   ></span>
-                </a>
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <div className="flex-shrink-0">
                   <WhatsAppIcon size={20} color="var(--neon-red)" />
                 </div>
                 <a
-                  href="tel:+543764279444"
+                  href="https://wa.me/5493764279444?text=Hola%2C%20vi%20tu%20web%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white/80 hover:text-[#ff0000] transition-colors duration-300 relative group inline-block"
                   style={{
                     fontFamily: "var(--font-heading)",
