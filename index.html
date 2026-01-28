@@ -185,30 +185,6 @@
     gtag('config', 'G-HY78M19P0F');
   </script>
 
-  <!-- Rastreador de citas de IA (AI Citations) -->
-  <script>
-    (function() {
-      const checkFragment = () => {
-        const fullUrl = window.location.href;
-        const aiMatch = fullUrl.match(/#:~:text=([^&]+)/);
-        
-        if (aiMatch) {
-          const decodedText = decodeURIComponent(aiMatch[1].replace(/\+/g, ' '));
-          // Enviamos el evento a GA4
-          if (typeof window.gtag === 'function') {
-            window.gtag('event', 'ai_citation_detected', {
-              'citation_text': decodedText.substring(0, 100),
-              'method': 'ai_fragment'
-            });
-          }
-        }
-      };
-      // Se ejecuta al cargar y si cambia el hash sin recargar la página
-      window.addEventListener('load', checkFragment);
-      window.addEventListener('hashchange', checkFragment);
-    })();
-  </script>
-
   <!-- Google Fonts - Optimized for performance (non-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
