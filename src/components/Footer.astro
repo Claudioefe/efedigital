@@ -1,0 +1,104 @@
+---
+interface FooterCta {
+  titleHtml: string;
+  subtitle?: string;
+  showButton?: boolean;
+}
+
+interface Props {
+  cta?: FooterCta;
+}
+
+const {
+  cta = { titleHtml: "Hablemos de tu </br> proyecto", showButton: true },
+} = Astro.props;
+const { titleHtml, subtitle, showButton = true } = cta;
+---
+
+<footer
+  id="efe-footer"
+  style="position:fixed;left:0;bottom:0;width:100%;z-index:0;border-top:1px solid rgba(255,255,255,.1);background:#0B0B0E;overflow:hidden"
+>
+  <div
+    data-reveal
+    style="display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center;padding:clamp(90px,12vw,160px) clamp(18px,3.5vw,52px) clamp(60px,8vw,110px)"
+  >
+    <h2
+      style="margin:0;max-width:18ch;font-family:'Lora',serif;font-weight:700;font-size:clamp(36px,6.4vw,92px);line-height:.98;letter-spacing:-.04em"
+      set:html={titleHtml}
+    />
+    {
+      subtitle && (
+        <p style="margin:0;max-width:48ch;font-size:15.5px;line-height:1.6;color:#8B8B93">{subtitle}</p>
+      )
+    }
+    {
+      showButton && (
+        <a href="/contacto" class="efe-btn efe-btn--primary">
+          Escribinos <span style="font-size:14px">↗</span>
+        </a>
+      )
+    }
+  </div>
+
+  <div style="padding:0 0 clamp(20px,2.5vw,30px);overflow:hidden">
+    <div class="efe-marquee__track" style="animation-duration:26s">
+      <div
+        style="display:flex;align-items:center;gap:34px;padding-right:34px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(48px,12vw,180px);line-height:.9;letter-spacing:-.05em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(245,242,236,.18)"
+      >
+        <span>efedigital</span><span style="-webkit-text-stroke:0;color:#D4FF3F">✱</span><span
+          >efedigital</span
+        ><span style="-webkit-text-stroke:0;color:#D4FF3F">✱</span>
+      </div>
+      <div
+        aria-hidden="true"
+        style="display:flex;align-items:center;gap:34px;padding-right:34px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(48px,12vw,180px);line-height:.9;letter-spacing:-.05em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(245,242,236,.18)"
+      >
+        <span>efedigital</span><span style="-webkit-text-stroke:0;color:#D4FF3F">✱</span><span
+          >efedigital</span
+        ><span style="-webkit-text-stroke:0;color:#D4FF3F">✱</span>
+      </div>
+    </div>
+  </div>
+  <div
+    style="display:flex;flex-wrap:wrap;gap:26px;align-items:center;justify-content:space-between;padding:clamp(22px,2.5vw,32px) clamp(18px,3.5vw,52px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(255,255,255,.1)"
+  >
+    <nav
+      aria-label="Pie de página"
+      style="display:flex;flex-wrap:wrap;gap:22px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#8B8B93"
+    >
+      <a href="/#servicios" class="efe-footer-link">Servicios</a>
+      <a href="/#enfoque" class="efe-footer-link">Enfoque</a>
+      <a href="/blog" class="efe-footer-link">Blog</a>
+      <a href="/#faq" class="efe-footer-link">Preguntas</a>
+      <a href="/contacto" class="efe-footer-link">Contacto</a>
+    </nav>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.09em;color:#8B8B93"
+      >© 2026 efedigital · Posadas, Misiones</span
+    >
+  </div>
+</footer>
+
+<style>
+  .efe-footer-link {
+    color: #8b8b93;
+  }
+  .efe-footer-link:hover {
+    color: #f5f2ec;
+  }
+</style>
+
+<script>
+  function syncFooterSpacer() {
+    const footer = document.getElementById("efe-footer");
+    const page = document.getElementById("efe-page");
+    if (!footer || !page) return;
+    page.style.marginBottom = footer.offsetHeight + "px";
+  }
+  syncFooterSpacer();
+  window.addEventListener("load", syncFooterSpacer);
+  window.addEventListener("resize", syncFooterSpacer);
+  if (document.fonts) {
+    document.fonts.ready.then(syncFooterSpacer);
+  }
+</script>

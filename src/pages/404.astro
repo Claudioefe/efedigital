@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Página no encontrada | efedigital"
+  description="La página que buscás no existe o cambió de dirección. Volvé al inicio o escribinos si esperabas encontrar algo acá."
+  path="/404"
+  noindex
+>
+  <section
+    class="efe-section"
+    style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:calc(100vh - 66px)"
+  >
+    <div class="efe-container">
+      <div class="efe-eyebrow">404</div>
+      <h1 class="efe-h2">Esta página<br />no existe</h1>
+      <p class="efe-lede" style="margin-top:22px;max-width:48ch">
+        Puede que el enlace esté roto o la página se haya movido. Volvé al inicio o escribinos si
+        esperabas encontrar algo acá.
+      </p>
+      <div style="display:flex;gap:22px;margin-top:36px;flex-wrap:wrap">
+        <a href="/" class="efe-btn efe-btn--primary">Volver al inicio <span style="font-size:14px">↗</span></a>
+        <a href="/contacto" class="efe-btn efe-btn--ghost">Escribinos</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

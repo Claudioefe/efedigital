@@ -1,0 +1,564 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --efe-bg: #08080a;
+  --efe-bg-alt: rgba(11, 11, 14, 0.72);
+  --efe-fg: #f5f2ec;
+  --efe-accent: #d4ff3f;
+  --efe-accent-soft: rgba(212, 255, 63, 0.85);
+  --efe-muted: #8b8b93;
+  --efe-muted-2: #a9a9b1;
+  --efe-border: rgba(255, 255, 255, 0.1);
+  --efe-border-strong: rgba(255, 255, 255, 0.14);
+  --efe-surface: #0d0d10;
+  --efe-surface-2: #0f0f13;
+  --efe-surface-3: #141419;
+  --efe-surface-hover: #121218;
+  --font-display: "Lora", serif;
+  --font-body: "Open Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-logo: "Chakra Petch", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--efe-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--efe-bg);
+  color: var(--efe-fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--efe-accent);
+  text-decoration: none;
+}
+a:hover {
+  color: #e8ff94;
+}
+
+::selection {
+  background: var(--efe-accent);
+  color: var(--efe-bg);
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--efe-accent);
+  outline-offset: 2px;
+}
+
+/* Skip link: fuera de pantalla hasta que recibe foco por teclado. */
+.efe-skip {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 10001;
+  padding: 12px 18px;
+  background: var(--efe-accent);
+  color: #08080a;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  translate: 0 -200%;
+  transition: translate 0.2s ease;
+}
+.efe-skip:focus {
+  translate: 0 0;
+}
+
+/* Breadcrumb link with a subtle hover effect. */
+.efe-crumb-link {
+  color: #8b8b93;
+  transition: color 0.22s ease;
+}
+.efe-crumb-link:hover {
+  color: #f5f2ec;
+}
+
+/* Small uppercase text link (not a button) with a subtle hover effect. */
+.efe-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+.efe-text-link:hover {
+  color: var(--efe-accent);
+  gap: 10px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+textarea,
+button {
+  font-family: var(--font-body);
+}
+input::placeholder,
+textarea::placeholder {
+  color: #8b8b93;
+}
+
+.efe-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.efe-section {
+  position: relative;
+  z-index: 1;
+  padding: clamp(80px, 10vw, 150px) clamp(18px, 3.5vw, 52px);
+}
+.efe-section--tight {
+  padding: clamp(48px, 7vw, 96px) clamp(18px, 3.5vw, 52px);
+}
+.efe-section--border-top {
+  border-top: 1px solid var(--efe-border);
+}
+.efe-section--alt {
+  background: var(--efe-bg-alt);
+}
+
+/* Se usa tanto en <div> como en <h2>, así que neutraliza los defaults del heading. */
+.efe-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: inherit;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--efe-accent);
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+.efe-eyebrow::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--efe-accent);
+}
+
+.efe-h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(45px, 5.6vw, 92px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+}
+
+.efe-h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 96px);
+  line-height: 0.88;
+  letter-spacing: -0.042em;
+}
+
+.efe-h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.9vw, 27px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.efe-lede {
+  margin: 0;
+  font-size: clamp(16px, 1.5vw, 20px);
+  line-height: 1.55;
+  color: var(--efe-muted-2);
+  text-wrap: pretty;
+}
+
+/* Buttons */
+.efe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 19px 32px;
+  border: 1px solid var(--efe-bg);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  cursor: pointer;
+}
+.efe-btn--primary {
+  background: var(--efe-accent);
+  color: var(--efe-bg);
+  box-shadow: 8px 8px 0 var(--efe-fg);
+}
+.efe-btn--primary:hover {
+  transform: translate(5px, 5px);
+  box-shadow: 3px 3px 0 var(--efe-fg);
+  color: var(--efe-bg);
+}
+.efe-btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+  pointer-events: none;
+}
+.efe-btn--ghost {
+  background: transparent;
+  border-color: rgba(245, 242, 236, 0.35);
+  box-shadow: 8px 8px 0 var(--efe-accent-soft);
+  color: var(--efe-fg);
+}
+.efe-btn--ghost:hover {
+  transform: translate(5px, 5px);
+  box-shadow: 3px 3px 0 var(--efe-accent-soft);
+  background: rgba(245, 242, 236, 0.06);
+  color: var(--efe-fg);
+}
+
+/* Cards */
+.efe-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(26px, 2.8vw, 40px);
+  background: var(--efe-surface);
+  border: 1px solid var(--efe-border);
+  overflow: hidden;
+  transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.efe-card:hover {
+  border-color: var(--efe-accent);
+  background: var(--efe-surface-hover);
+  box-shadow: 10px 10px 0 var(--efe-accent-soft);
+  translate: -5px -5px;
+}
+.efe-card__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(212, 255, 63, 0.12), transparent 68%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* Grids */
+.efe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 1.8vw, 24px);
+}
+.efe-grid--3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 1.8vw, 24px);
+}
+@media (min-width: 720px) {
+  .efe-grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .efe-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.efe-cta-span {
+  grid-column: 1 / -1;
+}
+@media (min-width: 720px) {
+  .efe-cta-span {
+    grid-column: auto;
+  }
+}
+
+/* Marquee */
+.efe-marquee {
+  position: relative;
+  z-index: 1;
+  padding: clamp(14px, 2vw, 22px) 0;
+  border-top: 1px solid var(--efe-border);
+  border-bottom: 1px solid var(--efe-border);
+  background: var(--efe-accent);
+  color: var(--efe-bg);
+  overflow: hidden;
+}
+.efe-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: efe-marquee 22s linear infinite;
+}
+.efe-marquee__group {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding-right: 32px;
+  font-family: var(--font-logo);
+  font-weight: 600;
+  font-size: clamp(26px, 4.4vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Reveal on scroll */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-reveal].efe-in {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal][data-delay="1"] {
+  transition-delay: 0.09s;
+}
+[data-reveal][data-delay="2"] {
+  transition-delay: 0.18s;
+}
+[data-reveal][data-delay="3"] {
+  transition-delay: 0.27s;
+}
+
+/* Cursor */
+html[data-efe-cursor] body {
+  cursor: none;
+}
+html[data-efe-cursor] a,
+html[data-efe-cursor] button,
+html[data-efe-cursor] [data-magnetic],
+html[data-efe-cursor] input,
+html[data-efe-cursor] textarea {
+  cursor: none;
+}
+
+html[data-efe-intro] {
+  overflow: hidden;
+}
+html[data-efe-intro] [data-hero-corner] {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+/* Logo animado: se revelan cuatro clipPath con scaleX/scaleY.
+   Quitar y volver a poner data-run (con un reflow en el medio) reinicia la secuencia. */
+.efe-logoanim {
+  display: block;
+  width: auto;
+}
+.efe-logoanim .efe-logo-r {
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+.efe-logoanim .efe-logo-d {
+  transform-box: fill-box;
+  transform-origin: center top;
+}
+.efe-logoanim .efe-logo-t {
+  font-family: var(--font-logo);
+  font-weight: 700;
+  font-size: 160px;
+  letter-spacing: -3.2px;
+}
+.efe-logoanim[data-run] .efe-logo-a1 {
+  animation: efe-logo-w 0.52s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.efe-logoanim[data-run] .efe-logo-a2 {
+  animation: efe-logo-d 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+.efe-logoanim[data-run] .efe-logo-a3 {
+  animation: efe-logo-w 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.68s both;
+}
+.efe-logoanim[data-run] .efe-logo-a4 {
+  animation: efe-logo-w 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.92s both;
+}
+.efe-logoanim[data-run] .efe-logo-a5 {
+  animation: efe-logo-c 1s cubic-bezier(0.16, 1, 0.3, 1) 0.66s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .efe-logoanim[data-run] .efe-logo-a1,
+  .efe-logoanim[data-run] .efe-logo-a2,
+  .efe-logoanim[data-run] .efe-logo-a3,
+  .efe-logoanim[data-run] .efe-logo-a4 {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+  .efe-logoanim[data-run] .efe-logo-a5 {
+    display: none;
+  }
+}
+
+/* Keyframes */
+@keyframes efe-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes efe-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes efe-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes efe-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+@keyframes efe-rise {
+  from {
+    transform: translate3d(0, 110%, 0) rotate(3deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+@keyframes efe-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes efe-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes efe-corner-tl {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-5px, -5px);
+    opacity: 1;
+  }
+}
+@keyframes efe-corner-tr {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(5px, -5px);
+    opacity: 1;
+  }
+}
+@keyframes efe-corner-bl {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-5px, 5px);
+    opacity: 1;
+  }
+}
+@keyframes efe-corner-br {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(5px, 5px);
+    opacity: 1;
+  }
+}
+@keyframes efe-logo-w {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes efe-logo-d {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes efe-logo-c {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  88% {
+    transform: translateX(695px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(695px);
+    opacity: 0;
+  }
+}
+@keyframes efe-intro-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+}
+

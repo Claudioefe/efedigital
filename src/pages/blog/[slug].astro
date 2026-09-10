@@ -1,0 +1,483 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogImage from "../../components/BlogImage.astro";
+import { buildGraph, organizationSchema, buildBreadcrumbSchema, SOCIAL_IMAGE } from "../../data/schema";
+import { getPublishedPosts, formatMonth, formatDay, estimateReadingTime, relatedPosts } from "../../utils/blog";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post, allPosts: posts },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  allPosts: CollectionEntry<"blog">[];
+}
+
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await render(post);
+
+const title = `${post.data.titulo} | efedigital`;
+const path = `/blog/${post.id}`;
+const canonicalUrl = `https://efedigital.com.ar${path}`;
+const lectura = estimateReadingTime(post.body ?? "");
+const indice = headings.filter((h) => h.depth === 2);
+const relacionadas = relatedPosts(allPosts, post);
+
+const resumidores = [
+  {
+    label: "ChatGPT",
+    href: `https://chatgpt.com/?q=${encodeURIComponent(
+      `Resumí esta nota en 5 puntos claros y decime cuál es la conclusión práctica: ${canonicalUrl}`
+    )}`,
+  },
+  {
+    label: "Claude",
+    href: `https://claude.ai/new?q=${encodeURIComponent(
+      `Resumí esta nota en 5 puntos claros y decime cuál es la conclusión práctica: ${canonicalUrl}`
+    )}`,
+  },
+  {
+    label: "Gemini",
+    href: `https://www.google.com/search?udm=50&q=${encodeURIComponent(
+      `Resumí esta nota en 5 puntos claros y decime cuál es la conclusión práctica: ${canonicalUrl}`
+    )}`,
+  },
+];
+
+const ogImage = post.data.imagen ? `https://efedigital.com.ar${post.data.imagen}` : SOCIAL_IMAGE;
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Inicio", path: "/" },
+  { name: "Blog", path: "/blog" },
+  { name: post.data.titulo, path },
+]);
+
+const metaDesc = post.data.metaDescripcion ?? post.data.bajada;
+
+const schema = buildGraph(
+  organizationSchema,
+  {
+    "@type": "BlogPosting",
+    "@id": `${canonicalUrl}/#post`,
+    headline: post.data.titulo,
+    description: metaDesc,
+    image: ogImage,
+    datePublished: post.data.fecha.toISOString(),
+    dateModified: (post.data.actualizada ?? post.data.fecha).toISOString(),
+    author: { "@id": "https://efedigital.com.ar/#organization" },
+    publisher: { "@id": "https://efedigital.com.ar/#organization" },
+    mainEntityOfPage: canonicalUrl,
+  },
+  breadcrumb
+);
+---
+
+<BaseLayout
+  title={title}
+  description={metaDesc}
+  path={path}
+  ogImage={ogImage}
+  schema={schema}
+  ogType="article"
+  articlePublishedTime={post.data.fecha.toISOString()}
+>
+  <article>
+    <section style="padding:clamp(44px,6vw,88px) clamp(18px,3.5vw,52px) clamp(28px,3.4vw,44px)">
+      <div style="max-width:1000px;margin:0 auto">
+        <div
+          style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
+        >
+          <a href="/" class="efe-crumb-link">Inicio</a>
+          <span>/</span>
+          <a href="/blog" class="efe-crumb-link">Blog</a>
+          <span>/</span>
+          <span style="color:#D4FF3F">{post.data.categoria}</span>
+        </div>
+
+        <h1
+          style="margin:clamp(24px,3vw,40px) 0 0;max-width:26ch;font-family:'Lora',serif;font-weight:700;font-size:clamp(32px,5.4vw,80px);line-height:.94;letter-spacing:-.04em;text-wrap:pretty"
+        >
+          {post.data.titulo}
+        </h1>
+
+        <p
+          style="margin:clamp(20px,2.4vw,32px) 0 0;max-width:60ch;font-size:clamp(17px,1.6vw,22px);line-height:1.52;color:#A9A9B1;text-wrap:pretty"
+        >
+          {post.data.bajada}
+        </p>
+
+        <div
+          style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(16px,2.4vw,34px);margin-top:clamp(28px,3.4vw,44px);padding-top:clamp(20px,2.4vw,28px);border-top:1px solid rgba(255,255,255,.12);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
+        >
+          <span style="display:flex;align-items:center;gap:9px">
+            <span style="display:grid;place-items:center;width:22px;height:22px;background:#D4FF3F;color:#08080A;font-family:'Lora',serif;font-weight:700;font-size:11px">F</span>
+            Equipo efedigital
+          </span>
+          <span>{formatMonth(post.data.fecha)}</span>
+          <span>{lectura} de lectura</span>
+          {post.data.actualizada && (
+            <span style="margin-left:auto;color:#8B8B93">Actualizada {formatDay(post.data.actualizada)}</span>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:0 clamp(18px,3.5vw,52px)">
+      <div style="max-width:1240px;margin:0 auto">
+        <div style="position:relative;min-height:clamp(220px,38vw,520px);background:#131318;border:1px solid rgba(255,255,255,.12);overflow:hidden">
+          <BlogImage src={post.data.imagen} alt={post.data.titulo} label="Imagen de portada de la nota" priority />
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:clamp(44px,6vw,96px) clamp(18px,3.5vw,52px) clamp(60px,8vw,110px)">
+      <div id="efe-cuerpo" style="display:grid;grid-template-columns:1fr;gap:clamp(32px,4vw,56px);max-width:1240px;margin:0 auto">
+        <aside id="efe-aside">
+          {
+            indice.length > 0 && (
+              <>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:#FFF">
+                  En esta nota
+                </div>
+                <nav id="efe-toc" aria-label="Tabla de contenidos" style="display:flex;flex-direction:column;gap:2px;margin-top:16px;border-left:1px solid rgba(255,255,255,.12)">
+                  {indice.map((h) => (
+                    <a href={`#${h.slug}`} data-toc-link data-target={h.slug} class="efe-toc-link">
+                      {h.text}
+                    </a>
+                  ))}
+                </nav>
+              </>
+            )
+          }
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:clamp(26px,3vw,38px);padding-top:22px;border-top:1px solid rgba(255,255,255,.12)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:#FFF">Compartir</span>
+            <button
+              type="button"
+              id="efe-copiar-link"
+              style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:transparent;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;cursor:pointer"
+            >
+              <span id="efe-copiar-texto">Copiar link</span> <span style="color:#D4FF3F">↗</span>
+            </button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:clamp(22px,2.6vw,32px);padding-top:22px;border-top:1px solid rgba(255,255,255,.12)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:#FFF">Resumir con IA</span>
+            {
+              resumidores.map((r) => (
+                <a
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="efe-resumidor"
+                  style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.13em;text-transform:uppercase"
+                >
+                  {r.label} <span style="color:#D4FF3F">↗</span>
+                </a>
+              ))
+            }
+          </div>
+        </aside>
+
+        <div style="min-width:0">
+          <div class="efe-prose">
+            <Content />
+          </div>
+
+          <div class="efe-post-cta" style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-top:clamp(40px,5vw,68px);padding-top:clamp(24px,3vw,34px);border-top:1px solid rgba(255,255,255,.12)">
+            <a href="/contacto" class="efe-btn efe-btn--primary">
+              Escribinos <span style="font-size:14px">↗</span>
+            </a>
+          </div>
+
+          <div class="efe-ia-movil" style="display:flex;flex-direction:column;gap:12px;margin-top:clamp(40px,6vw,56px)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:#FFF">Resumir con IA</span>
+            <div style="display:flex;gap:10px">
+              {
+                resumidores.map((r) => (
+                  <a
+                    href={r.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="efe-resumidor"
+                    style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 10px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase"
+                  >
+                    {r.label} <span style="color:#D4FF3F">↗</span>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+
+  {
+    relacionadas.length > 0 && (
+      <section style="padding:clamp(56px,7vw,104px) clamp(18px,3.5vw,52px);border-top:1px solid rgba(255,255,255,.1);background:rgba(11,11,14,.72)">
+        <div style="max-width:1440px;margin:0 auto">
+          <div style="display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:24px;margin-bottom:clamp(26px,3.2vw,44px)">
+            <h2 style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:clamp(24px,3.4vw,50px);line-height:.96;letter-spacing:-.038em;color:#F5F2EC">
+              Seguí leyendo
+            </h2>
+            <a href="/blog" class="efe-text-link">
+              Todas las notas ↗
+            </a>
+          </div>
+          <div id="efe-relacionadas" style="display:grid;grid-template-columns:1fr;gap:clamp(16px,2vw,26px)">
+            {relacionadas.map((r) => (
+              <a
+                href={`/blog/${r.id}`}
+                class="efe-relacionada"
+                style="display:flex;flex-direction:column;background:#0F0F13;overflow:hidden;color:#F5F2EC"
+              >
+                <span style="position:relative;display:block;height:210px;background:#131318;border-bottom:1px solid rgba(255,255,255,.1);overflow:hidden">
+                  <BlogImage src={r.data.imagen} alt={r.data.titulo} label={r.data.slotLabel} />
+                </span>
+                <span style="display:flex;flex-direction:column;gap:12px;padding:24px;flex:1">
+                  <span style="display:flex;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#9A9AA2">
+                    <span style="color:#D4FF3F">{r.data.categoria}</span>
+                    <span>{formatMonth(r.data.fecha)}</span>
+                  </span>
+                  <h3 style="margin:0;font-size:19.5px;font-weight:700;line-height:1.26;letter-spacing:-.015em;text-wrap:pretty">{r.data.titulo}</h3>
+                  <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#D4FF3F">Leer nota ↗</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .efe-prose {
+    max-width: 68ch;
+    font-size: clamp(16.5px, 1.35vw, 18.5px);
+    line-height: 1.72;
+    color: #c4c4cc;
+  }
+  .efe-prose :global(p) {
+    margin: 0 0 26px;
+    text-wrap: pretty;
+  }
+  .efe-prose :global(h2) {
+    margin: clamp(38px, 4.5vw, 60px) 0 18px;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(24px, 2.6vw, 38px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: #f5f2ec;
+    text-wrap: pretty;
+    scroll-margin-top: 100px;
+  }
+  .efe-prose :global(h3) {
+    margin: clamp(28px, 3.4vw, 42px) 0 14px;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(19px, 1.9vw, 26px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #f5f2ec;
+    scroll-margin-top: 100px;
+  }
+  .efe-prose :global(strong) {
+    color: #f5f2ec;
+    font-weight: 600;
+  }
+  .efe-prose :global(a) {
+    color: #d4ff3f;
+    text-decoration: underline;
+  }
+  .efe-prose :global(blockquote) {
+    margin: clamp(30px, 4vw, 48px) 0;
+    padding: clamp(24px, 3vw, 38px);
+    max-width: 64ch;
+    border: 1px solid rgba(212, 255, 63, 0.3);
+    background: rgba(212, 255, 63, 0.05);
+  }
+  .efe-prose :global(blockquote p) {
+    margin: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(19px, 2.1vw, 29px);
+    line-height: 1.18;
+    letter-spacing: -0.028em;
+    color: #f5f2ec;
+  }
+  .efe-prose :global(ul) {
+    margin: 0 0 30px;
+    padding: 0;
+    max-width: 68ch;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .efe-prose :global(ul li) {
+    display: flex;
+    gap: 14px;
+  }
+  .efe-prose :global(ul li::before) {
+    content: "→";
+    flex: none;
+    color: #d4ff3f;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .efe-prose :global(ol) {
+    margin: 0 0 30px;
+    padding-left: 22px;
+    max-width: 68ch;
+  }
+  .efe-prose :global(ol li) {
+    margin-bottom: 10px;
+  }
+  .efe-prose :global(table) {
+    width: 100%;
+    max-width: 68ch;
+    margin: 0 0 30px;
+    border-collapse: collapse;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 15px;
+  }
+  .efe-prose :global(th) {
+    padding: 13px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8b8b93;
+    text-align: left;
+  }
+  .efe-prose :global(td) {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  #efe-aside {
+    display: none;
+  }
+  .efe-toc-link {
+    padding: 9px 0 9px 16px;
+    margin-left: -1px;
+    display: block;
+    border-left: 1px solid transparent;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    line-height: 1.45;
+    color: #8b8b93;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  .efe-toc-link:hover {
+    color: #f5f2ec;
+  }
+  .efe-toc-link.is-active {
+    border-left-color: #d4ff3f;
+    color: #f5f2ec;
+  }
+  .efe-resumidor,
+  #efe-copiar-link {
+    border: 1px solid rgba(245, 242, 236, 0.18);
+    color: #a9a9b1;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  .efe-resumidor:hover,
+  #efe-copiar-link:hover {
+    border-color: #d4ff3f;
+    color: #f5f2ec;
+  }
+  .efe-ia-movil {
+    display: flex;
+  }
+  .efe-relacionada {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.45s ease, box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .efe-relacionada:hover {
+    border-color: #d4ff3f;
+    box-shadow: 9px 9px 0 rgba(212, 255, 63, 0.85);
+    translate: -4px -4px;
+  }
+
+  @media (min-width: 1000px) {
+    #efe-cuerpo {
+      grid-template-columns: 232px minmax(0, 1fr) !important;
+      gap: clamp(36px, 5vw, 88px) !important;
+    }
+    #efe-aside {
+      display: block;
+      position: sticky;
+      top: 108px;
+      align-self: start;
+    }
+    #efe-relacionadas {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+    .efe-ia-movil {
+      display: none !important;
+    }
+  }
+  @media (min-width: 700px) and (max-width: 999px) {
+    #efe-relacionadas {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+  @media (max-width: 640px) {
+    .efe-post-cta .efe-btn--primary {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const copyBtn = document.getElementById("efe-copiar-link");
+  const copyText = document.getElementById("efe-copiar-texto");
+  copyBtn?.addEventListener("click", async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // clipboard unavailable — ignore
+    }
+    if (copyText) {
+      copyText.textContent = "Link copiado";
+      setTimeout(() => {
+        copyText.textContent = "Copiar link";
+      }, 2200);
+    }
+  });
+
+  const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"));
+  if (tocLinks.length) {
+    const targets = tocLinks
+      .map((link) => document.getElementById(link.dataset.target || ""))
+      .filter((el): el is HTMLElement => !!el);
+    const setActive = (id: string) => {
+      tocLinks.forEach((link) => link.classList.toggle("is-active", link.dataset.target === id));
+    };
+    if (targets.length) {
+      setActive(targets[0].id);
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) setActive(entry.target.id);
+          });
+        },
+        { rootMargin: "-120px 0px -65% 0px" }
+      );
+      targets.forEach((el) => io.observe(el));
+    }
+  }
+</script>

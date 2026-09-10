@@ -1,3 +1,29 @@
-node_modules
-html
+# build output
 dist
+.astro
+
+# dependencies
+node_modules
+
+# design reference files (not part of the site)
+html
+
+# environment variables (.env* cubre .env.local y .env.development,
+# que quedaban afuera; el ejemplo sí se versiona)
+.env*
+!.env.example
+
+# macOS / editor junk
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Netlify local state
+.netlify
+
+# herramientas locales
+.claude

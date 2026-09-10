@@ -1,0 +1,44 @@
+---
+interface Props {
+  uid: string;
+  style?: string;
+}
+const { uid, style } = Astro.props;
+---
+
+<!-- aria-hidden a propósito: el nombre accesible lo aporta quien lo envuelve
+     (el link del header, por ejemplo), así no se anuncia "efedigital" dos veces. -->
+<svg
+  class="efe-logoanim"
+  data-run="1"
+  viewBox="0 0 1133 320"
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+  style={style}
+>
+  <defs>
+    <clipPath id={`ec1-${uid}`}>
+      <rect class="efe-logo-r efe-logo-a1" width="320" height="320"></rect>
+    </clipPath>
+    <clipPath id={`ec2-${uid}`}>
+      <rect class="efe-logo-d efe-logo-a2" width="320" height="320"></rect>
+    </clipPath>
+    <clipPath id={`ec3-${uid}`}>
+      <rect class="efe-logo-r efe-logo-a3" x="437.3" y="0" width="238" height="320"></rect>
+    </clipPath>
+    <clipPath id={`ec4-${uid}`}>
+      <rect class="efe-logo-r efe-logo-a4" x="675.1" y="0" width="457" height="320"></rect>
+    </clipPath>
+  </defs>
+
+  <g clip-path={`url(#ec1-${uid})`}><rect width="320" height="320" fill="#D4FF3F"></rect></g>
+  <g clip-path={`url(#ec2-${uid})`}>
+    <path
+      fill="#08080A"
+      d="M100.63,78.75 L 219.38,78.75 L 219.38,120 L 149.38,120 L 149.38,141.25 L 203.75,141.25 L 203.75,178.75 L 149.38,178.75 L 149.38,241.25 L 100.63,241.25 Z"
+    ></path>
+  </g>
+  <g clip-path={`url(#ec3-${uid})`}><text class="efe-logo-t" x="437.3" y="217.6" fill="#F5F2EC">efe</text></g>
+  <g clip-path={`url(#ec4-${uid})`}><text class="efe-logo-t" x="675.1" y="217.6" fill="#D4FF3F">digital</text></g>
+  <rect class="efe-logo-a5" x="437.3" y="61" width="10" height="198" fill="#D4FF3F"></rect>
+</svg>

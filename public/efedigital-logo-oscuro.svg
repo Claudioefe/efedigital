@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1133 320" width="1133" height="320"
+     data-run="1" role="img" aria-label="efedigital">
+  <title>efedigital</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&amp;display=swap');
+    .r { transform-box: fill-box; transform-origin: left center; }
+    .d { transform-box: fill-box; transform-origin: center top; }
+    .t { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 160px; letter-spacing: -3.2px; }
+    @keyframes efe-w { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes efe-d { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    @keyframes efe-c {
+      0%   { transform: translateX(0);     opacity: 0; }
+      8%   { opacity: 1; }
+      88%  { transform: translateX(695px); opacity: 1; }
+      100% { transform: translateX(695px); opacity: 0; }
+    }
+    [data-run] .a1 { animation: efe-w .52s cubic-bezier(.16,1,.3,1) both; }
+    [data-run] .a2 { animation: efe-d .46s cubic-bezier(.16,1,.3,1) .30s both; }
+    [data-run] .a3 { animation: efe-w .40s cubic-bezier(.16,1,.3,1) .68s both; }
+    [data-run] .a4 { animation: efe-w .52s cubic-bezier(.16,1,.3,1) .92s both; }
+    [data-run] .a5 { animation: efe-c 1s   cubic-bezier(.16,1,.3,1) .66s both; }
+    @media (prefers-reduced-motion: reduce) {
+      [data-run] .a1, [data-run] .a2, [data-run] .a3, [data-run] .a4 { animation-duration: .01s; animation-delay: 0s; }
+      [data-run] .a5 { display: none; }
+    }
+  </style>
+
+  <defs>
+    <clipPath id="ec1"><rect class="r a1" width="320" height="320"/></clipPath>
+    <clipPath id="ec2"><rect class="d a2" width="320" height="320"/></clipPath>
+    <clipPath id="ec3"><rect class="r a3" x="437.3" y="0" width="238" height="320"/></clipPath>
+    <clipPath id="ec4"><rect class="r a4" x="675.1" y="0" width="457" height="320"/></clipPath>
+  </defs>
+
+  <rect width="1133" height="320" fill="#08080A"/>
+
+  <g clip-path="url(#ec1)"><rect width="320" height="320" fill="#D4FF3F"/></g>
+  <g clip-path="url(#ec2)">
+    <path fill="#08080A" d="M100.63,78.75 L 219.38,78.75 L 219.38,120 L 149.38,120 L 149.38,141.25
+      L 203.75,141.25 L 203.75,178.75 L 149.38,178.75 L 149.38,241.25 L 100.63,241.25 Z"/>
+  </g>
+  <g clip-path="url(#ec3)"><text class="t" x="437.3" y="217.6" fill="#F5F2EC">efe</text></g>
+  <g clip-path="url(#ec4)"><text class="t" x="675.1" y="217.6" fill="#D4FF3F">digital</text></g>
+  <rect class="a5" x="437.3" y="61" width="10" height="198" fill="#D4FF3F"/>
+</svg>

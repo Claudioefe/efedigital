@@ -1,0 +1,293 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogImage from "../../components/BlogImage.astro";
+import { buildGraph, organizationSchema, buildBreadcrumbSchema } from "../../data/schema";
+import { getPublishedPosts, pickFeatured, formatMonth, estimateReadingTime } from "../../utils/blog";
+
+const posts = await getPublishedPosts();
+const featured = pickFeatured(posts);
+const resto = posts.filter((p) => p.id !== featured?.id);
+const categorias = ["Todas", ...new Set(resto.map((p) => p.data.categoria))];
+
+const rows = resto.map((p, i) => ({
+  post: p,
+  num: String(i + 1).padStart(2, "0"),
+  lectura: estimateReadingTime(p.body ?? ""),
+}));
+
+const title = "Blog | efedigital";
+const description = "Automatización, e-commerce e IA aplicada, contado desde los proyectos reales que hacemos.";
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Inicio", path: "/" },
+  { name: "Blog", path: "/blog" },
+]);
+const schema = buildGraph(
+  organizationSchema,
+  {
+    "@type": "Blog",
+    "@id": "https://efedigital.com.ar/blog/#blog",
+    name: "Blog de efedigital",
+    url: "https://efedigital.com.ar/blog",
+    publisher: { "@id": "https://efedigital.com.ar/#organization" },
+  },
+  breadcrumb
+);
+---
+
+<BaseLayout title={title} description={description} path="/blog" schema={schema}>
+  <section style="position:relative;padding:clamp(52px,7vw,104px) clamp(18px,3.5vw,52px) clamp(28px,3.4vw,44px)">
+    <div style="max-width:1440px;margin:0 auto">
+      <div
+        style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
+      >
+        <a href="/" class="efe-crumb-link">Inicio</a>
+        <span>/</span>
+        <span style="color:#D4FF3F">Blog</span>
+      </div>
+
+      <div style="margin-top:clamp(26px,3vw,44px)">
+        <h1
+          style="margin:0;max-width:18ch;font-family:'Lora',serif;font-weight:700;font-size:clamp(40px,7vw,112px);line-height:.88;letter-spacing:-.045em"
+        >
+          Lo que vamos<br />aprendiendo
+        </h1>
+      </div>
+
+      <div style="margin-top:clamp(30px,3.6vw,52px);border-top:1px solid rgba(255,255,255,.12)"></div>
+    </div>
+  </section>
+
+  {
+    featured && (
+      <section style="padding:0 clamp(18px,3.5vw,52px) clamp(30px,4vw,56px)">
+        <div style="max-width:1440px;margin:0 auto">
+          <article
+            id="efe-destacada"
+            data-reveal
+            class="efe-destacada"
+            style="display:grid;grid-template-columns:1fr;border:1px solid rgba(255,255,255,.12);background:#0F0F13;transition:border-color .45s ease"
+          >
+            <div style="display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,1.9vw,24px);padding:clamp(26px,3.6vw,60px);order:2">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase">
+                <span style="display:flex;align-items:center;gap:8px;padding:6px 11px;background:#D4FF3F;color:#08080A;font-weight:500">
+                  <span style="width:5px;height:5px;background:#08080A;border-radius:50%;animation:efe-pulse 2.2s ease-in-out infinite" />
+                  Destacada
+                </span>
+                <span style="color:#D4FF3F">{featured.data.categoria}</span>
+                <span style="color:#8B8B93">{formatMonth(featured.data.fecha)}</span>
+                <span style="color:#8B8B93">{estimateReadingTime(featured.body ?? "")}</span>
+              </div>
+              <h2 style="margin:0;max-width:22ch;font-family:'Lora',serif;font-weight:700;font-size:clamp(27px,3.6vw,56px);line-height:1;letter-spacing:-.035em;text-wrap:pretty">
+                {featured.data.titulo}
+              </h2>
+              <p style="margin:0;max-width:50ch;font-size:clamp(15px,1.25vw,17.5px);line-height:1.62;color:#A9A9B1;text-wrap:pretty">
+                {featured.data.bajada}
+              </p>
+              <a
+                href={`/blog/${featured.id}`}
+                class="efe-btn efe-btn--primary"
+                style="align-self:flex-start;margin-top:clamp(6px,1vw,12px)"
+              >
+                Leer la nota <span style="font-size:14px">↗</span>
+              </a>
+            </div>
+            <div style="position:relative;min-height:clamp(230px,32vw,430px);background:#131318;border-bottom:1px solid rgba(255,255,255,.12);order:1;overflow:hidden">
+              <BlogImage src={featured.data.imagen} alt={featured.data.titulo} label="Imagen de la nota destacada" priority />
+            </div>
+          </article>
+        </div>
+      </section>
+    )
+  }
+
+  <section style="padding:0 clamp(18px,3.5vw,52px) clamp(70px,9vw,130px)">
+    <div style="max-width:1440px;margin:0 auto">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:clamp(12px,1.6vw,20px)">
+        {
+          categorias.map((c) => (
+            <button type="button" class="efe-chip-notas" data-filter={c} aria-pressed={c === "Todas"}>
+              {c}
+            </button>
+          ))
+        }
+        <span
+          id="efe-conteo"
+          style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#8B8B93"
+        >
+          {rows.length} {rows.length === 1 ? "nota" : "notas"}
+        </span>
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,.12)" id="efe-listado">
+        {
+          rows.map(({ post, num, lectura }) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="efe-fila"
+              data-categoria={post.data.categoria}
+              data-reveal
+              style="position:relative;display:grid;grid-template-columns:1fr;gap:clamp(10px,1.4vw,24px);border-bottom:1px solid rgba(255,255,255,.12);color:#F5F2EC;transition:background .45s ease,padding-left .45s cubic-bezier(.16,1,.3,1)"
+            >
+              <span class="efe-fila-num" aria-hidden="true" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;color:#4F4F58">
+                {num}
+              </span>
+              <span style="display:flex;flex-direction:column;gap:7px;min-width:0">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#D4FF3F">
+                  {post.data.categoria}
+                </span>
+                <h2 style="margin:0;font-size:clamp(18px,1.75vw,25px);font-weight:700;line-height:1.24;letter-spacing:-.018em;text-wrap:pretty">
+                  {post.data.titulo}
+                </h2>
+                <span style="display:block;max-width:64ch;font-size:14.5px;line-height:1.55;color:#8B8B93;text-wrap:pretty">
+                  {post.data.bajada}
+                </span>
+              </span>
+              <span
+                class="efe-fila-meta"
+                style="display:flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#8B8B93"
+              >
+                {formatMonth(post.data.fecha)}
+              </span>
+              <span
+                class="efe-fila-meta"
+                style="display:flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#8B8B93"
+              >
+                {lectura} <span style="color:#D4FF3F">↗</span>
+              </span>
+              {
+                post.data.imagen && (
+                  <span class="efe-fila-thumb" aria-hidden="true">
+                    <img src={post.data.imagen} alt="" loading="lazy" />
+                  </span>
+                )
+              }
+            </a>
+          ))
+        }
+      </div>
+
+      <div
+        id="efe-vacio"
+        hidden={rows.length > 0}
+        style="padding:clamp(40px,6vw,80px) 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
+      >
+        {rows.length === 0 ? "Todavía no publicamos notas — muy pronto" : "Todavía no hay notas en esta categoría"}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .efe-chip-notas {
+    padding: 9px 15px;
+    background: transparent;
+    border: 1px solid rgba(245, 242, 236, 0.22);
+    color: #a9a9b1;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .efe-chip-notas[aria-pressed="true"] {
+    background: #d4ff3f;
+    border-color: #d4ff3f;
+    color: #08080a;
+  }
+  .efe-fila {
+    padding: clamp(20px, 2.3vw, 30px) clamp(4px, 1.2vw, 18px);
+  }
+  .efe-fila:hover {
+    background: rgba(212, 255, 63, 0.05);
+    padding-left: clamp(14px, 2.2vw, 34px);
+  }
+  .efe-destacada:hover {
+    border-color: rgba(212, 255, 63, 0.5);
+  }
+  .efe-fila-meta {
+    transition: opacity 0.3s ease;
+  }
+  .efe-fila-thumb {
+    display: block;
+    position: absolute;
+    right: clamp(4px, 1.2vw, 18px);
+    top: 50%;
+    width: clamp(150px, 14vw, 190px);
+    height: clamp(94px, 8.8vw, 118px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #101014;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.92);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .efe-fila-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+  @media (min-width: 880px) {
+    .efe-destacada {
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr) !important;
+    }
+    .efe-destacada > div:first-child {
+      order: 1 !important;
+    }
+    .efe-destacada > div:last-child {
+      order: 2 !important;
+      border-bottom: 0 !important;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .efe-fila {
+      grid-template-columns: 52px minmax(0, 1fr) 116px 128px !important;
+      align-items: center !important;
+    }
+    .efe-fila-meta {
+      justify-content: flex-start;
+    }
+    .efe-fila:hover .efe-fila-meta {
+      opacity: 0;
+    }
+    .efe-fila:hover .efe-fila-thumb {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+  }
+  @media (max-width: 879px) {
+    .efe-fila-num {
+      display: none !important;
+    }
+    .efe-fila-thumb {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>(".efe-chip-notas");
+  const rows = document.querySelectorAll<HTMLAnchorElement>(".efe-fila");
+  const conteo = document.getElementById("efe-conteo");
+  const vacio = document.getElementById("efe-vacio");
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const filtro = chip.dataset.filter || "Todas";
+      chips.forEach((c) => c.setAttribute("aria-pressed", String(c === chip)));
+
+      let visible = 0;
+      rows.forEach((row) => {
+        const show = filtro === "Todas" || row.dataset.categoria === filtro;
+        row.style.display = show ? "grid" : "none";
+        if (show) visible++;
+      });
+
+      if (conteo) conteo.textContent = `${visible} ${visible === 1 ? "nota" : "notas"}`;
+      if (vacio) vacio.hidden = visible !== 0;
+    });
+  });
+</script>
