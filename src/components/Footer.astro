@@ -72,6 +72,14 @@ const { titleHtml, subtitle, showButton = true } = cta;
       <a href="/blog" class="efe-footer-link">Blog</a>
       <a href="/#faq" class="efe-footer-link">Preguntas</a>
       <a href="/contacto" class="efe-footer-link">Contacto</a>
+      <a
+        href="https://www.instagram.com/efedigital/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="efe-footer-link efe-footer-link--externo"
+      >
+        Instagram <span aria-hidden="true">↗</span>
+      </a>
     </nav>
     <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.09em;color:#8B8B93"
       >© 2026 efedigital · Posadas, Misiones</span
@@ -82,9 +90,20 @@ const { titleHtml, subtitle, showButton = true } = cta;
 <style>
   .efe-footer-link {
     color: #8b8b93;
+    transition: color 0.22s ease;
   }
   .efe-footer-link:hover {
     color: #f5f2ec;
+  }
+  .efe-footer-link--externo span {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .efe-footer-link--externo:hover {
+    color: var(--efe-accent);
+  }
+  .efe-footer-link--externo:hover span {
+    transform: translate(2px, -2px);
   }
 </style>
 

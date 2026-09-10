@@ -24,7 +24,14 @@ function late(fn: () => void, sel: string, tries = 120) {
 function initIntro() {
   const root = document.getElementById("efe-intro");
   if (!root) return;
-  const heroCorners = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-corner]"));
+  // Solo los que realmente ocupan lugar: en móvil el panel del hero está oculto y
+  // sus cuatro esquinas miden 0, así que mandarían los cuartos del intro al 0,0.
+  const heroCorners = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-corner]")).filter(
+    (el) => {
+      const r = el.getBoundingClientRect();
+      return r.width > 0 && r.height > 0;
+    }
+  );
   const intro = {
     tl: root.querySelector<HTMLElement>('[data-intro-corner="tl"]'),
     tr: root.querySelector<HTMLElement>('[data-intro-corner="tr"]'),
