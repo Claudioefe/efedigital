@@ -8,10 +8,10 @@ node_modules
 # design reference files (not part of the site)
 html
 
-# environment variables
-.env
-.env.production
-.env.*.local
+# environment variables (.env* cubre .env.local y .env.development,
+# que quedaban afuera; el ejemplo sí se versiona)
+.env*
+!.env.example
 
 # macOS / editor junk
 .DS_Store
@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Netlify local state
 .netlify
+
+# herramientas locales
+.claude
