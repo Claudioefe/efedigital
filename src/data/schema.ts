@@ -4,6 +4,11 @@ import { herramientas } from "./home-herramientas";
 const SITE_URL = "https://efedigital.com.ar";
 const SOCIAL_IMAGE = `${SITE_URL}/efedigital-social-og.png`;
 
+// Netlify sirve las rutas como directorio y redirige /blog -> /blog/, así que las URLs
+// del schema tienen que usar la forma con barra para coincidir con los canonical.
+export const pageUrl = (path: string) =>
+  new URL(path.endsWith("/") ? path : `${path}/`, SITE_URL).toString();
+
 // Derivado de los datos reales del home, para que el schema nunca quede
 // desactualizado respecto de lo que el sitio muestra.
 const knowsAboutFromStack = herramientas.flatMap((h) => h.items.split(",").map((s) => s.trim()));
@@ -72,7 +77,7 @@ export const desarrolloWebServiceSchema = {
   name: "Desarrollo Web & Ecommerce",
   description:
     "Creamos sitios web profesionales y tiendas online que convierten visitantes en clientes. Diseño responsivo, SEO optimizado y panel de administración fácil de usar.",
-  url: `${SITE_URL}/servicios/desarrollo-web`,
+  url: pageUrl("/servicios/desarrollo-web"),
   provider: { "@id": `${SITE_URL}/#organization` },
   areaServed: "Worldwide",
   serviceType: ["Web Development", "E-commerce", "Web Design", "Landing Pages"],
@@ -110,7 +115,7 @@ export const automatizacionesServiceSchema = {
   name: "Automatización Inteligente & IA",
   description:
     "Liberá tiempo y recursos automatizando tareas repetitivas. Flujos de trabajo inteligentes que funcionan 24/7 sin intervención humana. Agentes de IA, asistentes virtuales y procesamiento inteligente de documentos.",
-  url: `${SITE_URL}/servicios/automatizaciones`,
+  url: pageUrl("/servicios/automatizaciones"),
   provider: { "@id": `${SITE_URL}/#organization` },
   areaServed: "Worldwide",
   serviceType: ["Business Automation", "Artificial Intelligence", "Workflow Automation", "AI Agents"],
@@ -160,7 +165,7 @@ export const automatizacionesServiceSchema = {
 export const contactPageSchema = {
   "@type": "ContactPage",
   "@id": `${SITE_URL}/contacto/#page`,
-  url: `${SITE_URL}/contacto`,
+  url: pageUrl("/contacto"),
   name: "Contacto - Efe Digital",
   description:
     "Contactanos para automatizar tu negocio. Desarrollo web, e-commerce, automatización e inteligencia artificial.",
@@ -198,7 +203,7 @@ export function buildBreadcrumbSchema(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: `${SITE_URL}${item.path}`,
+      item: pageUrl(item.path),
     })),
   };
 }

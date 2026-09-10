@@ -36,7 +36,11 @@ const {
 } = Astro.props;
 
 const SITE_URL = "https://efedigital.com.ar";
-const canonicalUrl = new URL(path, SITE_URL).toString();
+// Con barra final a propósito: Netlify sirve las rutas como directorio y redirige
+// /blog -> /blog/ con un 301. Si el canonical apuntara a la forma sin barra estaría
+// señalando una URL que redirige, y Google descarta ese canonical.
+const canonicalPath = path.endsWith("/") ? path : `${path}/`;
+const canonicalUrl = new URL(canonicalPath, SITE_URL).toString();
 
 // Las medidas y el alt solo valen para la imagen por defecto: las portadas de los
 // posts tienen otros tamaños (1400x781, 1400x933, 1800x1004) y declararlas mal hace
