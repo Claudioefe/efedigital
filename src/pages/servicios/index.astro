@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { servicios } from "../../data/servicios";
+import {
+  buildGraph,
+  organizationSchema,
+  desarrolloWebServiceSchema,
+  automatizacionesServiceSchema,
+} from "../../data/schema";
+
+const title = "Servicios | efedigital";
+const description =
+  "Desarrollo web y e-commerce, automatización inteligente y desarrollo a medida. Sistemas que trabajan solos para tu negocio.";
+const schema = buildGraph(organizationSchema, desarrolloWebServiceSchema, automatizacionesServiceSchema);
+---
+
+<BaseLayout title={title} description={description} path="/servicios" schema={schema} noindex>
+  <section class="efe-section">
+      <div class="efe-container">
+        <div class="efe-eyebrow" data-reveal>Servicios</div>
+        <h1 class="efe-h2" data-reveal data-delay="1">En qué te<br />podemos ayudar</h1>
+        <p class="efe-lede" style="margin-top:22px;max-width:56ch">
+          Tres frentes, un mismo equipo: te acompañamos desde el sitio o la tienda hasta los sistemas que
+          automatizan lo que hoy hacés a mano.
+        </p>
+
+        <div class="efe-grid--3" data-stagger data-sync style="margin-top:clamp(40px,5vw,64px)">
+          {
+            servicios.map((s) => (
+              <a href={s.enlace} data-scroll="tilt" data-spotlight class="efe-card" style="text-decoration:none;color:inherit">
+                <div class="efe-card__glow" data-glow />
+                <h2 class="efe-h3" style="position:relative">
+                  {s.titulo} {s.tituloDestacado && <span style="color:#D4FF3F">{s.tituloDestacado}</span>}
+                </h2>
+                <p style="position:relative;margin:0;font-size:16.5px;line-height:1.55;color:#F5F2EC;text-wrap:pretty">
+                  {s.descripcion}
+                </p>
+                <ul style="position:relative;margin:auto 0 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);list-style:none;display:flex;flex-direction:column;gap:8px">
+                  {s.caracteristicas.slice(0, 3).map((c) => (
+                    <li style="font-size:13.5px;line-height:1.5;color:#8B8B93;display:flex;gap:8px">
+                      <span style="color:#D4FF3F">→</span>
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+                <span style="position:relative;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#D4FF3F">
+                  Ver más ↗
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+</BaseLayout>
+
+<style>
+  [data-scroll="tilt"]:hover {
+    border-color: #d4ff3f;
+    background: #121218;
+    box-shadow: 10px 10px 0 rgba(212, 255, 63, 0.85);
+    translate: -5px -5px;
+  }
+</style>

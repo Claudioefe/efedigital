@@ -1,0 +1,272 @@
+---
+import { nav } from "../data/nav";
+import LogoAnimado from "./LogoAnimado.astro";
+
+const isActive = (href: string) => href === "/blog" && Astro.url.pathname.startsWith("/blog");
+---
+
+<header
+  style="position:sticky;top:0;z-index:80;background:#0C0C0F;border-bottom:1px solid rgba(255,255,255,.1)"
+>
+  <div
+    id="efe-header-row"
+    style="display:flex;align-items:stretch;justify-content:space-between;gap:12px;max-width:1440px;margin:0 auto;padding-left:clamp(16px,3vw,40px)"
+  >
+    <a href="/" class="efe-logo" aria-label="efedigital — Inicio" style="display:flex;align-items:center;color:#F5F2EC">
+      <LogoAnimado uid="hdr" style="height:30px" />
+    </a>
+    <nav aria-label="Principal" style="display:flex;align-items:stretch;min-width:0;margin-left:auto">
+      <span id="efe-nav-links">
+        {
+          nav.map((n) => (
+            <a
+              href={n.href}
+              class={`efe-nav-link${isActive(n.href) ? " is-active" : ""}`}
+              style="display:flex;align-items:center;padding:0 clamp(12px,1.6vw,24px);border-left:1px solid rgba(255,255,255,.1);font-family:'Chakra Petch',sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap"
+            >
+              <span class="efe-nav-link__label">{n.label}</span>
+            </a>
+          ))
+        }
+      </span>
+      <a
+        id="efe-header-cta"
+        href="/contacto"
+        style="align-items:center;gap:9px;padding:20px clamp(16px,2vw,28px);color:#08080A;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap"
+      >
+        Empecemos <span>↗</span>
+      </a>
+      <button
+        id="efe-menu-toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="efe-mobile-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+  <div style="height:2px;background:rgba(255,255,255,.06)">
+    <div id="efe-progress" style="height:100%;width:0%;background:#D4FF3F"></div>
+  </div>
+</header>
+
+<div id="efe-mobile-menu" aria-hidden="true">
+  <nav aria-label="Menú">
+    {
+      nav.map((n) => (
+        <a href={n.href} class="efe-mobile-link">
+          {n.label}
+        </a>
+      ))
+    }
+  </nav>
+  <a href="/contacto" class="efe-btn efe-btn--primary" style="align-self:flex-start">
+    Empecemos <span style="font-size:14px">↗</span>
+  </a>
+</div>
+
+<style>
+  #efe-nav-links {
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+  }
+  .efe-logo {
+    flex: none;
+    padding-right: clamp(12px, 2vw, 24px);
+  }
+
+  .efe-nav-link {
+    position: relative;
+    overflow: hidden;
+    color: #f5f2ec;
+    background: transparent;
+    transition: color 0.3s ease;
+  }
+  .efe-nav-link.is-active {
+    color: #d4ff3f;
+    background: rgba(212, 255, 63, 0.1);
+  }
+  .efe-nav-link__label {
+    position: relative;
+    z-index: 1;
+  }
+  .efe-nav-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #d4ff3f;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .efe-nav-link:hover::before {
+    transform: translateY(0);
+  }
+  .efe-nav-link:hover {
+    color: #08080a;
+  }
+
+  #efe-header-cta {
+    display: flex;
+    background: #d4ff3f;
+    transition: background 0.22s ease;
+  }
+  #efe-header-cta span {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #efe-header-cta:hover {
+    background: #f5f2ec;
+  }
+  #efe-header-cta:hover span {
+    transform: translateX(4px);
+  }
+
+  #efe-menu-toggle {
+    display: none;
+    flex: none;
+    width: 52px;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-direction: column;
+    background: none;
+    border: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    padding: 0;
+  }
+  #efe-menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: #f5f2ec;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  }
+  html[data-efe-menu-open] #efe-menu-toggle span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  html[data-efe-menu-open] #efe-menu-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+  html[data-efe-menu-open] #efe-menu-toggle span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  #efe-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 79;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    padding: clamp(28px, 6vw, 44px) clamp(20px, 5vw, 36px);
+    background: #0c0c0f;
+    transform: translateX(100%);
+    /* visibility, además de la animación, saca los links del orden de tabulación
+       mientras el menú está cerrado. */
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+  }
+  html[data-efe-menu-open] #efe-mobile-menu {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  #efe-mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+  }
+  .efe-mobile-link {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f5f2ec;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 7vw, 32px);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .efe-mobile-link:hover {
+    color: #d4ff3f;
+  }
+
+  @media (max-width: 760px) {
+    #efe-nav-links {
+      display: none;
+    }
+    #efe-header-cta {
+      display: none;
+    }
+    #efe-header-row {
+      padding-left: 20px !important;
+      padding-right: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    #efe-menu-toggle {
+      display: flex;
+      border-left: 0;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("efe-menu-toggle");
+  const menu = document.getElementById("efe-mobile-menu");
+  const header = document.querySelector("header");
+
+  const syncMenuOffset = () => {
+    if (!header || !menu) return;
+    menu.style.paddingTop = `${header.offsetHeight + 24}px`;
+  };
+  syncMenuOffset();
+  window.addEventListener("resize", syncMenuOffset);
+  if (document.fonts) {
+    document.fonts.ready.then(syncMenuOffset);
+  }
+
+  const logoLink = document.querySelector<HTMLAnchorElement>(".efe-logo");
+  const logoSvg = logoLink?.querySelector<SVGSVGElement>(".efe-logoanim");
+  if (logoLink && logoSvg) {
+    // La secuencia completa dura ~1.66s; ignoramos hovers mientras corre.
+    let lastRun = performance.now();
+    logoLink.addEventListener("mouseenter", () => {
+      const now = performance.now();
+      if (now - lastRun < 1700) return;
+      lastRun = now;
+      logoSvg.removeAttribute("data-run");
+      void logoSvg.getBoundingClientRect();
+      logoSvg.setAttribute("data-run", "1");
+    });
+  }
+
+  const setOpen = (open: boolean) => {
+    document.documentElement.toggleAttribute("data-efe-menu-open", open);
+    toggle?.setAttribute("aria-expanded", String(open));
+    toggle?.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    menu?.setAttribute("aria-hidden", String(!open));
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+
+  toggle?.addEventListener("click", () => {
+    setOpen(!document.documentElement.hasAttribute("data-efe-menu-open"));
+  });
+
+  menu?.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", () => setOpen(false));
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 760) setOpen(false);
+  });
+</script>

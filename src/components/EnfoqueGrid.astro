@@ -1,0 +1,56 @@
+---
+import { herramientas } from "../data/home-herramientas";
+---
+
+<section
+  id="enfoque"
+  class="efe-section efe-section--border-top efe-section--alt"
+  style="overflow:hidden"
+>
+  <div
+    data-parallax="0.22"
+    style="position:absolute;right:-14%;top:14%;width:min(44vw,520px);height:min(44vw,520px);border-radius:50%;background:conic-gradient(from 90deg,rgba(212,255,63,.26),transparent 46%,rgba(212,255,63,.2));filter:blur(70px);animation:efe-spin 34s linear infinite;pointer-events:none"
+  >
+  </div>
+  <div style="position:relative;max-width:1440px;margin:0 auto">
+    <div
+      style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;align-items:end;margin-bottom:clamp(40px,5vw,68px)"
+    >
+      <div>
+        <div class="efe-eyebrow" data-reveal>03 — Enfoque</div>
+        <h2 class="efe-h2" data-reveal data-delay="1">Nuestro<br />conocimiento</h2>
+      </div>
+    </div>
+
+    <div id="efe-enfoque" class="efe-grid--3" data-stagger data-sync>
+      {
+        herramientas.map((g) => (
+          <div data-scroll="tilt" data-spotlight class="efe-card">
+            <div class="efe-card__glow" data-glow />
+            <div style="position:relative;display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#D4FF3F">
+              <span style="width:22px;height:1px;background:#D4FF3F" />
+              {g.grupo}
+            </div>
+            <div style="position:relative;font-family:'Lora',serif;font-weight:700;font-size:clamp(18px,1.6vw,22px);line-height:1.35;letter-spacing:-.02em;color:#F5F2EC;text-wrap:pretty">
+              {g.items}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      data-reveal
+      style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(18px,3vw,44px);margin-top:clamp(16px,1.8vw,24px);padding:clamp(24px,2.8vw,38px);border:1px solid rgba(212,255,63,.4);background:rgba(212,255,63,.05)"
+    >
+      <span style="flex:none;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#D4FF3F"
+        >Alcance</span
+      >
+      <p style="flex:1 1 400px;margin:0;font-size:clamp(16.5px,1.5vw,19px);line-height:1.6;color:#F5F2EC;text-wrap:pretty">
+        No somos una agencia de SEO, GEO ni AEO: nos ocupamos de la parte técnica para que tu sitio sea
+        rápido, rastreable y citable. La estrategia y el contenido quedan en tu equipo, y trabajamos codo a
+        codo con ellos.
+      </p>
+    </div>
+  </div>
+</section>

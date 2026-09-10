@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { buildGraph, organizationSchema, contactPageSchema, buildBreadcrumbSchema } from "../data/schema";
+
+const title = "Contacto | efedigital";
+const description =
+  "Contactanos para automatizar tu negocio. Desarrollo web, e-commerce, automatización e inteligencia artificial.";
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Inicio", path: "/" },
+  { name: "Contacto", path: "/contacto" },
+]);
+const schema = buildGraph(organizationSchema, contactPageSchema, breadcrumb);
+
+const footerCta = {
+  titleHtml:
+    'Llegaste hasta acá.<br />Estás a un paso de <span style="color:transparent;-webkit-text-stroke:1px #D4FF3F">transformar tu negocio</span>',
+  subtitle:
+    "Completá el formulario y te contactaremos en menos de 24 horas para empezar a automatizar tu negocio.",
+  showButton: false,
+};
+---
+
+<BaseLayout title={title} description={description} path="/contacto" schema={schema} footerCta={footerCta}>
+  <ContactForm eyebrow="Contacto" />
+</BaseLayout>
