@@ -36,7 +36,11 @@ const {
 } = Astro.props;
 
 const SITE_URL = "https://efedigital.com.ar";
-const canonicalUrl = new URL(path, SITE_URL).toString();
+// Con barra final a propósito: Netlify sirve las rutas como directorio y redirige
+// /blog -> /blog/ con un 301. Si el canonical apuntara a la forma sin barra estaría
+// señalando una URL que redirige, y Google descarta ese canonical.
+const canonicalPath = path.endsWith("/") ? path : `${path}/`;
+const canonicalUrl = new URL(canonicalPath, SITE_URL).toString();
 
 // Las medidas y el alt solo valen para la imagen por defecto: las portadas de los
 // posts tienen otros tamaños (1400x781, 1400x933, 1800x1004) y declararlas mal hace
@@ -51,6 +55,17 @@ const isDefaultOgImage = ogImage === DEFAULT_OG_IMAGE;
     <title>{title}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fuentes primero y solo las variantes que el sitio realmente renderiza
+         (verificado recorriendo el DOM de todas las páginas). El sitio no usa
+         itálicas, así que no se piden: antes se bajaban ~30 variantes. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Lora:wght@700&family=Open+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
     <meta name="description" content={description} />
     <meta name="google-site-verification" content="LfqRLrcpoNoGyCCiZje1l0RxZ6hacrdW4ZM4doYfh8Y" />
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -96,7 +111,6 @@ const isDefaultOgImage = ogImage === DEFAULT_OG_IMAGE;
     }
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HY78M19P0F"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -104,10 +118,23 @@ const isDefaultOgImage = ogImage === DEFAULT_OG_IMAGE;
       }
       gtag("js", new Date());
       gtag("config", "G-HY78M19P0F");
+
+      // gtag.js son ~510 KB y en 4G tarda ~2s. Es async, así que no bloquea el
+      // renderizado, pero sí le pelea el ancho de banda a las fuentes y al hero.
+      // Cargándolo después de load no se pierde nada: las llamadas de arriba
+      // quedan en la cola de dataLayer y se procesan cuando el script llega.
+      addEventListener(
+        "load",
+        () => {
+          const s = document.createElement("script");
+          s.src = "https://www.googletagmanager.com/gtag/js?id=G-HY78M19P0F";
+          s.async = true;
+          document.head.appendChild(s);
+        },
+        { once: true }
+      );
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
     <div id="efe-cursor-ring" style="position:fixed;top:0;left:0;z-index:9999;width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(245,242,236,.5);pointer-events:none;mix-blend-mode:difference;transition:width .25s ease,height .25s ease,margin .25s ease,background .25s ease;opacity:0"></div>

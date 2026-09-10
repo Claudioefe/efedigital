@@ -23,7 +23,7 @@ const { Content, headings } = await render(post);
 
 const title = `${post.data.titulo} | efedigital`;
 const path = `/blog/${post.id}`;
-const canonicalUrl = `https://efedigital.com.ar${path}`;
+const canonicalUrl = `https://efedigital.com.ar${path}/`;
 const lectura = estimateReadingTime(post.body ?? "");
 const indice = headings.filter((h) => h.depth === 2);
 const relacionadas = relatedPosts(allPosts, post);
@@ -63,7 +63,7 @@ const schema = buildGraph(
   organizationSchema,
   {
     "@type": "BlogPosting",
-    "@id": `${canonicalUrl}/#post`,
+    "@id": `${canonicalUrl}#post`,
     headline: post.data.titulo,
     description: metaDesc,
     image: ogImage,
@@ -71,7 +71,7 @@ const schema = buildGraph(
     dateModified: (post.data.actualizada ?? post.data.fecha).toISOString(),
     author: { "@id": "https://efedigital.com.ar/#organization" },
     publisher: { "@id": "https://efedigital.com.ar/#organization" },
-    mainEntityOfPage: canonicalUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
   },
   breadcrumb
 );

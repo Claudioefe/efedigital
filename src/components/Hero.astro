@@ -387,9 +387,11 @@
     .efe-hero-grid {
       grid-template-columns: 1fr;
     }
+    /* En pantallas chicas el panel queda debajo del título, empuja el CTA fuera de
+       la pantalla y no aporta: se oculta. Los [data-hero-corner] que tiene adentro
+       dejan de medir, y initIntro los descarta por rect vacío. */
     .efe-hero-panel {
-      height: auto;
-      min-height: 420px;
+      display: none;
     }
   }
 </style>
