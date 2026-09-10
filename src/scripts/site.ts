@@ -38,7 +38,13 @@ function initIntro() {
     document.documentElement.removeAttribute("data-efe-intro");
     root.style.display = "none";
   };
-  if (heroCorners.length < 4 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  // Con hash no va intro: el footer linkea /#servicios, /#enfoque y /#faq desde todas
+  // las páginas, y la intro bloquea el scroll ~3s y pisa el salto al ancla.
+  if (
+    heroCorners.length < 4 ||
+    window.location.hash ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
     finish();
     return;
   }

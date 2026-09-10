@@ -95,7 +95,11 @@ import { faqs } from "../data/home-faqs";
     min-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    /* visibility saca del orden de tabulación los links de la respuesta mientras
+       el panel está colapsado: recortarlo con 0fr no alcanza, seguían recibiendo foco. */
+    visibility: hidden;
+    transition: grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease,
+      visibility 0.42s;
   }
   .efe-faq-panel > p {
     min-height: 0;
@@ -112,6 +116,7 @@ import { faqs } from "../data/home-faqs";
   .efe-faq-item.is-open .efe-faq-panel {
     grid-template-rows: minmax(0, 1fr);
     opacity: 1;
+    visibility: visible;
   }
 </style>
 

@@ -173,6 +173,26 @@ const { eyebrow = "Contacto" } = Astro.props;
   const submitText = document.getElementById("efe-submit-text");
 
   const selected = new Set<string>();
+  // Estado inicial, para poder volver a él después de un envío: form.reset() devuelve
+  // el input oculto a su default del HTML pero no toca el Set ni las clases is-active,
+  // así que sin esto el siguiente envío manda algo distinto de lo que se ve marcado.
+  const iniciales = Array.from(chips)
+    .filter((c) => c.classList.contains("is-active"))
+    .map((c) => c.dataset.label || "");
+
+  const sincronizarChips = () => {
+    chips.forEach((chip) => {
+      chip.classList.toggle("is-active", selected.has(chip.dataset.label || ""));
+    });
+    if (hiddenInput) hiddenInput.value = Array.from(selected).join(", ");
+  };
+
+  const resetearChips = () => {
+    selected.clear();
+    iniciales.forEach((l) => selected.add(l));
+    sincronizarChips();
+  };
+
   chips.forEach((chip) => {
     if (chip.classList.contains("is-active")) selected.add(chip.dataset.label || "");
     chip.addEventListener("click", () => {
@@ -188,29 +208,42 @@ const { eyebrow = "Contacto" } = Astro.props;
     });
   });
 
+  const ETIQUETA_BOTON = "Enviar y pedir presupuesto";
+  let volverAEtiqueta: ReturnType<typeof setTimeout> | undefined;
+
+  const mensajeTemporal = (texto: string) => {
+    if (submitText) submitText.textContent = texto;
+    // Sin el clear, un segundo envío dentro de los 5s deja que el timeout viejo
+    // borre el mensaje nuevo al instante.
+    clearTimeout(volverAEtiqueta);
+    volverAEtiqueta = setTimeout(() => {
+      if (submitText) submitText.textContent = ETIQUETA_BOTON;
+    }, 5000);
+  };
+
+  let enviando = false;
+
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!form) return;
+    if (!form || enviando) return;
+    enviando = true;
     submitBtn?.setAttribute("disabled", "true");
+    if (submitText) submitText.textContent = "Enviando…";
     try {
       const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
-      const response = await fetch("/contacto", {
+      const response = await fetch(form.getAttribute("action") || window.location.pathname, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
       });
       if (!response.ok) throw new Error("submit failed");
-      if (submitText) submitText.textContent = "¡Gracias! Te escribimos";
       form.reset();
-      setTimeout(() => {
-        if (submitText) submitText.textContent = "Enviar y pedir presupuesto";
-      }, 5000);
+      resetearChips();
+      mensajeTemporal("¡Gracias! Te escribimos");
     } catch {
-      if (submitText) submitText.textContent = "Hubo un error, reintentá";
-      setTimeout(() => {
-        if (submitText) submitText.textContent = "Enviar y pedir presupuesto";
-      }, 5000);
+      mensajeTemporal("Hubo un error, reintentá");
     } finally {
+      enviando = false;
       submitBtn?.removeAttribute("disabled");
     }
   });

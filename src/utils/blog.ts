@@ -11,8 +11,16 @@ export function estimateReadingTime(body: string): string {
   return `${minutes} min`;
 }
 
-const monthShort = new Intl.DateTimeFormat("es-AR", { month: "short", year: "numeric" });
-const dayFmt = new Intl.DateTimeFormat("es-AR", { day: "2-digit", month: "2-digit", year: "numeric" });
+// timeZone UTC a propósito: el frontmatter (fecha: 2026-08-01) se parsea a medianoche
+// UTC, así que formatear en la zona local corre la fecha un día hacia atrás en cualquier
+// TZ negativa (en Argentina 2026-08-01 se mostraba como "Jul 2026" / 31/07/2026).
+const monthShort = new Intl.DateTimeFormat("es-AR", { month: "short", year: "numeric", timeZone: "UTC" });
+const dayFmt = new Intl.DateTimeFormat("es-AR", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  timeZone: "UTC",
+});
 
 export function formatMonth(date: Date): string {
   const s = monthShort.format(date);
