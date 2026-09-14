@@ -166,6 +166,12 @@ const { eyebrow = "Contacto" } = Astro.props;
 </style>
 
 <script>
+  declare global {
+    interface Window {
+      gtag?: (...args: unknown[]) => void;
+    }
+  }
+
   const form = document.getElementById("efe-contact-form") as HTMLFormElement | null;
   const chips = document.querySelectorAll<HTMLButtonElement>("#efe-necesidades .efe-chip");
   const hiddenInput = document.getElementById("efe-necesidades-input") as HTMLInputElement | null;
@@ -240,6 +246,9 @@ const { eyebrow = "Contacto" } = Astro.props;
       form.reset();
       resetearChips();
       mensajeTemporal("¡Gracias! Te escribimos");
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "conversion", { send_to: "AW-18451433875/rbaXCOyP4_ccEJOTqt5E" });
+      }
     } catch {
       mensajeTemporal("Hubo un error, reintentá");
     } finally {
