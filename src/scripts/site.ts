@@ -2,6 +2,12 @@
 // Every init function guards on the elements it needs, so it's safe to run
 // unconditionally on every page.
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 function onReady(fn: () => void) {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", fn);
@@ -19,6 +25,19 @@ function late(fn: () => void, sel: string, tries = 120) {
     if (tries-- > 0) requestAnimationFrame(tick);
   };
   tick();
+}
+
+// Delegado en document: cubre los links de WhatsApp que ya existen (header,
+// contacto) y los que se agreguen después sin tener que tocar este archivo.
+function initWhatsappTracking() {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as HTMLElement)?.closest?.("a[href]") as HTMLAnchorElement | null;
+    if (!link) return;
+    if (!/wa\.me|api\.whatsapp\.com/.test(link.href)) return;
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "click_whatsapp", { send_to: "G-HY78M19P0F" });
+    }
+  });
 }
 
 function initIntro() {
@@ -581,6 +600,7 @@ function initThread() {
 onReady(() => {
   initIntro();
   initCursor();
+  initWhatsappTracking();
   initReveals();
   initSpotlight();
   late(initProgress, "#efe-progress");

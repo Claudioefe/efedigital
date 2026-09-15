@@ -248,6 +248,7 @@ const { eyebrow = "Contacto" } = Astro.props;
       mensajeTemporal("¡Gracias! Te escribimos");
       if (typeof window.gtag === "function") {
         window.gtag("event", "conversion", { send_to: "AW-18451433875/rbaXCOyP4_ccEJOTqt5E" });
+        window.gtag("event", "generate_lead", { send_to: "G-HY78M19P0F" });
       }
     } catch {
       mensajeTemporal("Hubo un error, reintentá");
