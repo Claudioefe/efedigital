@@ -136,11 +136,22 @@ function initCursor() {
     ring.style.opacity = "1";
     dot.style.opacity = "1";
     const target = e.target as HTMLElement;
-    const big = !!target.closest?.("a,button,[data-spotlight],input,textarea");
-    ring.style.width = big ? "56px" : "34px";
-    ring.style.height = big ? "56px" : "34px";
-    ring.style.margin = big ? "-28px 0 0 -28px" : "-17px 0 0 -17px";
-    ring.style.background = big ? "rgba(245,242,236,.14)" : "transparent";
+    // Sobre elementos interactivos el anillo colapsa a 0 (no crece): queda
+    // solo el punto. El borde también se apaga, si no quedaba un cuadradito
+    // de 2px (el ancho del borde) encima del punto.
+    const overInteractive = !!target.closest?.("a,button,[data-spotlight],input,textarea");
+    ring.style.width = overInteractive ? "0px" : "34px";
+    ring.style.height = overInteractive ? "0px" : "34px";
+    ring.style.margin = overInteractive ? "0px" : "-17px 0 0 -17px";
+    ring.style.borderColor = overInteractive ? "transparent" : "rgba(245,242,236,.5)";
+    // El punto pasa a blanco con mix-blend-mode:difference: contra fondos lima
+    // (el hover más usado del sitio) da un violeta bien visible en vez de
+    // camuflarse; contra el fondo oscuro se ve casi igual que el lima de
+    // siempre, así que en reposo no cambia nada.
+    dot.style.background = overInteractive ? "#FFFFFF" : "#D4FF3F";
+    dot.style.width = overInteractive ? "10px" : "5px";
+    dot.style.height = overInteractive ? "10px" : "5px";
+    dot.style.margin = overInteractive ? "-5px 0 0 -5px" : "-2.5px 0 0 -2.5px";
   };
   const loop = () => {
     rx += (tx - rx) * 0.17;

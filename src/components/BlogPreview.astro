@@ -1,6 +1,6 @@
 ---
 import BlogImage from "./BlogImage.astro";
-import { getPublishedPosts, formatMonth } from "../utils/blog";
+import { getPublishedPosts, formatMonth, truncate } from "../utils/blog";
 
 const allPosts = await getPublishedPosts();
 const posts = allPosts.slice(0, 3);
@@ -32,7 +32,7 @@ const posts = allPosts.slice(0, 3);
             data-scroll="tilt"
             style="display:flex;flex-direction:column;background:#0F0F13;overflow:hidden;text-decoration:none;color:inherit"
           >
-            <div style="position:relative;height:220px;background:#131318;border-bottom:1px solid rgba(255,255,255,.1);overflow:hidden">
+            <div style="position:relative;aspect-ratio:3/2;background:#131318;border-bottom:1px solid rgba(255,255,255,.1);overflow:hidden">
               <BlogImage src={post.data.imagen} alt={post.data.titulo} label={post.data.slotLabel} />
             </div>
             <div style="display:flex;flex-direction:column;gap:14px;padding:26px;flex:1">
@@ -43,7 +43,7 @@ const posts = allPosts.slice(0, 3);
               <h3 style="margin:0;font-size:20.5px;font-weight:700;line-height:1.26;letter-spacing:-.015em;color:#F5F2EC;text-wrap:pretty">
                 {post.data.titulo}
               </h3>
-              <p style="margin:0;font-size:15px;line-height:1.6;color:#8B8B93;text-wrap:pretty">{post.data.bajada}</p>
+              <p style="margin:0;font-size:15px;line-height:1.6;color:#8B8B93;text-wrap:pretty">{truncate(post.data.bajada, 160)}</p>
               <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#D4FF3F">
                 Leer nota ↗
               </span>
