@@ -31,6 +31,13 @@ export function formatDay(date: Date): string {
   return dayFmt.format(date);
 }
 
+export function truncate(text: string, max = 160): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max).trimEnd()}…`;
+}
+
 export function pickFeatured(posts: CollectionEntry<"blog">[]): CollectionEntry<"blog"> | undefined {
   return posts.find((p) => p.data.destacada) ?? posts[0];
 }
