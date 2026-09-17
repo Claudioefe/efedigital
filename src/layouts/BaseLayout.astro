@@ -112,27 +112,37 @@ const isDefaultOgImage = ogImage === DEFAULT_OG_IMAGE;
 
     <!-- Google tag (gtag.js) -->
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-HY78M19P0F");
+      // Solo en el dominio real: en local (localhost:4321), en `astro preview`
+      // o en un deploy preview de Netlify, location.hostname nunca es
+      // "efedigital.com.ar", así que window.gtag queda sin definir y ninguna
+      // llamada a gtag() en el resto del sitio hace nada (todas están detrás
+      // de un `typeof window.gtag === "function"`).
+      if (location.hostname === "efedigital.com.ar") {
+        window.dataLayer = window.dataLayer || [];
+        // window.gtag explícito (no `function gtag(){}`) para no depender de que
+        // el hoisting de una función declarada dentro de un `if` la cuelgue de
+        // window en modo no estricto.
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag("js", new Date());
+        window.gtag("config", "G-HY78M19P0F");
 
-      // gtag.js son ~510 KB y en 4G tarda ~2s. Es async, así que no bloquea el
-      // renderizado, pero sí le pelea el ancho de banda a las fuentes y al hero.
-      // Cargándolo después de load no se pierde nada: las llamadas de arriba
-      // quedan en la cola de dataLayer y se procesan cuando el script llega.
-      addEventListener(
-        "load",
-        () => {
-          const s = document.createElement("script");
-          s.src = "https://www.googletagmanager.com/gtag/js?id=G-HY78M19P0F";
-          s.async = true;
-          document.head.appendChild(s);
-        },
-        { once: true }
-      );
+        // gtag.js son ~510 KB y en 4G tarda ~2s. Es async, así que no bloquea el
+        // renderizado, pero sí le pelea el ancho de banda a las fuentes y al hero.
+        // Cargándolo después de load no se pierde nada: las llamadas de arriba
+        // quedan en la cola de dataLayer y se procesan cuando el script llega.
+        addEventListener(
+          "load",
+          () => {
+            const s = document.createElement("script");
+            s.src = "https://www.googletagmanager.com/gtag/js?id=G-HY78M19P0F";
+            s.async = true;
+            document.head.appendChild(s);
+          },
+          { once: true }
+        );
+      }
     </script>
 
   </head>
