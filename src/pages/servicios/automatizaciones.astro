@@ -1,80 +1,598 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { productosAutomatizacion, desarrolloAMedida } from "../../data/automatizaciones";
-import { buildGraph, organizationSchema, automatizacionesServiceSchema } from "../../data/schema";
+import {
+  buildGraph,
+  organizationSchema,
+  buildBreadcrumbSchema,
+  buildFaqPageSchema,
+  buildServiceSchema,
+} from "../../data/schema";
+import { homeServicios } from "../../data/home-servicios";
+import { SERVICIOS_INDEXABLES } from "../../data/site-config";
 
-const title = "Automatización Inteligente & IA | efedigital";
+const title = "Automatización de Tareas Repetitivas con n8n | efedigital";
 const description =
-  "Flujos de trabajo con n8n, agentes de IA y automatizaciones que funcionan 24/7 sin intervención humana: notificaciones, sincronización de datos, facturación y más.";
-const schema = buildGraph(organizationSchema, automatizacionesServiceSchema);
+  "Conectamos las herramientas que ya usás para que las tareas repetitivas pasen solas: avisos, carga de datos y reportes, sin copiar y pegar. Desde USD 300.";
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Inicio", path: "/" },
+  { name: "Servicios", path: "/servicios" },
+  { name: "Automatización", path: "/servicios/automatizaciones" },
+]);
+
+const autoFaqs = [
+  {
+    pregunta: "¿Cuánto sale una automatización?",
+    respuesta:
+      "Depende de cuántas herramientas hay que conectar y qué tan compleja es la lógica. Como referencia, una automatización puntual arranca en USD 300. Después de que nos cuentes tu caso —por mail, WhatsApp o una llamada— te confirmamos el precio cerrado, ya sea por esa automatización sola o por un paquete de varias.",
+  },
+  {
+    pregunta: "¿Qué necesito para empezar?",
+    respuesta:
+      "Que nos cuentes qué tarea repetís todas las semanas y qué herramientas usás hoy para eso. Con eso alcanza para arrancar; nosotros nos encargamos de revisar si es técnicamente posible y cómo.",
+  },
+  {
+    pregunta: "¿Qué pasa si más adelante cambio de herramienta (por ejemplo, cambio de CRM)?",
+    respuesta:
+      "El flujo se ajusta para apuntar a la herramienta nueva, siempre que también tenga alguna forma de conectarse (API, webhook, exportación). No hay que rehacer la automatización entera, solo redirigirla.",
+  },
+  {
+    pregunta: "¿Necesito saber programar para mantenerlo después?",
+    respuesta:
+      "No. Te dejamos todo documentado en lenguaje simple, y si preferís no tocarlo, podés dejarlo bajo soporte mensual y nosotros lo monitoreamos.",
+  },
+  {
+    pregunta: "¿Qué pasa si la automatización falla un día?",
+    respuesta:
+      "n8n registra cada ejecución, así que se puede ver exactamente en qué paso falló y por qué. Si está bajo soporte, lo revisamos nosotros apenas salta un error; si no, te dejamos documentado cómo revisarlo vos mismo.",
+  },
+];
+
+const servicio = homeServicios[4];
+const schema = buildGraph(
+  organizationSchema,
+  breadcrumb,
+  buildServiceSchema(servicio),
+  buildFaqPageSchema(autoFaqs, "/servicios/automatizaciones")
+);
+
+const ejemplos = [
+  {
+    num: "01",
+    badge: "AVISO",
+    titulo: "Pedido nuevo → aviso automático",
+    desc: "Cuando entra un pedido en la tienda, se manda solo un WhatsApp o un mail al equipo con los datos del pedido, sin que nadie tenga que estar revisando el panel de la tienda cada rato para ver si vendió algo.",
+  },
+  {
+    num: "02",
+    badge: "ADS",
+    titulo: "Reporte de campañas por cliente, armado solo",
+    desc: "Para agencias: los números de cada cuenta publicitaria (Meta Ads, Google Ads) se ordenan solos en un reporte por cliente, sin que alguien tenga que exportar planillas y armar el informe a mano cada semana.",
+  },
+  {
+    num: "03",
+    badge: "IA",
+    titulo: "Producto nuevo → descripción optimizada con IA",
+    desc: "Cuando cargás un producto con los datos mínimos (título, características), una IA arma automáticamente una descripción lista para publicar, pensada para vender y para que Google la entienda, sin que alguien tenga que redactar cada ficha a mano.",
+  },
+  {
+    num: "04",
+    badge: "STOCK",
+    titulo: "Stock sincronizado entre tienda y planilla",
+    desc: "El stock de la tienda online se actualiza solo cuando cambia en una planilla (o al revés), para que nunca se venda algo que ya no hay sin tener que actualizar los dos lugares a mano y con el riesgo de olvidarse de uno.",
+  },
+  {
+    num: "05",
+    badge: "REP",
+    titulo: "Reporte semanal de ventas, armado solo",
+    desc: "Cada lunes a la mañana llega un mail o un mensaje con un resumen de las ventas de la semana anterior, armado automáticamente, sin que nadie tenga que exportar planillas ni copiar números para tener el resumen.",
+  },
+];
+
+const entrega = [
+  {
+    num: "01",
+    titulo: "Relevamiento de herramientas",
+    desc: "Revisamos qué usás hoy (tienda, planillas, CRM, WhatsApp, mail) y qué tan conectables son entre sí, antes de armar la propuesta.",
+    nota: "Acá es donde te decimos si algo no se puede conectar, antes de cotizar nada.",
+  },
+  {
+    num: "02",
+    titulo: "Automatización funcionando y probada",
+    desc: "Armamos el flujo, lo probamos con datos reales de tu operación y ajustamos hasta que haga exactamente lo que tiene que hacer, sin casos raros que se rompan.",
+    nota: "Se prueba con pedidos, formularios o datos reales, no con ejemplos inventados.",
+  },
+  {
+    num: "03",
+    titulo: "Documentación y acceso",
+    desc: "Te dejamos documentado cómo funciona cada automatización, para que no dependas de que sigamos nosotros ahí para que funcione.",
+    nota: "Soporte mensual opcional si querés que monitoreemos que todo siga andando.",
+  },
+];
+
+const herramientas = ["n8n", "WhatsApp", "Google Sheets", "Email", "APIs"];
 ---
 
-<BaseLayout title={title} description={description} path="/servicios/automatizaciones" schema={schema} noindex>
-  <section class="efe-section">
-      <div class="efe-container">
-        <div class="efe-eyebrow" data-reveal>Automatización Inteligente</div>
-        <h1 class="efe-h2" data-reveal data-delay="1">Sistemas que<br />trabajan solos</h1>
-        <p class="efe-lede" style="margin-top:22px;max-width:56ch">
-          Flujos a medida con n8n que conectan tus herramientas y sacan las tareas repetitivas de encima,
-          24 horas al día, sin intervención humana.
-        </p>
+<BaseLayout
+  title={title}
+  description={description}
+  path="/servicios/automatizaciones"
+  schema={schema}
+  noindex={!SERVICIOS_INDEXABLES}>
+  <div id="efe-thread-auto" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
 
-        <div class="efe-grid--3" data-stagger data-sync style="margin-top:clamp(40px,5vw,64px)">
+  <section id="top" class="efe-section efe-section--tight" style="position:relative">
+    <div class="efe-container">
+      <div
+        style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)"
+      >
+        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Automatización</div>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
+        >
+          <a href="/" class="efe-crumb-link">Inicio</a>
+          <span>/</span>
+          <a href="/servicios/" class="efe-crumb-link">Servicios</a>
+          <span>/</span>
+          <span style="color:#F5F2EC">Automatización</span>
+        </div>
+      </div>
+
+      <div class="efe-svc-hero-grid" style="margin-top:clamp(48px,6vw,80px)">
+        <div>
+          <h1 class="efe-h1" data-reveal>
+            <span style="display:block;overflow:hidden;padding-bottom:.06em"
+              ><span class="efe-word" style="animation-delay:.05s">Automatización</span></span
+            >
+            {" "}
+            <span style="display:block;overflow:hidden;padding-bottom:.06em"
+              ><span class="efe-word" style="animation-delay:.15s">de tareas</span></span
+            >
+            {" "}
+            <span style="display:block;overflow:hidden;padding-bottom:.06em">
+              <span class="efe-word" style="animation-delay:.25s"
+                >repetitivas</span
+              >
+            </span>
+          </h1>
+
+          <p class="efe-lede" data-reveal data-delay="1" style="margin-top:clamp(24px,3vw,34px);max-width:52ch">
+            Conectamos las herramientas que ya usás para que las <span style="color:#EDEDF0">tareas repetitivas pasen solas</span>,
+            sin que alguien tenga que <span style="color:#EDEDF0">copiar y pegar datos entre sistemas</span> todos los días.
+            Eso sí: la herramienta tiene que tener una API o alguna forma de conectarse.
+          </p>
+
+          <div data-reveal data-delay="2" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:clamp(28px,3.4vw,40px)">
+            <a href="/contacto/" class="efe-btn efe-btn--primary">Contanos qué repetís <span style="font-size:14px">↗</span></a>
+            <a href="#ejemplos" class="efe-btn efe-btn--ghost">Ver ejemplos</a>
+          </div>
+
+          <ul data-reveal data-delay="3" style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none">
+            {herramientas.map((h) => (
+              <li class="efe-tag">{h}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div data-reveal data-delay="1" class="efe-svc-panel">
+          <div class="efe-svc-panel__head">
+            <span class="efe-svc-panel__dot"></span> Ejemplos que armamos
+            <span class="efe-svc-panel__badge">Vista previa</span>
+          </div>
           {
-            productosAutomatizacion.map((p) => (
-              <div data-scroll="tilt" data-spotlight class="efe-card">
-                <div class="efe-card__glow" data-glow />
-                <div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-                  <h2 class="efe-h3">{p.titulo}</h2>
-                  {p.precio && (
-                    <span style="flex:none;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.05em;color:#D4FF3F">
-                      desde {p.precio}
-                    </span>
-                  )}
-                </div>
-                <p style="position:relative;margin:0;font-size:15.5px;line-height:1.55;color:#F5F2EC;text-wrap:pretty">
-                  {p.descripcionBreve}
-                </p>
-                <ul style="position:relative;margin:auto 0 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);list-style:none;display:flex;flex-direction:column;gap:8px">
-                  {p.queHace.slice(0, 3).map((linea) => (
-                    <li style="font-size:13px;line-height:1.5;color:#8B8B93;display:flex;gap:8px">
-                      <span style="color:#D4FF3F">→</span>
-                      {linea}
-                    </li>
-                  ))}
-                </ul>
+            ejemplos.slice(0, 3).map((row) => (
+              <div class="efe-svc-panel__row">
+                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:18px;color:#F5F2EC">{row.titulo}</p>
+                <p style="margin:8px 0 0;font-size:13.5px;line-height:1.55;color:#8B8B93">{row.desc}</p>
               </div>
             ))
           }
-        </div>
-
-        <div
-          data-reveal
-          style="margin-top:clamp(56px,7vw,96px);padding:clamp(28px,3.5vw,52px);border:1px solid rgba(255,255,255,.12);background:#0F0F13"
-        >
-          <h2 style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:clamp(26px,3.6vw,48px);line-height:1;letter-spacing:-.03em">
-            {desarrolloAMedida.titulo} <span style="color:#D4FF3F">{desarrolloAMedida.tituloDestacado}</span>
-          </h2>
-          <p style="margin:20px 0 0;max-width:70ch;font-size:16px;line-height:1.6;color:#A9A9B1">
-            {desarrolloAMedida.descripcion}
-          </p>
-          <p style="margin:32px 0 0;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:#8B8B93">
-            {desarrolloAMedida.cierre}
-          </p>
-        </div>
-
-        <div style="margin-top:clamp(40px,5vw,64px)">
-          <a href="/contacto" class="efe-btn efe-btn--primary">Empezar un proyecto <span style="font-size:14px">↗</span></a>
+          <a href="#ejemplos" class="efe-svc-panel__footer">
+            Ver los 5 ejemplos <span>↗</span>
+          </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+
+  <section id="ejemplos" class="efe-section efe-section--border-top" style="position:relative">
+    <div class="efe-container">
+      <div class="efe-svc-intro-grid">
+        <div data-reveal>
+          <div class="efe-eyebrow">01 — Ejemplos cotidianos</div>
+          <h2 class="efe-h2">¿Qué se puede <br />automatizar?</h2>
+        </div>
+        <p class="efe-lede" data-reveal data-delay="1" style="max-width:52ch">
+          No hace falta un caso complejo. La mayoría de las automatizaciones que armamos resuelven algo que hoy
+          alguien hace a mano, todos los días, y que se puede resolver conectando dos o tres herramientas entre sí.
+        </p>
+      </div>
+
+      <div class="efe-svc-grid" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
+        {
+          ejemplos.map((item) => (
+            <div data-scroll="tilt" class="efe-svc-card">
+              <div class="efe-svc-card__top">
+                <span class="efe-svc-card__num">{item.num}</span>
+                <span class="efe-svc-card__badge">{item.badge}</span>
+              </div>
+              <h3 class="efe-h3">{item.titulo}</h3>
+              <p class="efe-svc-card__desc">{item.desc}</p>
+            </div>
+          ))
+        }
+        <a href="/contacto/" class="efe-svc-cta">
+          <div class="efe-svc-cta__eyebrow">Empecemos por lo que repetís</div>
+          <h3 class="efe-h3" style="color:#08080A">¿Algo que <br />tengas en mente?</h3>
+          <span class="efe-svc-cta__btn">Contanos qué repetís <span>↗</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="entrega" class="efe-section efe-section--border-top" style="position:relative">
+    <div class="efe-container">
+      <div data-reveal>
+        <div class="efe-eyebrow">03 — Entrega</div>
+        <h2 class="efe-h2">Cómo se <br />entrega</h2>
+      </div>
+
+      <div class="efe-grid efe-grid--3" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
+        {
+          entrega.map((item) => (
+            <div data-scroll="tilt" class="efe-svc-card">
+              <div class="efe-svc-card__top">
+                <span class="efe-svc-card__num">{item.num}</span>
+                <span class="efe-svc-card__badge">↗</span>
+              </div>
+              <h3 class="efe-h3">{item.titulo}</h3>
+              <p class="efe-svc-card__desc">{item.desc}</p>
+              <div class="efe-svc-card__foot">{item.nota}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="preguntas" class="efe-section efe-section--border-top" style="position:relative">
+    <div class="efe-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,80px);align-items:start">
+      <div data-reveal>
+        <div class="efe-eyebrow">04 — Preguntas</div>
+        <h2 style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:clamp(34px,5.4vw,82px);line-height:.9;letter-spacing:-.042em">
+          Lo que nos <br />preguntan
+        </h2>
+        <p style="margin:26px 0 0;max-width:32ch;font-size:16.5px;line-height:1.6;color:#8B8B93;text-wrap:pretty">
+          Si te queda alguna duda, escribinos: contestamos nosotros, no un bot.
+        </p>
+      </div>
+      <div data-reveal data-delay="1" style="display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.12)">
+        {
+          autoFaqs.map((f, i) => (
+            <div class="efe-faq-item" style="border-bottom:1px solid rgba(255,255,255,.12)">
+              <button type="button" class="efe-faq-toggle" aria-expanded="false" data-index={i}>
+                <span class="efe-faq-question">{f.pregunta}</span>
+                <span class="efe-faq-icon">+</span>
+              </button>
+              <div class="efe-faq-panel">
+                <p style="margin:0;padding:0 0 26px;min-height:0;overflow:hidden;max-width:58ch;font-size:15.5px;line-height:1.66;color:#8B8B93;text-wrap:pretty">
+                  {f.respuesta}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  [data-scroll="tilt"]:hover {
+  .efe-word {
+    display: inline-block;
+    animation: efe-rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .efe-svc-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(300px, 5fr);
+    gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .efe-svc-hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .efe-tag {
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #a9a9b1;
+  }
+
+  .efe-svc-panel {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #0d0d10;
+  }
+  .efe-svc-panel__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8b8b93;
+  }
+  .efe-svc-panel__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d4ff3f;
+    animation: efe-pulse 2.2s ease-in-out infinite;
+  }
+  .efe-svc-panel__badge {
+    margin-left: auto;
+    color: #f5f2ec;
+  }
+  .efe-svc-panel__row {
+    padding: 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .efe-svc-panel__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 18px 22px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #f5f2ec;
+    transition: color 0.22s ease;
+  }
+  .efe-svc-panel__footer:hover {
+    color: #d4ff3f;
+  }
+
+  .efe-svc-intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+  }
+  @media (max-width: 760px) {
+    .efe-svc-intro-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .efe-svc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 1.8vw, 24px);
+  }
+  @media (min-width: 720px) {
+    .efe-svc-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1100px) {
+    .efe-svc-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .efe-svc-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(26px, 2.8vw, 34px);
+    background: #0d0d10;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .efe-svc-card:hover {
     border-color: #d4ff3f;
     background: #121218;
     box-shadow: 10px 10px 0 rgba(212, 255, 63, 0.85);
     translate: -5px -5px;
   }
+  .efe-svc-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .efe-svc-card__num {
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1;
+    color: rgba(245, 242, 236, 0.12);
+  }
+  .efe-svc-card__badge {
+    flex: none;
+    display: grid;
+    place-items: center;
+    min-width: 30px;
+    height: 26px;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: #8b8b93;
+  }
+  .efe-svc-card h3 {
+    margin-top: 14px;
+  }
+  .efe-svc-card__desc {
+    margin: 12px 0 0;
+    padding-bottom: 10px;
+    font-size: 14.5px;
+    line-height: 1.58;
+    color: #c9c9ce;
+  }
+  .efe-svc-card__foot {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #96969b;
+  }
+
+  .efe-svc-cta {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(26px, 2.8vw, 34px);
+    background: #d4ff3f;
+    text-decoration: none;
+    transition: transform 0.18s ease;
+  }
+  .efe-svc-cta:hover {
+    transform: translate(-3px, -3px);
+  }
+  .efe-svc-cta__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #08080a;
+  }
+  .efe-svc-cta__eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: #08080a;
+  }
+  .efe-svc-cta h3 {
+    margin-top: 16px;
+    font-size: clamp(24px, 3vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .efe-svc-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: clamp(20px, 2.4vw, 30px);
+    padding: 15px 22px;
+    background: #08080a;
+    color: #f5f2ec;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+
+  /* Acordeón de preguntas — mismo comportamiento que Faq.astro (componente no
+     importado en esta página: cada instancia necesita su propia copia). */
+  .efe-faq-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding: 24px 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    color: #f5f2ec;
+    font-size: clamp(16px, 1.5vw, 19.5px);
+    font-weight: 600;
+    line-height: 1.34;
+    font-family: var(--font-body);
+  }
+  .efe-faq-question {
+    position: relative;
+  }
+  .efe-faq-question::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: #d4ff3f;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .efe-faq-toggle:hover .efe-faq-question::after {
+    transform: scaleX(1);
+  }
+  .efe-faq-icon {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #8b8b93;
+    font-size: 16px;
+    line-height: 1;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease, border-color 0.3s ease;
+  }
+  .efe-faq-toggle:hover .efe-faq-icon {
+    border-color: #d4ff3f;
+    color: #d4ff3f;
+  }
+  .efe-faq-panel {
+    display: grid;
+    grid-template-rows: minmax(0, 0fr);
+    min-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.42s;
+  }
+  .efe-faq-panel > p {
+    min-height: 0;
+  }
+  .efe-faq-item.is-open .efe-faq-icon {
+    transform: rotate(135deg);
+    color: #d4ff3f;
+    border-color: #d4ff3f;
+  }
+  .efe-faq-item.is-open .efe-faq-panel {
+    grid-template-rows: minmax(0, 1fr);
+    opacity: 1;
+    visibility: visible;
+  }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".efe-faq-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".efe-faq-item");
+      if (!item) return;
+      const willOpen = !item.classList.contains("is-open");
+      item.parentElement?.querySelectorAll(".efe-faq-item.is-open").forEach((open) => {
+        open.classList.remove("is-open");
+        open.querySelector(".efe-faq-toggle")?.setAttribute("aria-expanded", "false");
+      });
+      if (willOpen) {
+        item.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+</script>

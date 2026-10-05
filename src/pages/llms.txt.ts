@@ -4,6 +4,7 @@ import { homeServicios } from "../data/home-servicios";
 import { herramientas } from "../data/home-herramientas";
 import { pasos } from "../data/home-proceso";
 import { faqs } from "../data/home-faqs";
+import { SERVICIOS_INDEXABLES, SERVICIOS_HUB_INDEXABLE } from "../data/site-config";
 
 export const prerender = true;
 
@@ -16,12 +17,20 @@ export const GET: APIRoute = async () => {
     ? posts
         .map(
           (p) =>
-            `- [${p.data.titulo}](https://efedigital.com.ar/blog/${p.id}): ${p.data.metaDescripcion ?? p.data.bajada}`
+            `- [${p.data.titulo}](https://efedigital.com.ar/blog/${p.id}/): ${p.data.metaDescripcion ?? p.data.bajada}`
         )
         .join("\n")
     : "- Todavía no hay notas publicadas.";
 
-  const servicios = homeServicios.map((s) => `- ${s.titulo}: ${s.desc}`).join("\n");
+  // Con las páginas de servicio todavía noindex no se enlazan; al publicarlas
+  // (site-config.ts) cada línea pasa a llevar su URL.
+  const servicios = homeServicios
+    .map((s) => {
+      const precio = `Desde USD ${s.desde}${s.unidad === "mes" ? " por mes" : ""}.`;
+      const nombre = SERVICIOS_INDEXABLES ? `[${s.titulo}](https://efedigital.com.ar${s.href})` : s.titulo;
+      return `- ${nombre}: ${s.desc} ${precio}`;
+    })
+    .join("\n");
 
   const stack = herramientas.map((h) => `- ${h.grupo}: ${h.items}`).join("\n");
 
@@ -35,7 +44,8 @@ export const GET: APIRoute = async () => {
 
 ## Empresa
 - [Inicio](https://efedigital.com.ar/): servicios, proceso de trabajo, stack técnico y preguntas frecuentes.
-- [Contacto](https://efedigital.com.ar/contacto): formulario de contacto, email y WhatsApp.
+${SERVICIOS_HUB_INDEXABLE ? "- [Servicios](https://efedigital.com.ar/servicios/): los cinco servicios con su precio de referencia.\n" : ""}- [Para agencias](https://efedigital.com.ar/para-agencias/): trabajo en marca blanca o como partner visible para agencias de SEO, marketing y diseño web que derivan desarrollo, mantenimiento y desarrollo a medida.
+- [Contacto](https://efedigital.com.ar/contacto/): formulario de contacto, email y WhatsApp.
 
 ## Servicios
 ${servicios}

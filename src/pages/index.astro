@@ -6,13 +6,13 @@ import ProcessSteps from "../components/ProcessSteps.astro";
 import EnfoqueGrid from "../components/EnfoqueGrid.astro";
 import BlogPreview from "../components/BlogPreview.astro";
 import Faq from "../components/Faq.astro";
+import AgenciasBand from "../components/AgenciasBand.astro";
 import LogoAnimado from "../components/LogoAnimado.astro";
-import { buildGraph, organizationSchema, websiteSchema, buildFaqPageSchema } from "../data/schema";
+import { buildGraph, organizationSchema, websiteSchema, buildFaqPageSchema, SITE_DESCRIPTION } from "../data/schema";
 import { faqs } from "../data/home-faqs";
 
 const title = "Desarrollo web, automatización e IA | efedigital";
-const description =
-  "Desarrollo web, e-commerce y automatización a medida. Sitios rápidos, sistemas que ahorran tiempo y presupuesto cerrado desde la primera charla.";
+const description = SITE_DESCRIPTION;
 const schema = buildGraph(organizationSchema, websiteSchema, buildFaqPageSchema(faqs));
 ---
 
@@ -61,6 +61,7 @@ const schema = buildGraph(organizationSchema, websiteSchema, buildFaqPageSchema(
   </div>
 
   <ServicesGrid />
+  <AgenciasBand />
   <ProcessSteps />
   <EnfoqueGrid />
   <BlogPreview />

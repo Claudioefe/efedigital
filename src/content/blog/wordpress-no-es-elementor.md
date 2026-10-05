@@ -34,4 +34,4 @@ Ahora, lo justo es decirlo: esto no es el camino más rápido ni el más barato.
 
 Si no te importa que tu sitio se parezca a otros cien, un builder puede ser la herramienta correcta para vos. Tampoco es que armar un sitio con Divi o Elementor te condene: hay implementaciones cuidadas que rinden bien igual. Pero en general, un sitio más liviano no solo carga más rápido para la persona que lo visita. También es más fácil de rastrear e indexar para los motores de IA que hoy arman sus respuestas a partir de qué tan bien pueden leer tu sitio, así que la velocidad ya no es solo una cuestión de Google. Si el sitio es una parte central de cómo tu negocio se presenta, ahí es donde tiene sentido construirlo bien desde la base en vez de apilar un framework genérico arriba de otro.
 
-¿Tenés un sitio armado con Elementor o Divi y no sabés por qué anda lento? Contanos cómo está armado y te decimos qué está pesando de más.
+¿Tenés un sitio armado con Elementor o Divi y no sabés por qué anda lento? Contanos cómo está armado y te decimos [qué está pesando de más](/servicios/optimizacion/).

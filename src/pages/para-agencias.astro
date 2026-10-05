@@ -1,150 +1,172 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { homeServicios } from "../data/home-servicios";
 import {
   buildGraph,
   organizationSchema,
   buildBreadcrumbSchema,
   buildFaqPageSchema,
-  buildServiceSchema,
-} from "../../data/schema";
-import { homeServicios } from "../../data/home-servicios";
-import { SERVICIOS_INDEXABLES } from "../../data/site-config";
+  pageUrl,
+} from "../data/schema";
 
-const title = "Desarrollo Web y E-commerce a Medida | efedigital";
+const title = "WordPress para agencias, en marca blanca | efedigital";
 const description =
-  "Sitios y tiendas online a medida en WordPress, sin page builders: catálogo, checkout y pagos que funcionan en cualquier dispositivo. Desde USD 300.";
+  "Somos el equipo técnico de tu agencia: desarrollo WordPress, mantenimiento, optimización y SEO técnico, bajo tu marca o como partner. Desde USD 100.";
 
-const breadcrumb = buildBreadcrumbSchema([
-  { name: "Inicio", path: "/" },
-  { name: "Servicios", path: "/servicios" },
-  { name: "Desarrollo web y e-commerce", path: "/servicios/desarrollo-web" },
-]);
+const [dev, mant, opt, audit, auto] = homeServicios;
+const precio = (s: (typeof homeServicios)[number]) => `Desde USD ${s.desde}${s.unidad === "mes" ? " por mes" : ""}`;
 
-const devFaqs = [
-  {
-    pregunta: "¿Cuánto sale un desarrollo web?",
-    respuesta:
-      "Depende del alcance. Como referencia, un sitio institucional arranca en USD 300 en adelante. Después de que nos cuentes tu proyecto —por mail, WhatsApp o una llamada— te confirmamos el precio cerrado exacto.",
-  },
-  {
-    pregunta: "¿Cuánto tardan en arrancar?",
-    respuesta:
-      "Entre una y dos semanas después de confirmar el precio cerrado. Si tenés algo urgente —el sitio caído, la tienda sin cobrar— lo metemos como primera etapa corta y seguimos con el resto después.",
-  },
-  {
-    pregunta: "¿Trabajan sobre el sitio que ya tengo?",
-    respuesta:
-      "Sí, es la mayoría de lo que hacemos. Tomamos el WordPress que armó otro equipo, con su tema y sus plugins, y lo corregimos o migramos sin romper lo que ya funciona ni perder posiciones en Google.",
-  },
-  {
-    pregunta: "¿Usan Elementor u otro page builder?",
-    respuesta:
-      "No. Construimos con el editor de bloques nativo de WordPress y temas propios. Es una decisión técnica, no una limitación: los builders agregan peso que después hay que optimizar.",
-  },
-  {
-    pregunta: "¿Hacen la redacción de los textos del sitio?",
-    respuesta:
-      "No directamente. Construimos el sitio y te decimos qué espacio de texto necesita cada sección, pero la redacción final es de tu equipo o de quien te maneje el contenido. Podemos coordinar directamente con esa persona si lo necesitás.",
-  },
-  {
-    pregunta: "¿Qué pasa si necesito algo que WordPress no puede hacer sin forzar cambios?",
-    respuesta:
-      "Ahí evaluamos desarrollo a medida. Te lo decimos desde el primer contacto, antes de cotizar: no vamos a forzar un CMS donde no entra la lógica de tu negocio.",
-  },
-];
-
-const servicio = homeServicios[0];
-const schema = buildGraph(
-  organizationSchema,
-  breadcrumb,
-  buildServiceSchema(servicio),
-  buildFaqPageSchema(devFaqs, "/servicios/desarrollo-web")
-);
-
-const alcance = [
+const derivar = [
   {
     num: "01",
-    badge: "WP",
-    titulo: "WordPress con bloques nativos",
-    desc: "Temas propios armados con el editor de bloques (Gutenberg) de WordPress. Sin Elementor, sin Divi, sin WPBakery: los page builders agregan código que no necesitás y le restan velocidad al sitio.",
-    nota: "Cada bloque se construye para el proyecto, no se arma con plantillas genéricas.",
+    badge: "DEV",
+    servicio: dev,
+    titulo: "Desarrollo WordPress y a medida",
+    desc: "Sitios, tiendas y plugins para los proyectos que tu agencia vende y no quiere programar: temas propios en bloques, integraciones por API y migraciones sin caídas.",
   },
   {
     num: "02",
-    badge: "EC",
-    titulo: "E-commerce",
-    desc: "Tiendas con WooCommerce según el volumen y la complejidad del catálogo: carga de productos, checkout, pasarelas de pago y stock sincronizado.",
-    nota: "Elegimos la pasarela de pago según tu mercado: Mercado Pago, Todo Pago o la que ya uses.",
+    badge: "MNT",
+    servicio: mant,
+    titulo: "Mantenimiento de los sitios de tus clientes",
+    desc: "Actualizaciones, backups, monitoreo y seguridad de toda tu cartera, con horas mensuales y sin contrato de permanencia.",
   },
   {
     num: "03",
-    badge: "AM",
-    titulo: "Desarrollo a medida",
-    desc: "Cuando la lógica del negocio no entra en un CMS sin forzar cambios de proceso: catálogos complejos, integraciones con sistemas propios, lógicas de precio o stock particulares.",
-    nota: "Se evalúa en la primera charla si conviene WordPress o un desarrollo propio, antes de cotizar.",
+    badge: "CWV",
+    servicio: opt,
+    titulo: "Velocidad y Core Web Vitals",
+    desc: "Cuando un cliente se queja de que su sitio es lento, lo medimos, lo corregimos y te devolvemos las métricas de antes y después para que se las muestres.",
   },
   {
     num: "04",
-    badge: "INT",
-    titulo: "Integraciones y APIs",
-    desc: "Conectamos el sitio con las herramientas que ya usás —CRM, stock, facturación, pagos u otros sistemas— cuando tienen una API con la que se pueda trabajar.",
-    nota: "Si la herramienta no tiene API pública, lo decimos antes de empezar, no a mitad de proyecto.",
+    badge: "SEO",
+    servicio: audit,
+    titulo: "Auditoría técnica para tu equipo de SEO",
+    desc: "Un informe de datos estructurados, indexación, arquitectura y legibilidad para IA, priorizado por impacto. Tu equipo lo ejecuta o nosotros lo implementamos.",
   },
   {
     num: "05",
-    badge: "MIG",
-    titulo: "Migraciones sin caídas",
-    desc: "Tomamos un sitio que armó otro equipo y lo migramos de servidor, de tema o de plataforma sin perder posiciones en Google ni tiempo de actividad.",
-    nota: "Se hace con el sitio viejo online hasta confirmar que el nuevo funciona igual o mejor.",
+    badge: "AUTO",
+    servicio: auto,
+    titulo: "Automatizaciones y reportes",
+    desc: "Flujos que sacan tareas manuales de tu operación, como los reportes de campañas por cliente armados solos con los datos de cada cuenta.",
   },
 ];
 
-const entrega = [
+const trabajo = [
   {
     num: "01",
-    titulo: "Presupuesto con precio cerrado",
-    desc: "Después de la charla de 30 minutos te confirmamos el precio cerrado: alcance dividido en etapas, plazos reales y precio fijo. Sabés qué entra, qué no, y cuándo vas a ver cada parte funcionando.",
-    nota: "48 a 72 horas después de la charla inicial.",
+    titulo: "Nos contás el proyecto",
+    desc: "Por mail, WhatsApp o una llamada: qué necesita el cliente, qué herramientas usa y para cuándo. Nos alcanza con un brief corto.",
+    nota: "Te decimos si es viable antes de cotizar nada.",
   },
   {
     num: "02",
-    titulo: "Avances semanales",
-    desc: "Un enlace que podés probar cada semana, no recién al final. Ajustamos con tu feedback dentro de lo acordado; si aparece algo nuevo, se cotiza aparte y vos decidís.",
-    nota: "2 a 8 semanas según el alcance del proyecto.",
+    titulo: "Precio cerrado y avances semanales",
+    desc: "Cotizamos con precio cerrado por etapa y te pasamos un enlace para probar cada semana, así le mostrás avances a tu cliente sin esperar al final.",
+    nota: "Si aparece algo nuevo, se cotiza aparte y vos decidís.",
   },
   {
     num: "03",
-    titulo: "Lanzamiento y traspaso",
-    desc: "Puesta en marcha, capacitación básica y documentación. El código y los accesos quedan a tu nombre desde el día uno.",
-    nota: "Soporte mensual opcional después del lanzamiento, sin ataduras.",
+    titulo: "Entrega a quien indiques",
+    desc: "El código, los accesos y la documentación quedan a nombre de tu agencia o de tu cliente, según prefieras, para que nadie dependa de nosotros para que funcione.",
+    nota: "Soporte mensual opcional después de la entrega.",
   },
 ];
 
-const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
+const porque = [
+  {
+    num: "01",
+    titulo: "Hablás con quien hace el trabajo",
+    desc: "Sin intermediarios ni gerentes de cuenta: el canal es directo con quien programa, y las dudas se resuelven en el momento.",
+  },
+  {
+    num: "02",
+    titulo: "WordPress sin page builders",
+    desc: "Temas propios en bloques nativos: sitios más livianos y más fáciles de mantener que los armados con Elementor o Divi.",
+  },
+  {
+    num: "03",
+    titulo: "Pensado para SEO y para IA",
+    desc: "Datos estructurados, velocidad y rastreabilidad cuidados desde la base, para que el trabajo de tu equipo de SEO rinda más.",
+  },
+];
+
+const faqs = [
+  {
+    pregunta: "¿Mi cliente va a saber que trabajan conmigo?",
+    respuesta:
+      "Eso lo elegís vos, proyecto por proyecto. En marca blanca trabajamos bajo la marca de tu agencia y no hablamos con tu cliente. Como partner visible figuramos como tu proveedor técnico y, si vos lo autorizás, hablamos directo con él.",
+  },
+  {
+    pregunta: "¿Cuánto sale?",
+    respuesta:
+      "Los precios son los mismos de referencia que figuran en cada servicio: desde USD 100 una auditoría técnica o un mes de mantenimiento, desde USD 300 un sitio institucional, una optimización o una automatización, y desde USD 500 una tienda. El precio final depende del alcance y te lo confirmamos antes de arrancar.",
+  },
+  {
+    pregunta: "¿Puedo derivarles un solo proyecto o tengo que comprometerme con un volumen?",
+    respuesta:
+      "Podés empezar con un solo proyecto. El mantenimiento es mes a mes, sin contrato de permanencia.",
+  },
+  {
+    pregunta: "¿Hacen SEO o estrategia de contenido?",
+    respuesta:
+      "No, y por eso no competimos con tu agencia. Nos ocupamos de la parte técnica: código, servidor, velocidad y datos estructurados. La estrategia y el contenido quedan de tu lado.",
+  },
+  {
+    pregunta: "¿Cómo nos coordinamos?",
+    respuesta:
+      "Por mail, WhatsApp o videollamada, lo que prefiera tu equipo. Trabajás con quien hace el trabajo y ves avances en un enlace cada semana.",
+  },
+  {
+    pregunta: "¿Quién queda como dueño del código y los accesos?",
+    respuesta:
+      "Quien vos indiques: tu agencia o tu cliente. El código, los accesos y la documentación se entregan a ese nombre desde el día uno.",
+  },
+];
+
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Inicio", path: "/" },
+  { name: "Para agencias", path: "/para-agencias" },
+]);
+
+const servicioAgencias = {
+  "@type": "Service",
+  "@id": `${pageUrl("/para-agencias")}#service`,
+  name: "Equipo técnico WordPress para agencias",
+  description,
+  url: pageUrl("/para-agencias"),
+  serviceType: ["Desarrollo WordPress en marca blanca", "Mantenimiento web", "SEO técnico", "Desarrollo a medida"],
+  audience: { "@type": "BusinessAudience", audienceType: "Agencias de marketing, SEO y diseño web" },
+  provider: { "@id": `${pageUrl("/")}#organization` },
+  areaServed: "Worldwide",
+  offers: {
+    "@type": "Offer",
+    url: pageUrl("/para-agencias"),
+    priceCurrency: "USD",
+    priceSpecification: { "@type": "PriceSpecification", priceCurrency: "USD", minPrice: 100 },
+  },
+};
+
+const schema = buildGraph(organizationSchema, breadcrumb, servicioAgencias, buildFaqPageSchema(faqs, "/para-agencias"));
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  path="/servicios/desarrollo-web"
-  schema={schema}
-  noindex={!SERVICIOS_INDEXABLES}>
-  <div id="efe-thread-dev" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
+<BaseLayout title={title} description={description} path="/para-agencias" schema={schema}>
+  <div id="efe-thread-ag" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
 
   <section id="top" class="efe-section efe-section--tight" style="position:relative">
     <div class="efe-container">
       <div
         style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)"
       >
-        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Desarrollo web</div>
+        <div class="efe-eyebrow" style="margin-bottom:0">Para agencias</div>
         <div
           style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
         >
           <a href="/" class="efe-crumb-link">Inicio</a>
           <span>/</span>
-          <a href="/servicios/" class="efe-crumb-link">Servicios</a>
-          <span>/</span>
-          <span style="color:#F5F2EC">Desarrollo web</span>
+          <span style="color:#F5F2EC">Para agencias</span>
         </div>
       </div>
 
@@ -152,108 +174,108 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
         <div>
           <h1 class="efe-h1" data-reveal>
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.05s">Desarrollo web</span></span
+              ><span class="efe-word" style="animation-delay:.05s">El equipo técnico</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.15s">y e-commerce</span></span
+              ><span class="efe-word" style="animation-delay:.15s">de tu agencia,</span></span
             >
             {" "}
-            <span style="display:block;overflow:hidden;padding-bottom:.06em">
-              <span class="efe-word" style="animation-delay:.25s"
-                >a medida</span
-              >
-            </span>
+            <span style="display:block;overflow:hidden;padding-bottom:.06em"
+              ><span class="efe-word" style="animation-delay:.25s">sin sumar sueldos</span></span
+            >
           </h1>
 
           <p class="efe-lede" data-reveal data-delay="1" style="margin-top:clamp(24px,3vw,34px);max-width:52ch">
-            Sitios y tiendas online hechas para <span style="color:#EDEDF0">vender</span>, con temas propios basados en
-            bloques nativos de WordPress: catálogo, checkout y pagos que <span style="color:#EDEDF0"
-              >funcionan bien en cualquier dispositivo</span
-            >.
+            Si tu agencia vende sitios, SEO o marketing y no querés ampliar el equipo de desarrollo, nosotros nos
+            ocupamos de <span style="color:#EDEDF0">WordPress, mantenimiento, velocidad y desarrollo a medida</span>. Vos
+            te quedás con <span style="color:#EDEDF0">el cliente y la estrategia</span>.
           </p>
 
           <div data-reveal data-delay="2" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:clamp(28px,3.4vw,40px)">
-            <a href="/contacto/" class="efe-btn efe-btn--primary">Empezar mi proyecto <span style="font-size:14px">↗</span></a>
-            <a href="#construimos" class="efe-btn efe-btn--ghost">Qué construimos</a>
+            <a href="/contacto/" class="efe-btn efe-btn--primary">Contanos tu caso <span style="font-size:14px">↗</span></a>
+            <a href="#derivar" class="efe-btn efe-btn--ghost">Qué podés derivarnos</a>
           </div>
 
           <ul data-reveal data-delay="3" style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none">
-            {stack.map((s) => (
-              <li class="efe-tag">{s}</li>
+            {["Marca blanca", "Partner visible", "WordPress", "SEO técnico", "A medida"].map((c) => (
+              <li class="efe-tag">{c}</li>
             ))}
           </ul>
         </div>
 
         <div data-reveal data-delay="1" class="efe-svc-panel">
           <div class="efe-svc-panel__head">
-            <span class="efe-svc-panel__dot"></span> Cómo trabajamos
-            <span class="efe-svc-panel__badge">Vista previa</span>
+            <span class="efe-svc-panel__dot"></span> Dos formas de trabajar
+            <span class="efe-svc-panel__badge">A tu elección</span>
           </div>
-          {
-            entrega.map((row) => (
-              <div class="efe-svc-panel__row">
-                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:20px;color:#F5F2EC">{row.titulo}</p>
-                <p style="margin:8px 0 0;font-size:13.5px;line-height:1.55;color:#8B8B93">{row.desc}</p>
-                <p class="efe-svc-panel__tag" style="margin:10px 0 0">{row.nota}</p>
-              </div>
-            ))
-          }
-          <a href="#entrega" class="efe-svc-panel__footer">
-            Cómo se entrega, paso a paso <span>↗</span>
+          <div class="efe-svc-panel__row">
+            <p class="efe-svc-panel__title">Marca blanca</p>
+            <p class="efe-svc-panel__text">
+              Trabajamos bajo la marca de tu agencia y no hablamos con tu cliente. Vos ponés la cara, nosotros el
+              código.
+            </p>
+          </div>
+          <div class="efe-svc-panel__row">
+            <p class="efe-svc-panel__title">Partner visible</p>
+            <p class="efe-svc-panel__text">
+              Figuramos como tu proveedor técnico y, si vos lo autorizás, hablamos directo con tu cliente.
+            </p>
+          </div>
+          <a href="#derivar" class="efe-svc-panel__footer">
+            Ver qué podés derivarnos <span>↗</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="construimos" class="efe-section efe-section--border-top" style="position:relative">
+  <section id="derivar" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
-      <div class="efe-svc-intro-grid">
+      <div class="efe-svc-intro-grid" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)">
         <div data-reveal>
-          <div class="efe-eyebrow">01 — Alcance del desarrollo</div>
-          <h2 class="efe-h2">¿Qué tipo de <br />proyectos hacemos?</h2>
+          <div class="efe-eyebrow">01 — Qué podés derivarnos</div>
+          <h2 class="efe-h2">Lo técnico lo<br />resolvemos nosotros</h2>
         </div>
         <p class="efe-lede" data-reveal data-delay="1" style="max-width:52ch">
-          Trabajamos con WordPress cuando el negocio entra en un CMS estándar, y con desarrollo a medida cuando no.
-          En los dos casos, el foco es velocidad, mantenibilidad y que el sitio siga funcionando bien dentro de un
-          año, no solo el día del lanzamiento.
+          No competimos con tu agencia: no hacemos estrategia ni redactamos contenido. Tomamos lo que requiere
+          desarrollo, servidor y código, y te lo devolvemos listo para que lo presentes como tuyo.
         </p>
       </div>
 
       <div class="efe-svc-grid" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
         {
-          alcance.map((item) => (
-            <div data-scroll="tilt" class="efe-svc-card">
+          derivar.map((item) => (
+            <a href={item.servicio.href} data-scroll="tilt" class="efe-svc-card">
               <div class="efe-svc-card__top">
                 <span class="efe-svc-card__num">{item.num}</span>
                 <span class="efe-svc-card__badge">{item.badge}</span>
               </div>
               <h3 class="efe-h3">{item.titulo}</h3>
               <p class="efe-svc-card__desc">{item.desc}</p>
-              <div class="efe-svc-card__foot">{item.nota}</div>
-            </div>
+              <div class="efe-svc-card__foot">{precio(item.servicio)}</div>
+            </a>
           ))
         }
         <a href="/contacto/" class="efe-svc-cta">
-          <div class="efe-svc-cta__eyebrow">Empecemos por tu proyecto</div>
-          <h3 class="efe-h3" style="color:#08080A">¿Necesitás un <br />sitio o tienda?</h3>
-          <span class="efe-svc-cta__btn">Empezar mi proyecto <span>↗</span></span>
+          <div class="efe-svc-cta__eyebrow">Empecemos por un proyecto</div>
+          <h3 class="efe-h3" style="color:#08080A">¿Tenés un cliente<br />con un proyecto?</h3>
+          <span class="efe-svc-cta__btn">Contanos tu caso <span>↗</span></span>
         </a>
       </div>
     </div>
   </section>
 
-  <section id="entrega" class="efe-section efe-section--border-top" style="position:relative">
+  <section id="trabajo" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
       <div data-reveal>
-        <div class="efe-eyebrow">03 — Entrega</div>
-        <h2 class="efe-h2">Cómo se <br />entrega</h2>
+        <div class="efe-eyebrow">02 — Cómo trabajamos juntos</div>
+        <h2 class="efe-h2">Simple de<br />sumar a tu equipo</h2>
       </div>
 
       <div class="efe-grid efe-grid--3" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
         {
-          entrega.map((item) => (
+          trabajo.map((item) => (
             <div data-scroll="tilt" class="efe-svc-card">
               <div class="efe-svc-card__top">
                 <span class="efe-svc-card__num">{item.num}</span>
@@ -262,6 +284,30 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
               <h3 class="efe-h3">{item.titulo}</h3>
               <p class="efe-svc-card__desc">{item.desc}</p>
               <div class="efe-svc-card__foot">{item.nota}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="porque" class="efe-section efe-section--border-top" style="position:relative">
+    <div class="efe-container">
+      <div data-reveal>
+        <div class="efe-eyebrow">03 — Por qué efedigital</div>
+        <h2 class="efe-h2">Un proveedor que<br />no te complica</h2>
+      </div>
+
+      <div class="efe-grid efe-grid--3" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
+        {
+          porque.map((item) => (
+            <div data-scroll="tilt" class="efe-svc-card">
+              <div class="efe-svc-card__top">
+                <span class="efe-svc-card__num">{item.num}</span>
+                <span class="efe-svc-card__badge">↗</span>
+              </div>
+              <h3 class="efe-h3">{item.titulo}</h3>
+              <p class="efe-svc-card__desc">{item.desc}</p>
             </div>
           ))
         }
@@ -282,7 +328,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
       </div>
       <div data-reveal data-delay="1" style="display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.12)">
         {
-          devFaqs.map((f, i) => (
+          faqs.map((f, i) => (
             <div class="efe-faq-item" style="border-bottom:1px solid rgba(255,255,255,.12)">
               <button type="button" class="efe-faq-toggle" aria-expanded="false" data-index={i}>
                 <span class="efe-faq-question">{f.pregunta}</span>
@@ -361,12 +407,18 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     padding: 22px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .efe-svc-panel__tag {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #d4ff3f;
+  .efe-svc-panel__title {
+    margin: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #f5f2ec;
+  }
+  .efe-svc-panel__text {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #8b8b93;
   }
   .efe-svc-panel__footer {
     display: flex;
@@ -393,7 +445,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
   }
   @media (max-width: 760px) {
     .efe-svc-intro-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
     }
   }
 
@@ -420,10 +472,13 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     padding: clamp(26px, 2.8vw, 34px);
     background: #0d0d10;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f5f2ec;
+    text-decoration: none;
     transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
       translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .efe-svc-card:hover {
+    color: #f5f2ec;
     border-color: #d4ff3f;
     background: #121218;
     box-shadow: 10px 10px 0 rgba(212, 255, 63, 0.85);

@@ -10,133 +10,153 @@ import {
 import { homeServicios } from "../../data/home-servicios";
 import { SERVICIOS_INDEXABLES } from "../../data/site-config";
 
-const title = "Desarrollo Web y E-commerce a Medida | efedigital";
+const title = "Auditoría Técnica de SEO, GEO & AEO | efedigital";
 const description =
-  "Sitios y tiendas online a medida en WordPress, sin page builders: catálogo, checkout y pagos que funcionan en cualquier dispositivo. Desde USD 300.";
+  "Revisamos si tu sitio es rápido, rastreable e indexable, y si los motores de IA pueden leerlo y citarlo. Informe priorizado por impacto. Desde USD 100.";
 
 const breadcrumb = buildBreadcrumbSchema([
   { name: "Inicio", path: "/" },
   { name: "Servicios", path: "/servicios" },
-  { name: "Desarrollo web y e-commerce", path: "/servicios/desarrollo-web" },
+  { name: "Auditoría técnica de SEO, GEO y AEO", path: "/servicios/auditoria-tecnica" },
 ]);
 
-const devFaqs = [
+const auditFaqs = [
   {
-    pregunta: "¿Cuánto sale un desarrollo web?",
+    pregunta: "¿Cuánto sale la auditoría?",
     respuesta:
-      "Depende del alcance. Como referencia, un sitio institucional arranca en USD 300 en adelante. Después de que nos cuentes tu proyecto —por mail, WhatsApp o una llamada— te confirmamos el precio cerrado exacto.",
+      "Arranca en USD 100. Varía según el tamaño del sitio y cuántas páginas hay que revisar, pero te lo confirmamos apenas nos cuentes tu caso —por mail, WhatsApp o una llamada— antes de arrancar.",
   },
   {
-    pregunta: "¿Cuánto tardan en arrancar?",
-    respuesta:
-      "Entre una y dos semanas después de confirmar el precio cerrado. Si tenés algo urgente —el sitio caído, la tienda sin cobrar— lo metemos como primera etapa corta y seguimos con el resto después.",
+    pregunta: "¿Cuánto tarda una auditoría?",
+    respuesta: "Entre 24 y 72 horas desde que arrancamos, dependiendo del tamaño del sitio.",
   },
   {
-    pregunta: "¿Trabajan sobre el sitio que ya tengo?",
+    pregunta: "¿Sirve para cualquier tipo de sitio, no solo WordPress?",
     respuesta:
-      "Sí, es la mayoría de lo que hacemos. Tomamos el WordPress que armó otro equipo, con su tema y sus plugins, y lo corregimos o migramos sin romper lo que ya funciona ni perder posiciones en Google.",
+      "Sí. La auditoría es sobre SEO técnico, GEO y AEO: son principios que aplican a cualquier sitio, esté hecho en WordPress, Shopify, algo a medida o cualquier otro stack. Lo único que cambia es cómo se implementan después las correcciones.",
   },
   {
-    pregunta: "¿Usan Elementor u otro page builder?",
+    pregunta: "¿Qué pasa si encuentran algo urgente?",
     respuesta:
-      "No. Construimos con el editor de bloques nativo de WordPress y temas propios. Es una decisión técnica, no una limitación: los builders agregan peso que después hay que optimizar.",
+      "No esperamos a entregarte el informe completo: si encontramos algo que te está haciendo perder plata o visibilidad ahora mismo (una desindexación, un error de servidor, algo caído), te avisamos apenas lo vemos.",
   },
   {
-    pregunta: "¿Hacen la redacción de los textos del sitio?",
+    pregunta: "¿Esto reemplaza al SEO de contenido?",
     respuesta:
-      "No directamente. Construimos el sitio y te decimos qué espacio de texto necesita cada sección, pero la redacción final es de tu equipo o de quien te maneje el contenido. Podemos coordinar directamente con esa persona si lo necesitás.",
+      "No. Esta auditoría es solo diagnóstico: revisamos datos estructurados, indexación, arquitectura y rendimiento, y te entregamos los hallazgos priorizados. Implementar las correcciones es otra cosa, que podés hacer vos, sumar a un plan de mantenimiento, o cotizar aparte con nosotros. Si el problema es de contenido o estrategia, te lo marcamos en el informe para tu equipo.",
   },
   {
-    pregunta: "¿Qué pasa si necesito algo que WordPress no puede hacer sin forzar cambios?",
+    pregunta: "¿Es lo mismo que la optimización de velocidad o que el mantenimiento mensual?",
     respuesta:
-      "Ahí evaluamos desarrollo a medida. Te lo decimos desde el primer contacto, antes de cotizar: no vamos a forzar un CMS donde no entra la lógica de tu negocio.",
+      "No, son tres cosas distintas y complementarias. La auditoría diagnostica todo (datos estructurados, indexación, arquitectura, velocidad y legibilidad para IA) y te entrega un informe, sin tocar nada. La optimización de velocidad corrige puntualmente lo que encontramos en la parte de rendimiento. El mantenimiento mensual es lo que sostiene todo eso en el tiempo: actualizaciones, backups y seguridad, mes a mes.",
   },
 ];
 
-const servicio = homeServicios[0];
+const servicio = homeServicios[3];
 const schema = buildGraph(
   organizationSchema,
   breadcrumb,
   buildServiceSchema(servicio),
-  buildFaqPageSchema(devFaqs, "/servicios/desarrollo-web")
+  buildFaqPageSchema(auditFaqs, "/servicios/auditoria-tecnica")
 );
 
 const alcance = [
   {
     num: "01",
-    badge: "WP",
-    titulo: "WordPress con bloques nativos",
-    desc: "Temas propios armados con el editor de bloques (Gutenberg) de WordPress. Sin Elementor, sin Divi, sin WPBakery: los page builders agregan código que no necesitás y le restan velocidad al sitio.",
-    nota: "Cada bloque se construye para el proyecto, no se arma con plantillas genéricas.",
+    badge: "SD",
+    titulo: "Datos estructurados",
+    desc: "Revisamos el marcado Schema.org de todo el sitio: qué entidades declarás, qué falta y qué está mal armado para que los buscadores entiendan de qué habla cada página.",
+    nota: "Organization, Product, Article, FAQ, Breadcrumb y LocalBusiness según el caso.",
   },
   {
     num: "02",
-    badge: "EC",
-    titulo: "E-commerce",
-    desc: "Tiendas con WooCommerce según el volumen y la complejidad del catálogo: carga de productos, checkout, pasarelas de pago y stock sincronizado.",
-    nota: "Elegimos la pasarela de pago según tu mercado: Mercado Pago, Todo Pago o la que ya uses.",
+    badge: "IX",
+    titulo: "Indexación y rastreo",
+    desc: "Search Console, robots.txt, sitemaps, canónicas y redirecciones. Buscamos páginas que Google no puede ver, páginas que ve de más, y páginas que ya posicionan bien pero nadie les hace clic.",
+    nota: "Cobertura, errores de rastreo, contenido duplicado, presupuesto de rastreo y oportunidades de CTR.",
   },
   {
     num: "03",
-    badge: "AM",
-    titulo: "Desarrollo a medida",
-    desc: "Cuando la lógica del negocio no entra en un CMS sin forzar cambios de proceso: catálogos complejos, integraciones con sistemas propios, lógicas de precio o stock particulares.",
-    nota: "Se evalúa en la primera charla si conviene WordPress o un desarrollo propio, antes de cotizar.",
+    badge: "AR",
+    titulo: "Arquitectura del sitio",
+    desc: "Cómo están organizadas las URLs, el enlazado interno y la jerarquía de contenidos. Si la estructura no se entiende, el resto rinde menos.",
+    nota: "Profundidad de clics, silos temáticos y páginas huérfanas.",
   },
   {
     num: "04",
-    badge: "INT",
-    titulo: "Integraciones y APIs",
-    desc: "Conectamos el sitio con las herramientas que ya usás —CRM, stock, facturación, pagos u otros sistemas— cuando tienen una API con la que se pueda trabajar.",
-    nota: "Si la herramienta no tiene API pública, lo decimos antes de empezar, no a mitad de proyecto.",
+    badge: "CWV",
+    titulo: "Rendimiento y Core Web Vitals",
+    desc: "Medimos LCP, INP y CLS en datos de campo y de laboratorio, e identificamos qué lo está frenando: recursos, plugins, imágenes o servidor.",
+    nota: "Con el detalle de qué cambiar y cuánto se gana en cada punto.",
   },
   {
     num: "05",
-    badge: "MIG",
-    titulo: "Migraciones sin caídas",
-    desc: "Tomamos un sitio que armó otro equipo y lo migramos de servidor, de tema o de plataforma sin perder posiciones en Google ni tiempo de actividad.",
-    nota: "Se hace con el sitio viejo online hasta confirmar que el nuevo funciona igual o mejor.",
+    badge: "AEO",
+    titulo: "Legibilidad para motores de IA",
+    desc: "Si ChatGPT, Gemini, Claude o Perplexity pueden leer, entender y citar tus páginas: acceso de sus rastreadores, contenido renderizado y respuestas extraíbles.",
+    nota: "llms.txt, acceso de bots de IA, contenido en HTML vs. JavaScript.",
   },
 ];
 
 const entrega = [
   {
     num: "01",
-    titulo: "Presupuesto con precio cerrado",
-    desc: "Después de la charla de 30 minutos te confirmamos el precio cerrado: alcance dividido en etapas, plazos reales y precio fijo. Sabés qué entra, qué no, y cuándo vas a ver cada parte funcionando.",
-    nota: "48 a 72 horas después de la charla inicial.",
+    titulo: "Informe con hallazgos",
+    desc: "Un documento con todo lo que encontramos, explicado en castellano: qué pasa, dónde pasa, por qué importa y qué hay que hacer.",
+    nota: "Con capturas, URLs afectadas y la medición que respalda cada hallazgo.",
   },
   {
     num: "02",
-    titulo: "Avances semanales",
-    desc: "Un enlace que podés probar cada semana, no recién al final. Ajustamos con tu feedback dentro de lo acordado; si aparece algo nuevo, se cotiza aparte y vos decidís.",
-    nota: "2 a 8 semanas según el alcance del proyecto.",
+    titulo: "Priorización por impacto",
+    desc: "Los hallazgos ordenados por impacto real y esfuerzo de implementación, para que tu equipo sepa por dónde empezar el lunes.",
+    nota: "Crítico, importante y deseable. Sin listas de 200 items iguales.",
   },
   {
     num: "03",
-    titulo: "Lanzamiento y traspaso",
-    desc: "Puesta en marcha, capacitación básica y documentación. El código y los accesos quedan a tu nombre desde el día uno.",
-    nota: "Soporte mensual opcional después del lanzamiento, sin ataduras.",
+    titulo: "Opción de implementarlo",
+    desc: "Si preferís que lo hagamos nosotros, te confirmamos un precio cerrado aparte por las mejoras técnicas, por etapa.",
+    nota: "La auditoría no te obliga a nada: el informe es tuyo igual.",
   },
 ];
 
-const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
+const informe = [
+  {
+    titulo: "SEO",
+    tag: "Rastreable",
+    desc: "Indexación, arquitectura y rendimiento: que Google pueda entrar, leer y entender cada página.",
+    fill: 90,
+  },
+  {
+    titulo: "GEO",
+    tag: "Citable",
+    desc: "Datos estructurados y entidades para que tu marca aparezca en respuestas generadas por IA.",
+    fill: 84,
+  },
+  {
+    titulo: "AEO",
+    tag: "Extraíble",
+    desc: "Contenido en HTML, acceso de bots de IA y respuestas que ChatGPT o Perplexity puedan citar.",
+    fill: 72,
+  },
+];
+
+const motores = ["Google", "ChatGPT", "Gemini", "Claude", "Perplexity"];
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  path="/servicios/desarrollo-web"
+  path="/servicios/auditoria-tecnica"
   schema={schema}
   noindex={!SERVICIOS_INDEXABLES}>
-  <div id="efe-thread-dev" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
+  <div id="efe-thread-audit" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
 
   <section id="top" class="efe-section efe-section--tight" style="position:relative">
     <div class="efe-container">
       <div
         style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)"
       >
-        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Desarrollo web</div>
+        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Auditoría técnica</div>
         <div
           style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
         >
@@ -144,101 +164,115 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
           <span>/</span>
           <a href="/servicios/" class="efe-crumb-link">Servicios</a>
           <span>/</span>
-          <span style="color:#F5F2EC">Desarrollo web</span>
+          <span style="color:#F5F2EC">Auditoría técnica</span>
         </div>
       </div>
 
-      <div class="efe-svc-hero-grid" style="margin-top:clamp(48px,6vw,80px)">
+      <div class="efe-audit-hero-grid" style="margin-top:clamp(48px,6vw,80px)">
         <div>
           <h1 class="efe-h1" data-reveal>
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.05s">Desarrollo web</span></span
+              ><span class="efe-word" style="animation-delay:.05s">Auditoría</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.15s">y e-commerce</span></span
+              ><span class="efe-word" style="animation-delay:.15s">técnica</span></span
+            >
+            {" "}
+            <span style="display:block;overflow:hidden;padding-bottom:.06em"
+              ><span class="efe-word" style="animation-delay:.25s">de SEO, GEO</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em">
-              <span class="efe-word" style="animation-delay:.25s"
-                >a medida</span
+              <span class="efe-word" style="animation-delay:.35s"
+                >y AEO</span
               >
             </span>
           </h1>
 
           <p class="efe-lede" data-reveal data-delay="1" style="margin-top:clamp(24px,3vw,34px);max-width:52ch">
-            Sitios y tiendas online hechas para <span style="color:#EDEDF0">vender</span>, con temas propios basados en
-            bloques nativos de WordPress: catálogo, checkout y pagos que <span style="color:#EDEDF0"
-              >funcionan bien en cualquier dispositivo</span
-            >.
+            Revisamos si tu sitio es <span style="color:#EDEDF0">rápido, rastreable e indexable</span>, y si los motores
+            de IA pueden leerlo y citarlo. Te entregamos un informe con todo lo que encontramos, <span
+              style="color:#EDEDF0">priorizado por impacto</span>.
           </p>
 
           <div data-reveal data-delay="2" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:clamp(28px,3.4vw,40px)">
-            <a href="/contacto/" class="efe-btn efe-btn--primary">Empezar mi proyecto <span style="font-size:14px">↗</span></a>
-            <a href="#construimos" class="efe-btn efe-btn--ghost">Qué construimos</a>
+            <a href="/contacto/" class="efe-btn efe-btn--primary">Pedir la auditoría <span style="font-size:14px">↗</span></a>
+            <a href="#alcance" class="efe-btn efe-btn--ghost">Qué revisamos</a>
           </div>
 
+          <blockquote
+            data-reveal
+            data-delay="2"
+            style="margin:clamp(28px,3.4vw,40px) 0 0;padding-left:18px;border-left:2px solid #D4FF3F;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.65;color:#A9A9B1;max-width:52ch"
+          >
+            Somos la parte técnica. Si el problema es de contenido o estrategia, te lo marcamos en el informe
+            para tu equipo, o te lo cotizamos aparte.
+          </blockquote>
+
           <ul data-reveal data-delay="3" style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none">
-            {stack.map((s) => (
-              <li class="efe-tag">{s}</li>
+            {motores.map((m) => (
+              <li class="efe-tag">{m}</li>
             ))}
           </ul>
         </div>
 
-        <div data-reveal data-delay="1" class="efe-svc-panel">
-          <div class="efe-svc-panel__head">
-            <span class="efe-svc-panel__dot"></span> Cómo trabajamos
-            <span class="efe-svc-panel__badge">Vista previa</span>
+        <div data-reveal data-delay="1" class="efe-audit-panel">
+          <div class="efe-audit-panel__head">
+            <span class="efe-audit-panel__dot"></span> Informe de auditoría
+            <span class="efe-audit-panel__badge">Vista previa</span>
           </div>
           {
-            entrega.map((row) => (
-              <div class="efe-svc-panel__row">
-                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:20px;color:#F5F2EC">{row.titulo}</p>
+            informe.map((row) => (
+              <div class="efe-audit-panel__row">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                  <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:22px;color:#F5F2EC">{row.titulo}</p>
+                  <span class="efe-audit-panel__tag">{row.tag}</span>
+                </div>
                 <p style="margin:8px 0 0;font-size:13.5px;line-height:1.55;color:#8B8B93">{row.desc}</p>
-                <p class="efe-svc-panel__tag" style="margin:10px 0 0">{row.nota}</p>
+                <div class="efe-audit-panel__bar"><span style={`width:${row.fill}%`} /></div>
               </div>
             ))
           }
-          <a href="#entrega" class="efe-svc-panel__footer">
-            Cómo se entrega, paso a paso <span>↗</span>
+          <a href="#alcance" class="efe-audit-panel__footer">
+            Hallazgos priorizados por impacto <span>↗</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="construimos" class="efe-section efe-section--border-top" style="position:relative">
+  <section id="alcance" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
-      <div class="efe-svc-intro-grid">
+      <div class="efe-audit-intro-grid">
         <div data-reveal>
-          <div class="efe-eyebrow">01 — Alcance del desarrollo</div>
-          <h2 class="efe-h2">¿Qué tipo de <br />proyectos hacemos?</h2>
+          <div class="efe-eyebrow">01 — Alcance de la revisión</div>
+          <h2 class="efe-h2">¿Qué mira <br />esta auditoría?</h2>
         </div>
         <p class="efe-lede" data-reveal data-delay="1" style="max-width:52ch">
-          Trabajamos con WordPress cuando el negocio entra en un CMS estándar, y con desarrollo a medida cuando no.
-          En los dos casos, el foco es velocidad, mantenibilidad y que el sitio siga funcionando bien dentro de un
-          año, no solo el día del lanzamiento.
+          Revisamos datos estructurados (Schema.org), indexación en Search Console, arquitectura del sitio,
+          rendimiento y Core Web Vitals, y si el contenido es legible para los motores de IA que citan páginas web.
         </p>
       </div>
 
-      <div class="efe-svc-grid" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
+      <div class="efe-audit-grid" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
         {
           alcance.map((item) => (
-            <div data-scroll="tilt" class="efe-svc-card">
-              <div class="efe-svc-card__top">
-                <span class="efe-svc-card__num">{item.num}</span>
-                <span class="efe-svc-card__badge">{item.badge}</span>
+            <div data-scroll="tilt" class="efe-audit-card">
+              <div class="efe-audit-card__top">
+                <span class="efe-audit-card__num">{item.num}</span>
+                <span class="efe-audit-card__badge">{item.badge}</span>
               </div>
               <h3 class="efe-h3">{item.titulo}</h3>
-              <p class="efe-svc-card__desc">{item.desc}</p>
-              <div class="efe-svc-card__foot">{item.nota}</div>
+              <p class="efe-audit-card__desc">{item.desc}</p>
+              <div class="efe-audit-card__foot">{item.nota}</div>
             </div>
           ))
         }
-        <a href="/contacto/" class="efe-svc-cta">
-          <div class="efe-svc-cta__eyebrow">Empecemos por tu proyecto</div>
-          <h3 class="efe-h3" style="color:#08080A">¿Necesitás un <br />sitio o tienda?</h3>
-          <span class="efe-svc-cta__btn">Empezar mi proyecto <span>↗</span></span>
+        <a href="/contacto/" class="efe-audit-cta">
+          <div class="efe-audit-cta__eyebrow">Empecemos por el diagnóstico</div>
+          <h3 class="efe-h3" style="color:#08080A">¿Necesitás una <br />auditoría?</h3>
+          <span class="efe-audit-cta__btn">Pedir la auditoría <span>↗</span></span>
         </a>
       </div>
     </div>
@@ -247,21 +281,21 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
   <section id="entrega" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
       <div data-reveal>
-        <div class="efe-eyebrow">03 — Entrega</div>
+        <div class="efe-eyebrow">02 — Entrega</div>
         <h2 class="efe-h2">Cómo se <br />entrega</h2>
       </div>
 
       <div class="efe-grid efe-grid--3" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
         {
           entrega.map((item) => (
-            <div data-scroll="tilt" class="efe-svc-card">
-              <div class="efe-svc-card__top">
-                <span class="efe-svc-card__num">{item.num}</span>
-                <span class="efe-svc-card__badge">↗</span>
+            <div data-scroll="tilt" class="efe-audit-card">
+              <div class="efe-audit-card__top">
+                <span class="efe-audit-card__num">{item.num}</span>
+                <span class="efe-audit-card__badge">↗</span>
               </div>
               <h3 class="efe-h3">{item.titulo}</h3>
-              <p class="efe-svc-card__desc">{item.desc}</p>
-              <div class="efe-svc-card__foot">{item.nota}</div>
+              <p class="efe-audit-card__desc">{item.desc}</p>
+              <div class="efe-audit-card__foot">{item.nota}</div>
             </div>
           ))
         }
@@ -272,7 +306,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
   <section id="preguntas" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,80px);align-items:start">
       <div data-reveal>
-        <div class="efe-eyebrow">04 — Preguntas</div>
+        <div class="efe-eyebrow">03 — Preguntas</div>
         <h2 style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:clamp(34px,5.4vw,82px);line-height:.9;letter-spacing:-.042em">
           Lo que nos <br />preguntan
         </h2>
@@ -282,7 +316,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
       </div>
       <div data-reveal data-delay="1" style="display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.12)">
         {
-          devFaqs.map((f, i) => (
+          auditFaqs.map((f, i) => (
             <div class="efe-faq-item" style="border-bottom:1px solid rgba(255,255,255,.12)">
               <button type="button" class="efe-faq-toggle" aria-expanded="false" data-index={i}>
                 <span class="efe-faq-question">{f.pregunta}</span>
@@ -307,14 +341,14 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     animation: efe-rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  .efe-svc-hero-grid {
+  .efe-audit-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(300px, 5fr);
     gap: clamp(32px, 4vw, 64px);
     align-items: start;
   }
   @media (max-width: 860px) {
-    .efe-svc-hero-grid {
+    .efe-audit-hero-grid {
       grid-template-columns: 1fr;
     }
   }
@@ -329,12 +363,12 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     color: #a9a9b1;
   }
 
-  .efe-svc-panel {
+  .efe-audit-panel {
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: #0d0d10;
   }
-  .efe-svc-panel__head {
+  .efe-audit-panel__head {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -346,29 +380,40 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     text-transform: uppercase;
     color: #8b8b93;
   }
-  .efe-svc-panel__dot {
+  .efe-audit-panel__dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: #d4ff3f;
     animation: efe-pulse 2.2s ease-in-out infinite;
   }
-  .efe-svc-panel__badge {
+  .efe-audit-panel__badge {
     margin-left: auto;
     color: #f5f2ec;
   }
-  .efe-svc-panel__row {
+  .efe-audit-panel__row {
     padding: 22px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .efe-svc-panel__tag {
+  .efe-audit-panel__tag {
+    flex: none;
     font-family: "JetBrains Mono", monospace;
     font-size: 10.5px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #d4ff3f;
   }
-  .efe-svc-panel__footer {
+  .efe-audit-panel__bar {
+    margin-top: 14px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .efe-audit-panel__bar span {
+    display: block;
+    height: 100%;
+    background: #d4ff3f;
+  }
+  .efe-audit-panel__footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -381,39 +426,39 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     color: #f5f2ec;
     transition: color 0.22s ease;
   }
-  .efe-svc-panel__footer:hover {
+  .efe-audit-panel__footer:hover {
     color: #d4ff3f;
   }
 
-  .efe-svc-intro-grid {
+  .efe-audit-intro-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: clamp(24px, 4vw, 48px);
     align-items: center;
   }
   @media (max-width: 760px) {
-    .efe-svc-intro-grid {
+    .efe-audit-intro-grid {
       grid-template-columns: 1fr;
     }
   }
 
-  .efe-svc-grid {
+  .efe-audit-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: clamp(16px, 1.8vw, 24px);
   }
   @media (min-width: 720px) {
-    .efe-svc-grid {
+    .efe-audit-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   @media (min-width: 1100px) {
-    .efe-svc-grid {
+    .efe-audit-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .efe-svc-card {
+  .efe-audit-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -423,26 +468,26 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
       translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .efe-svc-card:hover {
+  .efe-audit-card:hover {
     border-color: #d4ff3f;
     background: #121218;
     box-shadow: 10px 10px 0 rgba(212, 255, 63, 0.85);
     translate: -5px -5px;
   }
-  .efe-svc-card__top {
+  .efe-audit-card__top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
   }
-  .efe-svc-card__num {
+  .efe-audit-card__num {
     font-family: "Lora", serif;
     font-weight: 700;
     font-size: 44px;
     line-height: 1;
     color: rgba(245, 242, 236, 0.12);
   }
-  .efe-svc-card__badge {
+  .efe-audit-card__badge {
     flex: none;
     display: grid;
     place-items: center;
@@ -455,17 +500,17 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     letter-spacing: 0.06em;
     color: #8b8b93;
   }
-  .efe-svc-card h3 {
+  .efe-audit-card h3 {
     margin-top: 14px;
   }
-  .efe-svc-card__desc {
+  .efe-audit-card__desc {
     margin: 12px 0 0;
     padding-bottom: 10px;
     font-size: 14.5px;
     line-height: 1.58;
     color: #c9c9ce;
   }
-  .efe-svc-card__foot {
+  .efe-audit-card__foot {
     margin-top: auto;
     padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -475,7 +520,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     color: #96969b;
   }
 
-  .efe-svc-cta {
+  .efe-audit-cta {
     display: flex;
     flex-direction: column;
     padding: clamp(26px, 2.8vw, 34px);
@@ -483,10 +528,10 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     text-decoration: none;
     transition: transform 0.18s ease;
   }
-  .efe-svc-cta:hover {
+  .efe-audit-cta:hover {
     transform: translate(-3px, -3px);
   }
-  .efe-svc-cta__eyebrow {
+  .efe-audit-cta__eyebrow {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -496,19 +541,19 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     text-transform: uppercase;
     color: #08080a;
   }
-  .efe-svc-cta__eyebrow::before {
+  .efe-audit-cta__eyebrow::before {
     content: "";
     width: 28px;
     height: 1px;
     background: #08080a;
   }
-  .efe-svc-cta h3 {
+  .efe-audit-cta h3 {
     margin-top: 16px;
     font-size: clamp(24px, 3vw, 44px);
     line-height: 1;
     letter-spacing: -0.03em;
   }
-  .efe-svc-cta__btn {
+  .efe-audit-cta__btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;

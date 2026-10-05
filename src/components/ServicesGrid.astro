@@ -7,18 +7,19 @@ import { homeServicios } from "../data/home-servicios";
     <div style="display:flex;flex-direction:column;gap:clamp(20px,2vw,28px);margin-bottom:clamp(40px,5vw,72px)">
       <div>
         <div class="efe-eyebrow" data-reveal>01 — Servicios</div>
-        <h2 class="efe-h2" data-reveal data-delay="1">En qué te<br />podemos ayudar</h2>
+        <h2 class="efe-h2" data-reveal data-delay="1">En qué te <br />podemos ayudar</h2>
       </div>
     </div>
 
     <div class="efe-grid--3" data-stagger data-sync>
       {
         homeServicios.map((s) => (
-          <article
+          <a
+            href={s.href}
             data-scroll="tilt"
             data-spotlight
             class="efe-card"
-            style="min-height:300px"
+            style="min-height:300px;text-decoration:none;color:inherit"
           >
             <div class="efe-card__glow" data-glow />
             <div style="position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
@@ -38,7 +39,7 @@ import { homeServicios } from "../data/home-servicios";
                 {s.nota}
               </p>
             )}
-          </article>
+          </a>
         ))
       }
       <article
@@ -62,7 +63,7 @@ import { homeServicios } from "../data/home-servicios";
           </h3>
         </div>
         <a
-          href="/contacto"
+          href="/contacto/"
           style="position:relative;display:flex;align-items:center;gap:10px;padding:18px 30px;background:#08080A;color:#F5F2EC;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase"
         >
           Escribinos <span>↗</span>
@@ -73,6 +74,10 @@ import { homeServicios } from "../data/home-servicios";
 </section>
 
 <style>
+  .efe-grid--3 a.efe-card:hover {
+    color: inherit;
+  }
+
   #efe-cta-servicios a {
     border: 1px solid #08080a;
     box-shadow: 7px 7px 0 rgba(8, 8, 10, 0.28);

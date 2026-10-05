@@ -489,16 +489,25 @@ function initScrollEngine() {
   window.addEventListener("resize", onScroll);
 }
 
-function initThread() {
-  const host = document.getElementById("efe-thread");
+// hostId: id del <div> donde se monta el SVG. ids: ids de las secciones que conecta,
+// en orden. xs/xsNarrow: posición horizontal (0-1) de cada nodo; cada página puede pasar
+// su propio patrón para que el hilo no se vea idéntico en todas (xsNarrow es opcional,
+// si falta se reusa xs también en mobile).
+function initThread(
+  hostId: string,
+  ids: string[],
+  xs: number[],
+  xsNarrow?: number[],
+  shape: "curve" | "angular" = "curve"
+) {
+  const host = document.getElementById(hostId);
   if (!host) return;
   const NS = "http://www.w3.org/2000/svg";
-  const ids = ["top", "servicios", "proceso", "enfoque", "blog", "faq", "contacto"];
   let path: SVGPathElement | null = null;
   let len = 0;
   let y0 = 0;
   let y1 = 1;
-  let nodes: { y: number; ring: SVGCircleElement; dot: SVGCircleElement }[] = [];
+  let nodes: { x: number; y: number; ring: SVGElement; dot: SVGElement }[] = [];
 
   const build = () => {
     host.innerHTML = "";
@@ -506,13 +515,22 @@ function initThread() {
     const secs = ids.map((id) => document.getElementById(id)).filter((s): s is HTMLElement => !!s);
     if (secs.length < 3) return;
     const W = host.clientWidth || window.innerWidth;
-    const H = document.documentElement.scrollHeight;
+    // El alto real del contenedor (no el del documento entero): el documento incluye
+    // el espacio reservado para el footer fijo, que #efe-thread-audit no ocupa. Si el
+    // atributo height del SVG no coincide con su caja renderizada, el navegador lo
+    // reescala para "entrar" y toda la línea queda corrida de donde debería estar.
+    const H = host.getBoundingClientRect().height;
     const narrow = W < 760;
-    const xs = narrow ? [0.5, 0.22, 0.78, 0.3, 0.7, 0.24, 0.5] : [0.5, 0.16, 0.84, 0.24, 0.76, 0.18, 0.5];
+    const xsActive = narrow ? xsNarrow ?? xs : xs;
     const pts = secs.map((s, i) => {
       const r = s.getBoundingClientRect();
       const top = r.top + window.scrollY;
-      return [xs[i % xs.length] * W, top + r.height * (i === 0 ? 0.72 : 0.45)] as [number, number];
+      // El primer punto queda bien adentro del hero (0.72) y los del medio a mitad
+      // de su sección (0.45), pero el último tiene que llegar cerca del final de la
+      // suya (0.88) — si no, el hilo se ve "cortado" mucho antes de que la sección
+      // termine, en vez de acompañarla hasta el final.
+      const factor = i === 0 ? 0.72 : i === secs.length - 1 ? 0.88 : 0.45;
+      return [xsActive[i % xsActive.length] * W, top + r.height * factor] as [number, number];
     });
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("width", String(W));
@@ -524,7 +542,9 @@ function initThread() {
       const [px, py] = pts[i - 1];
       const [cx, cy] = pts[i];
       const my = (py + cy) / 2;
-      d += ` C ${px} ${my}, ${cx} ${my}, ${cx} ${cy}`;
+      // "curve" (home): bezier orgánica, punta a punta. "angular" (auditoría): tramo
+      // recto en escuadra (como una traza de circuito), para que no se vea calcado.
+      d += shape === "angular" ? ` L ${px} ${my} L ${cx} ${my} L ${cx} ${cy}` : ` C ${px} ${my}, ${cx} ${my}, ${cx} ${cy}`;
     }
     const base = document.createElementNS(NS, "path");
     base.setAttribute("d", d);
@@ -536,28 +556,53 @@ function initThread() {
     path.setAttribute("fill", "none");
     path.setAttribute("stroke", "#D4FF3F");
     path.setAttribute("stroke-width", "1.5");
-    path.setAttribute("stroke-linecap", "round");
+    if (shape !== "angular") path.setAttribute("stroke-linecap", "round");
     svg.append(base, path);
     pts.forEach(([x, y]) => {
       const g = document.createElementNS(NS, "g");
-      const ring = document.createElementNS(NS, "circle");
-      ring.setAttribute("cx", String(x));
-      ring.setAttribute("cy", String(y));
-      ring.setAttribute("r", "13");
-      ring.setAttribute("fill", "none");
-      ring.setAttribute("stroke", "rgba(212,255,63,.35)");
-      ring.style.transition = "opacity .45s ease, r .45s cubic-bezier(.16,1,.3,1)";
-      ring.style.opacity = "0";
-      const dot = document.createElementNS(NS, "circle");
-      dot.setAttribute("cx", String(x));
-      dot.setAttribute("cy", String(y));
-      dot.setAttribute("r", "4");
-      dot.setAttribute("fill", "#08080A");
-      dot.setAttribute("stroke", "rgba(245,242,236,.28)");
-      dot.style.transition = "fill .4s ease, stroke .4s ease";
+      let ring: SVGElement;
+      let dot: SVGElement;
+      if (shape === "angular") {
+        // Rombos (rect rotado 45°) en vez de círculos: más "técnico", menos orgánico.
+        ring = document.createElementNS(NS, "rect");
+        ring.setAttribute("x", String(x - 9));
+        ring.setAttribute("y", String(y - 9));
+        ring.setAttribute("width", "18");
+        ring.setAttribute("height", "18");
+        ring.setAttribute("transform", `rotate(45 ${x} ${y})`);
+        ring.setAttribute("fill", "none");
+        ring.setAttribute("stroke", "rgba(212,255,63,.35)");
+        ring.style.transition = "opacity .45s ease, width .45s cubic-bezier(.16,1,.3,1), height .45s cubic-bezier(.16,1,.3,1), x .45s cubic-bezier(.16,1,.3,1), y .45s cubic-bezier(.16,1,.3,1)";
+        ring.style.opacity = "0";
+        dot = document.createElementNS(NS, "rect");
+        dot.setAttribute("x", String(x - 3.2));
+        dot.setAttribute("y", String(y - 3.2));
+        dot.setAttribute("width", "6.4");
+        dot.setAttribute("height", "6.4");
+        dot.setAttribute("transform", `rotate(45 ${x} ${y})`);
+        dot.setAttribute("fill", "#08080A");
+        dot.setAttribute("stroke", "rgba(245,242,236,.28)");
+        (dot as SVGElement).style.transition = "fill .4s ease, stroke .4s ease";
+      } else {
+        ring = document.createElementNS(NS, "circle");
+        ring.setAttribute("cx", String(x));
+        ring.setAttribute("cy", String(y));
+        ring.setAttribute("r", "13");
+        ring.setAttribute("fill", "none");
+        ring.setAttribute("stroke", "rgba(212,255,63,.35)");
+        ring.style.transition = "opacity .45s ease, r .45s cubic-bezier(.16,1,.3,1)";
+        ring.style.opacity = "0";
+        dot = document.createElementNS(NS, "circle");
+        dot.setAttribute("cx", String(x));
+        dot.setAttribute("cy", String(y));
+        dot.setAttribute("r", "4");
+        dot.setAttribute("fill", "#08080A");
+        dot.setAttribute("stroke", "rgba(245,242,236,.28)");
+        dot.style.transition = "fill .4s ease, stroke .4s ease";
+      }
       g.append(ring, dot);
       svg.appendChild(g);
-      nodes.push({ y, ring, dot });
+      nodes.push({ x, y, ring, dot });
     });
     host.appendChild(svg);
     len = path.getTotalLength();
@@ -580,7 +625,15 @@ function initThread() {
       n.dot.setAttribute("fill", on ? "#D4FF3F" : "#08080A");
       n.dot.setAttribute("stroke", on ? "#D4FF3F" : "rgba(245,242,236,.28)");
       n.ring.style.opacity = on ? "1" : "0";
-      n.ring.setAttribute("r", on ? "18" : "13");
+      if (n.ring instanceof SVGRectElement) {
+        const size = on ? 25 : 18;
+        n.ring.setAttribute("x", String(n.x - size / 2));
+        n.ring.setAttribute("y", String(n.y - size / 2));
+        n.ring.setAttribute("width", String(size));
+        n.ring.setAttribute("height", String(size));
+      } else {
+        n.ring.setAttribute("r", on ? "18" : "13");
+      }
     });
   };
   const onScroll = () => {
@@ -595,6 +648,13 @@ function initThread() {
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onResize);
   [400, 1200, 2600].forEach((ms) => setTimeout(build, ms));
+  // Los timeouts de arriba son un colchón para imágenes/reflows tardíos, pero no
+  // garantizan haber corrido DESPUÉS de que las fuentes (Lora cambia bastante la
+  // altura de los títulos) ya hayan cargado. Sin este rebuild, en una carga lenta
+  // de fuentes el hilo queda calculado con medidas viejas y nunca se corrige solo.
+  if (document.fonts) {
+    document.fonts.ready.then(build);
+  }
 }
 
 onReady(() => {
@@ -608,5 +668,62 @@ onReady(() => {
   initParallax();
   initHeroTilt();
   late(initScrollEngine, "[data-scroll], [data-paso]");
-  initThread();
+  // Home: zigzag ancho, de punta a punta.
+  initThread(
+    "efe-thread",
+    ["top", "servicios", "proceso", "enfoque", "blog", "faq", "contacto"],
+    [0.5, 0.16, 0.84, 0.24, 0.76, 0.18, 0.5],
+    [0.5, 0.22, 0.78, 0.3, 0.7, 0.24, 0.5]
+  );
+  // Auditoría SEO/GEO/AEO: trazo recto en escuadra con nodos romboidales, no la
+  // curva orgánica de la home — más "traza de circuito", nada calcado.
+  initThread(
+    "efe-thread-audit",
+    ["top", "alcance", "entrega", "preguntas"],
+    [0.5, 0.42, 0.58, 0.5],
+    undefined,
+    "angular"
+  );
+  // Desarrollo web: misma estructura de grillas que la auditoría (3 columnas +
+  // FAQ a 2 columnas), así que usa el mismo trazo en escuadra — la curva
+  // orgánica de la home cruza por encima del texto del FAQ en este layout.
+  initThread(
+    "efe-thread-dev",
+    ["top", "construimos", "entrega", "preguntas"],
+    [0.5, 0.42, 0.58, 0.5],
+    undefined,
+    "angular"
+  );
+  // Automatizaciones: misma estructura de grillas, mismo trazo en escuadra.
+  initThread(
+    "efe-thread-auto",
+    ["top", "ejemplos", "entrega", "preguntas"],
+    [0.5, 0.42, 0.58, 0.5],
+    undefined,
+    "angular"
+  );
+  // Mantenimiento: misma estructura de grillas, mismo trazo en escuadra.
+  initThread(
+    "efe-thread-mant",
+    ["top", "incluye", "entrega", "preguntas"],
+    [0.5, 0.42, 0.58, 0.5],
+    undefined,
+    "angular"
+  );
+  // Optimización: misma estructura de grillas, mismo trazo en escuadra.
+  initThread(
+    "efe-thread-opt",
+    ["top", "revisamos", "entrega", "preguntas"],
+    [0.5, 0.42, 0.58, 0.5],
+    undefined,
+    "angular"
+  );
+  // Para agencias: misma estructura de grillas, mismo trazo en escuadra.
+  initThread(
+    "efe-thread-ag",
+    ["top", "derivar", "trabajo", "porque", "preguntas"],
+    [0.5, 0.42, 0.58, 0.42, 0.5],
+    undefined,
+    "angular"
+  );
 });

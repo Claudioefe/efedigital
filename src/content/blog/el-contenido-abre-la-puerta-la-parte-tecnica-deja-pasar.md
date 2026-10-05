@@ -35,6 +35,6 @@ Imaginate un caso típico: una tienda que vende bien hace años, con un WordPres
 
 Acá conviene ser claro: nosotros no escribimos el contenido. Esa parte, la estrategia y las palabras, la definís vos o tu equipo, y es tan necesaria como la técnica. Un sitio rapidísimo con contenido genérico tampoco te va a citar nadie.
 
-Lo que sí hacemos es la otra mitad, la que se nota menos pero sostiene todo: que el sitio cargue rápido, que la base de datos no arrastre basura acumulada, que la estructura sea legible tanto para Google como para los motores de IA. Sin eso, el mejor contenido del mundo se queda esperando a que alguien lo encuentre.
+Lo que sí hacemos es la otra mitad, la que se nota menos pero sostiene todo: [que el sitio cargue rápido](/servicios/optimizacion/), que la base de datos no arrastre basura acumulada, [que la estructura sea legible tanto para Google como para los motores de IA](/servicios/auditoria-tecnica/). Sin eso, el mejor contenido del mundo se queda esperando a que alguien lo encuentre.
 
 Si nunca revisaste cómo anda tu sitio por dentro, ese es el primer lugar para mirar antes de escribir una sola línea más.

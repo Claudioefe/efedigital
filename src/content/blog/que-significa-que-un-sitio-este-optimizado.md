@@ -36,4 +36,4 @@ Por eso mantener un sitio rápido se parece más a un mantenimiento periódico q
 
 Hay una forma simple de chequearlo vos mismo: buscá el informe de Core Web Vitals de tu dominio en la Search Console de Google. Si las métricas aparecen en amarillo o rojo, hay margen real de mejora. Y si nunca entraste a esa herramienta, esa es la primera señal de que valdría la pena mirar.
 
-En efedigital nos ocupamos justamente de esta parte técnica: optimización de velocidad, estrategias de caché armadas a medida de cada sitio y limpieza del código que ya no cumple ninguna función. Si querés un diagnóstico puntual antes de decidir qué hacer, la auditoría técnica arranca en USD 500 y te da un panorama claro de qué está frenando tu sitio hoy.
+En efedigital nos ocupamos justamente de esta parte técnica: [optimización de velocidad](/servicios/optimizacion/), estrategias de caché armadas a medida de cada sitio y limpieza del código que ya no cumple ninguna función. Si querés un diagnóstico puntual antes de decidir qué hacer, la [auditoría técnica](/servicios/auditoria-tecnica/) arranca en USD 100 y te da un panorama claro de qué está frenando tu sitio hoy.

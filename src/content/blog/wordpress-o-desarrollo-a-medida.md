@@ -17,7 +17,7 @@ Porque ahí está el punto que casi nadie te dice de entrada. WordPress es un en
 
 Si lo que necesitás es un sitio institucional, con tu presentación, servicios, un blog, un formulario de contacto y quizás una tienda estándar con catálogo y checkout, WordPress resuelve eso sin drama. Con Gutenberg armás las páginas con bloques, WooCommerce te da todo el circuito de venta ya armado, y hay plugins para casi cualquier necesidad puntual: reservas, membresías, formularios complejos, integraciones con Mercado Pago. No tenés que inventar nada, solo configurar bien lo que ya existe.
 
-Acá aplica algo que decimos siempre en la web: un sitio institucional en WordPress arranca en USD 1.500, y una tienda con WooCommerce desde USD 3.000. Ese precio no es por escribir código desde cero, es por integrar bien la pasarela de pago, ajustar el catálogo y el stock a tu operación real, dejar todo rápido y seguro, y que el checkout funcione sin fricción desde el primer día. Nada de eso sale solo con instalar un plugin.
+Acá aplica algo que decimos siempre en la web: un sitio institucional en WordPress arranca en USD 300, y una tienda con WooCommerce desde USD 500. Ese precio no es por escribir código desde cero, es por integrar bien la pasarela de pago, ajustar el catálogo y el stock a tu operación real, dejar todo rápido y seguro, y que el checkout funcione sin fricción desde el primer día. Nada de eso sale solo con instalar un plugin.
 
 ## Cuándo conviene ir a medida
 
@@ -35,4 +35,4 @@ Algunas señales rápidas para ubicarte:
 - Si tu descripción incluye reglas de negocio propias, cálculos particulares o un flujo de usuario que no se parece a nada que ya viste en otro sitio, vas por a medida.
 - Si no estás seguro, contanos el problema en una charla de 30 minutos y te decimos con qué opción arrancar, sin vender de más para ningún lado.
 
-No sos vos el que tiene que resolver esta duda solo antes de escribirnos. Para eso está la charla inicial: le ponemos nombre al problema real y de ahí sale si conviene el enlatado o el traje a medida. Lo que no tiene sentido es arrancar en WordPress "porque es más barato" y descubrir seis meses después que tu negocio nunca encajó ahí.
+No sos vos el que tiene que resolver esta duda solo antes de escribirnos. Para eso está la charla inicial: le ponemos nombre al problema real y de ahí sale si conviene el enlatado o el traje a medida. Lo que no tiene sentido es [arrancar en WordPress](/servicios/desarrollo-web/) "porque es más barato" y descubrir seis meses después que tu negocio nunca encajó ahí.

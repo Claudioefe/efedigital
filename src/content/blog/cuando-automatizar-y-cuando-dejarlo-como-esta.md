@@ -23,9 +23,9 @@ La cuenta es directa: cuánto tiempo te lleva hoy, multiplicado por cuántas vec
 
 Imaginate un caso típico: alguien que carga a mano 15 pedidos por día desde un formulario de la web a su sistema de facturación. Le lleva 3 minutos por pedido, son 45 minutos diarios, unas 15 horas al mes. Si esa hora vale 8 dólares, son 120 dólares mensuales solo en tiempo de carga manual, sin contar los errores de tipeo que después hay que corregir a mano también.
 
-Una automatización puntual como esa arranca en 400 dólares. Se paga sola en menos de cuatro meses, y después de ahí es ahorro neto. Ese es un ROI que cierra rápido y claro.
+Una automatización puntual como esa arranca en 300 dólares. Se paga sola en menos de tres meses, y después de ahí es ahorro neto. Ese es un ROI que cierra rápido y claro.
 
-Ahora, el mismo cálculo con otro número cambia todo. Si esos mismos 15 pedidos los carga alguien una vez por semana, no todos los días, estamos hablando de 3 horas al mes. A 8 dólares la hora son 24 dólares mensuales. Ahí los 400 dólares de la automatización tardan más de un año y medio en pagarse, y en ese tiempo el proceso puede cambiar, el formulario puede migrar, el sistema de facturación puede cambiar de proveedor. No es que no convenga nunca, es que conviene menos urgente de lo que parece.
+Ahora, el mismo cálculo con otro número cambia todo. Si esos mismos 15 pedidos los carga alguien una vez por semana, no todos los días, estamos hablando de 3 horas al mes. A 8 dólares la hora son 24 dólares mensuales. Ahí los 300 dólares de la automatización tardan más de un año en pagarse, y en ese tiempo el proceso puede cambiar, el formulario puede migrar, el sistema de facturación puede cambiar de proveedor. No es que no convenga nunca, es que conviene menos urgente de lo que parece.
 
 ## ¿Por qué tanta gente no automatiza aunque le convendría?
 
@@ -39,4 +39,4 @@ Los procesos que hacés poco y te llevan poco tiempo. Si algo lo hacés dos vece
 
 ## ¿Y si no sabés cómo hacer la cuenta?
 
-Para eso estamos. La fórmula es simple en el papel, pero en la práctica el problema suele ser otro: no tener claro qué procesos de tu negocio son candidatos, o cómo pesar el costo de los errores que también se evitan, no solo el tiempo. Si tenés la sospecha de que algo se podría automatizar pero no tenés claro si conviene, escribinos y lo vemos juntos. A veces la respuesta es que sí, y arrancamos. A veces es que todavía no, y te lo decimos igual.
+Para eso estamos. La fórmula es simple en el papel, pero en la práctica el problema suele ser otro: no tener claro qué procesos de tu negocio son candidatos, o cómo pesar el costo de los errores que también se evitan, no solo el tiempo. Si tenés la sospecha de que algo se podría [automatizar](/servicios/automatizaciones/) pero no tenés claro si conviene, escribinos y lo vemos juntos. A veces la respuesta es que sí, y arrancamos. A veces es que todavía no, y te lo decimos igual.

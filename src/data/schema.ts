@@ -1,8 +1,12 @@
-import { homeServicios } from "./home-servicios";
+import { homeServicios, type HomeServicio } from "./home-servicios";
 import { herramientas } from "./home-herramientas";
 
 const SITE_URL = "https://efedigital.com.ar";
 const SOCIAL_IMAGE = `${SITE_URL}/efedigital-social-og.png`;
+
+// Misma frase que la meta description del home: una sola versión en todo el sitio.
+export const SITE_DESCRIPTION =
+  "Desarrollo web, e-commerce y automatización a medida. Sitios rápidos, sistemas que ahorran tiempo y presupuesto cerrado desde la primera charla.";
 
 // Netlify sirve las rutas como directorio y redirige /blog -> /blog/, así que las URLs
 // del schema tienen que usar la forma con barra para coincidir con los canonical.
@@ -23,6 +27,7 @@ const serviciosOfferCatalog = {
       "@type": "Service",
       name: s.titulo,
       description: s.desc,
+      url: pageUrl(s.href),
       provider: { "@id": `${SITE_URL}/#organization` },
       areaServed: "Worldwide",
     },
@@ -33,6 +38,7 @@ export const organizationSchema = {
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#organization`,
   name: "Efe Digital",
+  alternateName: "efedigital",
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
@@ -41,8 +47,7 @@ export const organizationSchema = {
     height: 1024,
   },
   image: SOCIAL_IMAGE,
-  description:
-    "Sistemas que trabajan solos. Desarrollo web, automatización e inteligencia artificial para tu negocio. E-commerce, integraciones API y soluciones a medida.",
+  description: SITE_DESCRIPTION,
   email: "claudioefe@icloud.com",
   telephone: "+5493764279444",
   address: {
@@ -63,112 +68,49 @@ export const websiteSchema = {
   "@id": `${SITE_URL}/#website`,
   url: SITE_URL,
   name: "Efe Digital",
-  description:
-    "Sistemas que trabajan solos. Desarrollo web, automatización e inteligencia artificial para tu negocio.",
+  alternateName: "efedigital",
+  description: SITE_DESCRIPTION,
   publisher: { "@id": `${SITE_URL}/#organization` },
   inLanguage: "es-AR",
 };
 
-// Usados solo en /servicios/* (noindex, sin enlazar desde la navegación).
-// Describen el detalle de esas páginas puntuales, no el contenido del home.
-export const desarrolloWebServiceSchema = {
-  "@type": "Service",
-  "@id": `${SITE_URL}/servicios/desarrollo-web/#service`,
-  name: "Desarrollo Web & Ecommerce",
-  description:
-    "Creamos sitios web profesionales y tiendas online que convierten visitantes en clientes. Diseño responsivo, SEO optimizado y panel de administración fácil de usar.",
-  url: pageUrl("/servicios/desarrollo-web"),
-  provider: { "@id": `${SITE_URL}/#organization` },
-  areaServed: "Worldwide",
-  serviceType: ["Web Development", "E-commerce", "Web Design", "Landing Pages"],
-  offers: [
-    {
+// Un Service por página de servicio, generado desde la misma fuente que las tarjetas
+// del home y el menú (home-servicios.ts), así nombre, descripción y precio "desde"
+// nunca se desalinean de lo que dice la página.
+export function buildServiceSchema(s: HomeServicio) {
+  const url = pageUrl(s.href);
+  return {
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: s.titulo,
+    description: s.desc,
+    url,
+    serviceType: s.tipoServicio,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    areaServed: "Worldwide",
+    offers: {
       "@type": "Offer",
-      name: "Sitios Corporativos",
-      description:
-        "Sitios web profesionales que reflejan la identidad de tu marca y convierten visitantes en clientes.",
+      url,
+      priceCurrency: "USD",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        priceCurrency: "USD",
+        minPrice: s.desde,
+        ...(s.unidad === "mes" ? { unitCode: "MON", unitText: "mes" } : {}),
+      },
     },
-    {
-      "@type": "Offer",
-      name: "Ecommerce",
-      description:
-        "Tiendas online completas con pasarelas de pago integradas y gestión de inventario.",
-    },
-    {
-      "@type": "Offer",
-      name: "Landing Pages",
-      description:
-        "Páginas de alto impacto diseñadas para convertir visitantes en clientes o ventas.",
-    },
-    {
-      "@type": "Offer",
-      name: "Rediseño Web",
-      description:
-        "Modernizamos tu sitio web mejorando diseño, velocidad, SEO y experiencia de usuario.",
-    },
-  ],
-};
+  };
+}
 
-export const automatizacionesServiceSchema = {
-  "@type": "Service",
-  "@id": `${SITE_URL}/servicios/automatizaciones/#service`,
-  name: "Automatización Inteligente & IA",
-  description:
-    "Liberá tiempo y recursos automatizando tareas repetitivas. Flujos de trabajo inteligentes que funcionan 24/7 sin intervención humana. Agentes de IA, asistentes virtuales y procesamiento inteligente de documentos.",
-  url: pageUrl("/servicios/automatizaciones"),
-  provider: { "@id": `${SITE_URL}/#organization` },
-  areaServed: "Worldwide",
-  serviceType: ["Business Automation", "Artificial Intelligence", "Workflow Automation", "AI Agents"],
-  offers: [
-    {
-      "@type": "Offer",
-      name: "NotifyPro",
-      description:
-        "Notificaciones automáticas por WhatsApp, Email o Slack cada vez que algo importante pasa en tu negocio.",
-    },
-    {
-      "@type": "Offer",
-      name: "SheetSync",
-      description:
-        "Sincronización automática de datos en Google Sheets, manteniendo tus registros actualizados.",
-    },
-    {
-      "@type": "Offer",
-      name: "CartSaver",
-      description: "Recuperación de carritos abandonados con mensajes automáticos y descuentos.",
-    },
-    {
-      "@type": "Offer",
-      name: "ReviewBoost",
-      description: "Sistema automático de encuestas y gestión de reseñas en Google Maps.",
-    },
-    {
-      "@type": "Offer",
-      name: "InvoicePro",
-      description:
-        "Generación automática de facturas y remitos en PDF con organización en Google Drive.",
-    },
-    {
-      "@type": "Offer",
-      name: "SmartScan",
-      description: "Lectura automática de documentos con IA y extracción inteligente de información.",
-    },
-    {
-      "@type": "Offer",
-      name: "Desarrollo a Medida con IA",
-      description:
-        "Agentes de IA personalizados, asistentes inteligentes y sistemas que escalan tu equipo sin contratar más personal.",
-    },
-  ],
-};
+export const CONTACT_DESCRIPTION =
+  "Escribinos por formulario, mail o WhatsApp y contanos tu caso de desarrollo web, e-commerce o automatización. Te respondemos en menos de 24 horas.";
 
 export const contactPageSchema = {
   "@type": "ContactPage",
   "@id": `${SITE_URL}/contacto/#page`,
   url: pageUrl("/contacto"),
   name: "Contacto - Efe Digital",
-  description:
-    "Contactanos para automatizar tu negocio. Desarrollo web, e-commerce, automatización e inteligencia artificial.",
+  description: CONTACT_DESCRIPTION,
   mainEntity: { "@id": `${SITE_URL}/#organization` },
 };
 
@@ -181,10 +123,12 @@ export function buildGraph(...nodes: Record<string, unknown>[]) {
 
 const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "").trim();
 
-export function buildFaqPageSchema(faqs: { pregunta: string; respuesta: string }[]) {
+// El @id lleva la URL de la página: con uno solo (/#faq) para todas, el home y cada
+// servicio declaraban "la misma" entidad con preguntas distintas.
+export function buildFaqPageSchema(faqs: { pregunta: string; respuesta: string }[], path = "/") {
   return {
     "@type": "FAQPage",
-    "@id": `${SITE_URL}/#faq`,
+    "@id": `${pageUrl(path)}#faq`,
     mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.pregunta,

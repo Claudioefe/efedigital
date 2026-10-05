@@ -10,133 +10,133 @@ import {
 import { homeServicios } from "../../data/home-servicios";
 import { SERVICIOS_INDEXABLES } from "../../data/site-config";
 
-const title = "Desarrollo Web y E-commerce a Medida | efedigital";
+const title = "Mantenimiento y Soporte Técnico WordPress | efedigital";
 const description =
-  "Sitios y tiendas online a medida en WordPress, sin page builders: catálogo, checkout y pagos que funcionan en cualquier dispositivo. Desde USD 300.";
+  "Actualizaciones, backups, monitoreo y seguridad para que tu sitio siga funcionando sin sorpresas, sin que tengas que pensarlo vos. Desde USD 100 por mes.";
 
 const breadcrumb = buildBreadcrumbSchema([
   { name: "Inicio", path: "/" },
   { name: "Servicios", path: "/servicios" },
-  { name: "Desarrollo web y e-commerce", path: "/servicios/desarrollo-web" },
+  { name: "Mantenimiento y soporte", path: "/servicios/mantenimiento" },
 ]);
 
-const devFaqs = [
+const mantenimientoFaqs = [
   {
-    pregunta: "¿Cuánto sale un desarrollo web?",
+    pregunta: "¿Cuánto sale el mantenimiento mensual?",
     respuesta:
-      "Depende del alcance. Como referencia, un sitio institucional arranca en USD 300 en adelante. Después de que nos cuentes tu proyecto —por mail, WhatsApp o una llamada— te confirmamos el precio cerrado exacto.",
+      "Depende de las horas que necesite tu sitio según su tamaño y actividad. Como referencia, un plan básico arranca en USD 100 por mes. Te lo confirmamos con precio cerrado después de que nos cuentes tu caso, por mail, WhatsApp o una llamada.",
   },
   {
-    pregunta: "¿Cuánto tardan en arrancar?",
+    pregunta: "¿Qué pasa si necesito algo urgente fuera de las horas del plan?",
     respuesta:
-      "Entre una y dos semanas después de confirmar el precio cerrado. Si tenés algo urgente —el sitio caído, la tienda sin cobrar— lo metemos como primera etapa corta y seguimos con el resto después.",
+      "Se atiende igual. Si el sitio se cae o hay un problema de seguridad, no esperamos al mes que viene: lo resolvemos y, si excede las horas del plan, te avisamos antes de sumar el costo extra.",
   },
   {
-    pregunta: "¿Trabajan sobre el sitio que ya tengo?",
+    pregunta: "¿Tengo que contratar el hosting con ustedes?",
     respuesta:
-      "Sí, es la mayoría de lo que hacemos. Tomamos el WordPress que armó otro equipo, con su tema y sus plugins, y lo corregimos o migramos sin romper lo que ya funciona ni perder posiciones en Google.",
+      "No. Configuramos y mantenemos el hosting que vos elijas, a tu nombre. Si no tenés uno todavía, te recomendamos opciones, pero la cuenta siempre queda tuya.",
   },
   {
-    pregunta: "¿Usan Elementor u otro page builder?",
+    pregunta: "¿Qué pasa si me sobran horas un mes?",
     respuesta:
-      "No. Construimos con el editor de bloques nativo de WordPress y temas propios. Es una decisión técnica, no una limitación: los builders agregan peso que después hay que optimizar.",
+      "No se acumulan de forma indefinida, pero se pueden usar en ajustes menores dentro del mismo mes (textos, imágenes, pequeños cambios) en vez de perderse.",
   },
   {
-    pregunta: "¿Hacen la redacción de los textos del sitio?",
+    pregunta: "¿Puedo empezar el mantenimiento si el sitio lo hizo otro equipo?",
     respuesta:
-      "No directamente. Construimos el sitio y te decimos qué espacio de texto necesita cada sección, pero la redacción final es de tu equipo o de quien te maneje el contenido. Podemos coordinar directamente con esa persona si lo necesitás.",
+      "Sí, es un caso común. Antes de arrancar hacemos una revisión inicial del sitio (plugins, versión de WordPress, seguridad) para saber desde dónde partimos, y a partir de ahí sigue el mantenimiento normal.",
   },
   {
-    pregunta: "¿Qué pasa si necesito algo que WordPress no puede hacer sin forzar cambios?",
+    pregunta: "¿Esto reemplaza a la auditoría técnica o a la optimización de velocidad?",
     respuesta:
-      "Ahí evaluamos desarrollo a medida. Te lo decimos desde el primer contacto, antes de cotizar: no vamos a forzar un CMS donde no entra la lógica de tu negocio.",
+      "No, son complementarios. La auditoría técnica detecta qué está mal en el sitio (SEO técnico, GEO y AEO); la optimización de velocidad corrige puntualmente el rendimiento. El mantenimiento es lo que viene después: mantiene todo eso actualizado, seguro y funcionando mes a mes, para no tener que repetir el diagnóstico de cero.",
   },
 ];
 
-const servicio = homeServicios[0];
+const servicio = homeServicios[1];
 const schema = buildGraph(
   organizationSchema,
   breadcrumb,
   buildServiceSchema(servicio),
-  buildFaqPageSchema(devFaqs, "/servicios/desarrollo-web")
+  buildFaqPageSchema(mantenimientoFaqs, "/servicios/mantenimiento")
 );
 
-const alcance = [
+const incluye = [
   {
     num: "01",
-    badge: "WP",
-    titulo: "WordPress con bloques nativos",
-    desc: "Temas propios armados con el editor de bloques (Gutenberg) de WordPress. Sin Elementor, sin Divi, sin WPBakery: los page builders agregan código que no necesitás y le restan velocidad al sitio.",
-    nota: "Cada bloque se construye para el proyecto, no se arma con plantillas genéricas.",
+    badge: "UPD",
+    titulo: "Actualizaciones",
+    desc: "WordPress, plugins y tema actualizados a las versiones más nuevas, probando antes en un entorno de prueba para que una actualización no rompa nada en el sitio en vivo.",
+    nota: "Se prueba primero en staging, no directo en producción.",
   },
   {
     num: "02",
-    badge: "EC",
-    titulo: "E-commerce",
-    desc: "Tiendas con WooCommerce según el volumen y la complejidad del catálogo: carga de productos, checkout, pasarelas de pago y stock sincronizado.",
-    nota: "Elegimos la pasarela de pago según tu mercado: Mercado Pago, Todo Pago o la que ya uses.",
+    badge: "BKP",
+    titulo: "Backups",
+    desc: "Copias de seguridad automáticas y verificadas, guardadas fuera del propio servidor, para poder volver atrás rápido si algo sale mal.",
+    nota: "No alcanza con la copia que guarda el hosting; se guarda aparte.",
   },
   {
     num: "03",
-    badge: "AM",
-    titulo: "Desarrollo a medida",
-    desc: "Cuando la lógica del negocio no entra en un CMS sin forzar cambios de proceso: catálogos complejos, integraciones con sistemas propios, lógicas de precio o stock particulares.",
-    nota: "Se evalúa en la primera charla si conviene WordPress o un desarrollo propio, antes de cotizar.",
+    badge: "SEC",
+    titulo: "Monitoreo y seguridad",
+    desc: "Chequeo de que el sitio esté online, escaneo de malware y cierre de vulnerabilidades conocidas antes de que alguien las aproveche.",
+    nota: "Alertas automáticas si el sitio se cae o empieza a tirar errores.",
   },
   {
     num: "04",
-    badge: "INT",
-    titulo: "Integraciones y APIs",
-    desc: "Conectamos el sitio con las herramientas que ya usás —CRM, stock, facturación, pagos u otros sistemas— cuando tienen una API con la que se pueda trabajar.",
-    nota: "Si la herramienta no tiene API pública, lo decimos antes de empezar, no a mitad de proyecto.",
+    badge: "DEV",
+    titulo: "Ajustes y plugins a medida",
+    desc: "Arreglo de conflictos entre plugins, ajustes puntuales de funcionalidad e integraciones por API que se rompieron con una actualización.",
+    nota: "Con las horas del plan mensual, sin cotizar cada cambio chico por separado.",
   },
   {
     num: "05",
-    badge: "MIG",
-    titulo: "Migraciones sin caídas",
-    desc: "Tomamos un sitio que armó otro equipo y lo migramos de servidor, de tema o de plataforma sin perder posiciones en Google ni tiempo de actividad.",
-    nota: "Se hace con el sitio viejo online hasta confirmar que el nuevo funciona igual o mejor.",
+    badge: "SSL",
+    titulo: "SSL y dominio al día",
+    desc: "Vigilamos que el certificado SSL no venza y que la configuración de DNS del dominio siga siendo la correcta, para que el sitio no aparezca como \"no seguro\" de un día para el otro.",
+    nota: "Chequeo periódico, no solo cuando ya venció y alguien te avisa.",
   },
 ];
 
 const entrega = [
   {
     num: "01",
-    titulo: "Presupuesto con precio cerrado",
-    desc: "Después de la charla de 30 minutos te confirmamos el precio cerrado: alcance dividido en etapas, plazos reales y precio fijo. Sabés qué entra, qué no, y cuándo vas a ver cada parte funcionando.",
-    nota: "48 a 72 horas después de la charla inicial.",
+    titulo: "Plan armado a medida",
+    desc: "Definimos las horas mensuales según el tamaño y la actividad del sitio, no un plan genérico que te sobra o te queda corto.",
+    nota: "Se ajusta en la charla inicial, y se puede revisar más adelante si el sitio crece.",
   },
   {
     num: "02",
-    titulo: "Avances semanales",
-    desc: "Un enlace que podés probar cada semana, no recién al final. Ajustamos con tu feedback dentro de lo acordado; si aparece algo nuevo, se cotiza aparte y vos decidís.",
-    nota: "2 a 8 semanas según el alcance del proyecto.",
+    titulo: "Reporte mensual",
+    desc: "Cada mes te mandamos qué se actualizó, qué se corrigió y qué recomendamos para el próximo, para que sepas en qué se usaron las horas.",
+    nota: 'Sin sorpresas ni "confiá en que hicimos algo": queda todo por escrito.',
   },
   {
     num: "03",
-    titulo: "Lanzamiento y traspaso",
-    desc: "Puesta en marcha, capacitación básica y documentación. El código y los accesos quedan a tu nombre desde el día uno.",
-    nota: "Soporte mensual opcional después del lanzamiento, sin ataduras.",
+    titulo: "Mes a mes, sin ataduras",
+    desc: "Sin contrato de permanencia. Si en algún momento no lo necesitás más, lo das de baja y listo.",
+    nota: "El sitio, con todo lo actualizado hasta ese momento, sigue siendo tuyo.",
   },
 ];
 
-const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
+const herramientas = ["Actualizaciones", "Backups", "Monitoreo", "Seguridad", "SSL"];
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  path="/servicios/desarrollo-web"
+  path="/servicios/mantenimiento"
   schema={schema}
   noindex={!SERVICIOS_INDEXABLES}>
-  <div id="efe-thread-dev" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
+  <div id="efe-thread-mant" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
 
   <section id="top" class="efe-section efe-section--tight" style="position:relative">
     <div class="efe-container">
       <div
         style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)"
       >
-        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Desarrollo web</div>
+        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Mantenimiento técnico</div>
         <div
           style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
         >
@@ -144,7 +144,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
           <span>/</span>
           <a href="/servicios/" class="efe-crumb-link">Servicios</a>
           <span>/</span>
-          <span style="color:#F5F2EC">Desarrollo web</span>
+          <span style="color:#F5F2EC">Mantenimiento</span>
         </div>
       </div>
 
@@ -152,78 +152,85 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
         <div>
           <h1 class="efe-h1" data-reveal>
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.05s">Desarrollo web</span></span
+              ><span class="efe-word" style="animation-delay:.05s">Mantenimiento</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.15s">y e-commerce</span></span
+              ><span class="efe-word" style="animation-delay:.15s">y soporte</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em">
               <span class="efe-word" style="animation-delay:.25s"
-                >a medida</span
+                >técnico</span
               >
             </span>
           </h1>
 
           <p class="efe-lede" data-reveal data-delay="1" style="margin-top:clamp(24px,3vw,34px);max-width:52ch">
-            Sitios y tiendas online hechas para <span style="color:#EDEDF0">vender</span>, con temas propios basados en
-            bloques nativos de WordPress: catálogo, checkout y pagos que <span style="color:#EDEDF0"
-              >funcionan bien en cualquier dispositivo</span
-            >.
+            Actualización de plugins, monitoreo, respaldos y mejoras técnicas para que tu sitio <span style="color:#EDEDF0"
+              >siga funcionando, seguro y sin sorpresas</span
+            >, sin que tengas que pensarlo vos.
           </p>
 
           <div data-reveal data-delay="2" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:clamp(28px,3.4vw,40px)">
-            <a href="/contacto/" class="efe-btn efe-btn--primary">Empezar mi proyecto <span style="font-size:14px">↗</span></a>
-            <a href="#construimos" class="efe-btn efe-btn--ghost">Qué construimos</a>
+            <a href="/contacto/" class="efe-btn efe-btn--primary">Armar mi plan <span style="font-size:14px">↗</span></a>
+            <a href="#incluye" class="efe-btn efe-btn--ghost">Qué incluye</a>
           </div>
 
+          <blockquote
+            data-reveal
+            data-delay="2"
+            style="margin:clamp(28px,3.4vw,40px) 0 0;padding-left:18px;border-left:2px solid #D4FF3F;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.65;color:#A9A9B1;max-width:52ch"
+          >
+            Plan mensual con horas incluidas, armado según lo que necesites. Mes a mes, sin contrato de permanencia.
+            Te lo confirmamos en una llamada de 30 minutos sin costo.
+          </blockquote>
+
           <ul data-reveal data-delay="3" style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none">
-            {stack.map((s) => (
-              <li class="efe-tag">{s}</li>
+            {herramientas.map((h) => (
+              <li class="efe-tag">{h}</li>
             ))}
           </ul>
         </div>
 
         <div data-reveal data-delay="1" class="efe-svc-panel">
           <div class="efe-svc-panel__head">
-            <span class="efe-svc-panel__dot"></span> Cómo trabajamos
+            <span class="efe-svc-panel__dot"></span> Qué incluye el plan
             <span class="efe-svc-panel__badge">Vista previa</span>
           </div>
           {
-            entrega.map((row) => (
+            incluye.slice(0, 3).map((row) => (
               <div class="efe-svc-panel__row">
-                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:20px;color:#F5F2EC">{row.titulo}</p>
+                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:18px;color:#F5F2EC">{row.titulo}</p>
                 <p style="margin:8px 0 0;font-size:13.5px;line-height:1.55;color:#8B8B93">{row.desc}</p>
-                <p class="efe-svc-panel__tag" style="margin:10px 0 0">{row.nota}</p>
               </div>
             ))
           }
-          <a href="#entrega" class="efe-svc-panel__footer">
-            Cómo se entrega, paso a paso <span>↗</span>
+          <a href="#incluye" class="efe-svc-panel__footer">
+            Ver todo lo que incluye <span>↗</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="construimos" class="efe-section efe-section--border-top" style="position:relative">
+  <section id="incluye" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
-      <div class="efe-svc-intro-grid">
+      <div class="efe-svc-intro-grid" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)">
         <div data-reveal>
-          <div class="efe-eyebrow">01 — Alcance del desarrollo</div>
-          <h2 class="efe-h2">¿Qué tipo de <br />proyectos hacemos?</h2>
+          <div class="efe-eyebrow">01 — Qué incluye</div>
+          <h2 class="efe-h2">¿Qué hacemos <br />mensualmente <br />en tu sitio?</h2>
         </div>
         <p class="efe-lede" data-reveal data-delay="1" style="max-width:52ch">
-          Trabajamos con WordPress cuando el negocio entra en un CMS estándar, y con desarrollo a medida cuando no.
-          En los dos casos, el foco es velocidad, mantenibilidad y que el sitio siga funcionando bien dentro de un
-          año, no solo el día del lanzamiento.
+          Un sitio no se termina el día que se publica. WordPress, los plugins y el servidor cambian todo el
+          tiempo, y si nadie los sigue, tarde o temprano algo se rompe o queda expuesto. El plan mensual existe
+          para que eso lo manejemos nosotros.
         </p>
       </div>
 
       <div class="efe-svc-grid" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
         {
-          alcance.map((item) => (
+          incluye.map((item) => (
             <div data-scroll="tilt" class="efe-svc-card">
               <div class="efe-svc-card__top">
                 <span class="efe-svc-card__num">{item.num}</span>
@@ -236,9 +243,9 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
           ))
         }
         <a href="/contacto/" class="efe-svc-cta">
-          <div class="efe-svc-cta__eyebrow">Empecemos por tu proyecto</div>
-          <h3 class="efe-h3" style="color:#08080A">¿Necesitás un <br />sitio o tienda?</h3>
-          <span class="efe-svc-cta__btn">Empezar mi proyecto <span>↗</span></span>
+          <div class="efe-svc-cta__eyebrow">Empecemos por tu sitio</div>
+          <h3 class="efe-h3" style="color:#08080A">¿Necesitás un <br />plan de mantenimiento?</h3>
+          <span class="efe-svc-cta__btn">Armar mi plan <span>↗</span></span>
         </a>
       </div>
     </div>
@@ -248,7 +255,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
     <div class="efe-container">
       <div data-reveal>
         <div class="efe-eyebrow">03 — Entrega</div>
-        <h2 class="efe-h2">Cómo se <br />entrega</h2>
+        <h2 class="efe-h2">Cómo funciona <br />el plan</h2>
       </div>
 
       <div class="efe-grid efe-grid--3" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
@@ -282,7 +289,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
       </div>
       <div data-reveal data-delay="1" style="display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.12)">
         {
-          devFaqs.map((f, i) => (
+          mantenimientoFaqs.map((f, i) => (
             <div class="efe-faq-item" style="border-bottom:1px solid rgba(255,255,255,.12)">
               <button type="button" class="efe-faq-toggle" aria-expanded="false" data-index={i}>
                 <span class="efe-faq-question">{f.pregunta}</span>
@@ -360,13 +367,6 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
   .efe-svc-panel__row {
     padding: 22px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .efe-svc-panel__tag {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #d4ff3f;
   }
   .efe-svc-panel__footer {
     display: flex;

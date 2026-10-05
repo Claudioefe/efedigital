@@ -4,3 +4,19 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Encabezados de seguridad. Netlify ya envía HSTS en dominios con HTTPS; no se
+# define CSP porque el sitio usa scripts inline (gtag, animaciones).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Los archivos de /_astro/ llevan hash en el nombre: pueden cachearse para siempre.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

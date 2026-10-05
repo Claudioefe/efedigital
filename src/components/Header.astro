@@ -2,7 +2,75 @@
 import { nav } from "../data/nav";
 import LogoAnimado from "./LogoAnimado.astro";
 
-const isActive = (href: string) => href === "/blog" && Astro.url.pathname.startsWith("/blog");
+// En el build las rutas llegan con barra final (/servicios/mantenimiento/) y en dev sin
+// ella: se normaliza para que la comparación funcione igual en los dos.
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const sinBarra = (u: string) => u.replace(/\/+$/, "") || "/";
+const activosPorPrefijo = ["/blog", "/para-agencias"];
+const isActive = (href: string) => activosPorPrefijo.includes(sinBarra(href)) && pathname.startsWith(sinBarra(href));
+
+// Copy propia del menú, más corta que la de /servicios o la home a propósito
+// (es un desplegable, no una página) — separada así no se rompe si esos datos cambian.
+// Cada servicio lleva su copy "destacada" (para cuando es la card grande) además
+// de la corta (para cuando aparece en la lista chica). Si estás parado en una de
+// estas páginas, esa es la destacada; si no, cae en desarrollo-web por default.
+const servicios = [
+  {
+    href: "/servicios/desarrollo-web/",
+    titulo: "Desarrollo web & e-commerce",
+    desc: "WordPress con temas propios en bloques, catálogo y checkout.",
+    descripcionDestacada:
+      "Sitios y tiendas online hechas para vender: catálogo, checkout y pagos que funcionan bien en cualquier dispositivo.",
+    tags: ["WordPress", "WooCommerce", "E-commerce"],
+    cta: "Empezar mi proyecto",
+  },
+  {
+    href: "/servicios/automatizaciones/",
+    titulo: "Automatización con n8n",
+    desc: "Flujos que conectan tus APIs y te sacan tareas manuales.",
+    descripcionDestacada:
+      "Flujos a medida que conectan tus herramientas y sacan las tareas repetitivas de encima, 24 horas al día.",
+    tags: ["n8n", "APIs", "IA"],
+    cta: "Empezar un proyecto",
+  },
+  {
+    href: "/servicios/auditoria-tecnica/",
+    titulo: "Auditoría técnica de SEO, GEO y AEO",
+    desc: "Rastreabilidad, indexación y legibilidad para los motores de IA.",
+    descripcionDestacada:
+      "Rastreabilidad, indexación, datos estructurados y legibilidad para los motores de IA. Informe priorizado por impacto.",
+    tags: ["Schema", "Indexación", "AEO"],
+    cta: "Pedir la auditoría",
+  },
+  {
+    href: "/servicios/mantenimiento/",
+    titulo: "Mantenimiento & soporte",
+    desc: "Actualizaciones, backups, monitoreo y seguridad, mes a mes.",
+    descripcionDestacada:
+      "Actualizaciones, backups, monitoreo y seguridad para que tu sitio siga andando sin que tengas que pensarlo vos.",
+    tags: ["Backups", "Seguridad", "Monitoreo"],
+    cta: "Armar mi plan",
+  },
+  {
+    href: "/servicios/optimizacion/",
+    titulo: "Optimización",
+    desc: "Velocidad, caché a medida y Core Web Vitals en verde.",
+    descripcionDestacada:
+      "Caché a medida, limpieza de código innecesario y ajustes de servidor, medidos con Core Web Vitals.",
+    tags: ["PageSpeed", "Caché", "Cloudflare"],
+    cta: "Medir mi sitio",
+  },
+];
+
+const destacado: (typeof servicios)[number] =
+  servicios.find((s) => sinBarra(s.href) === pathname) ?? servicios[0];
+
+const serviciosMenu = {
+  destacado,
+  resto: servicios
+    .filter((s) => s.href !== destacado.href)
+    .map((s, i) => ({ ...s, num: String(i + 1).padStart(2, "0") })),
+};
 ---
 
 <header
@@ -18,20 +86,74 @@ const isActive = (href: string) => href === "/blog" && Astro.url.pathname.starts
     <nav aria-label="Principal" style="display:flex;align-items:stretch;min-width:0;margin-left:auto">
       <span id="efe-nav-links">
         {
-          nav.map((n) => (
-            <a
-              href={n.href}
-              class={`efe-nav-link${isActive(n.href) ? " is-active" : ""}`}
-              style="display:flex;align-items:center;padding:0 clamp(12px,1.6vw,24px);border-left:1px solid rgba(255,255,255,.1);font-family:'Chakra Petch',sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap"
-            >
-              <span class="efe-nav-link__label">{n.label}</span>
-            </a>
-          ))
+          nav.map((n) =>
+            n.label === "Servicios" ? (
+              <div class="efe-nav-item">
+                <a
+                  href={n.href}
+                  class={`efe-nav-link${isActive(n.href) ? " is-active" : ""}`}
+                  style="display:flex;align-items:center;height:100%;padding:0 clamp(12px,1.6vw,24px);border-left:1px solid rgba(255,255,255,.1);font-family:'Chakra Petch',sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap"
+                >
+                  <span class="efe-nav-link__label">{n.label}</span>
+                  <svg class="efe-nav-link__chevron" width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true">
+                    <path d="M1 1L4.5 4.5L8 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+                <div class="efe-servicios-menu">
+                  <div class="efe-servicios-menu__inner">
+                    <a href={serviciosMenu.destacado.href} class="efe-servicios-menu__feature">
+                      <span class="efe-servicios-menu__feature-eyebrow">
+                        {pathname === sinBarra(serviciosMenu.destacado.href) ? "Estás viendo esto" : "Servicio más pedido"}{" "}
+                        <span>↗</span>
+                      </span>
+                      <p class="efe-servicios-menu__title">{serviciosMenu.destacado.titulo}</p>
+                      <p>{serviciosMenu.destacado.descripcionDestacada}</p>
+                      <div class="efe-servicios-menu__tags">
+                        {serviciosMenu.destacado.tags.map((t) => (
+                          <span>{t}</span>
+                        ))}
+                      </div>
+                    </a>
+                    <div class="efe-servicios-menu__list">
+                      {serviciosMenu.resto.map((s) => (
+                        <a href={s.href} class="efe-servicios-menu__item">
+                          <span class="efe-servicios-menu__num">{s.num}</span>
+                          <span>
+                            <span class="efe-servicios-menu__item-title">{s.titulo}</span>
+                            <span class="efe-servicios-menu__item-desc">{s.desc}</span>
+                          </span>
+                        </a>
+                      ))}
+                      <a href="/servicios/" class="efe-servicios-menu__all">
+                        Ver todos los servicios <span>↗</span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="efe-servicios-menu__foot">
+                    <span class="efe-servicios-menu__foot-label">
+                      <span class="efe-servicios-menu__foot-dot"></span> Charla inicial de 30 min sin costo
+                    </span>
+                    <a href="/contacto/" class="efe-text-link">
+                      {serviciosMenu.destacado.cta} <span>↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a
+                href={n.href}
+                class={`efe-nav-link${isActive(n.href) ? " is-active" : ""}`}
+                style="display:flex;align-items:center;padding:0 clamp(12px,1.6vw,24px);border-left:1px solid rgba(255,255,255,.1);font-family:'Chakra Petch',sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap"
+              >
+                <span class="efe-nav-link__label">{n.label}</span>
+              </a>
+            )
+          )
         }
       </span>
       <a
         id="efe-header-cta"
-        href="/contacto"
+        href="/contacto/"
         style="align-items:center;gap:9px;padding:20px clamp(16px,2vw,28px);color:#08080A;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap"
       >
         Empecemos <span>↗</span>
@@ -109,7 +231,7 @@ const isActive = (href: string) => href === "/blog" && Astro.url.pathname.starts
       ))
     }
   </nav>
-  <a href="/contacto" class="efe-btn efe-btn--primary" style="align-self:flex-start">
+  <a href="/contacto/" class="efe-btn efe-btn--primary" style="align-self:flex-start">
     Empecemos <span style="font-size:14px">↗</span>
   </a>
 </div>
@@ -140,6 +262,18 @@ const isActive = (href: string) => href === "/blog" && Astro.url.pathname.starts
     position: relative;
     z-index: 1;
   }
+  .efe-nav-link__chevron {
+    position: relative;
+    z-index: 1;
+    margin-left: 7px;
+    flex: none;
+    color: currentColor;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .efe-nav-item:hover .efe-nav-link__chevron,
+  .efe-nav-item:focus-within .efe-nav-link__chevron {
+    transform: rotate(180deg);
+  }
   .efe-nav-link::before {
     content: "";
     position: absolute;
@@ -154,6 +288,174 @@ const isActive = (href: string) => href === "/blog" && Astro.url.pathname.starts
   }
   .efe-nav-link:hover {
     color: #08080a;
+  }
+
+  .efe-nav-item {
+    position: relative;
+    display: flex;
+  }
+  .efe-servicios-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 90;
+    width: min(720px, 92vw);
+    background: #0d0d10;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -6px;
+    transition: opacity 0.22s ease, translate 0.22s ease, visibility 0.22s;
+  }
+  .efe-nav-item:hover .efe-servicios-menu,
+  .efe-nav-item:focus-within .efe-servicios-menu {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+  }
+  .efe-servicios-menu__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  }
+  .efe-servicios-menu__feature {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 26px 24px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(212, 255, 63, 0.06);
+    color: #f5f2ec;
+    transition: background 0.22s ease, border-color 0.22s ease;
+  }
+  .efe-servicios-menu__feature:hover {
+    background: rgba(212, 255, 63, 0.11);
+    border-right-color: rgba(212, 255, 63, 0.3);
+  }
+  .efe-servicios-menu__feature-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d4ff3f;
+  }
+  .efe-servicios-menu__title {
+    margin: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #f5f2ec;
+  }
+  .efe-servicios-menu__feature p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #a9a9b1;
+  }
+  .efe-servicios-menu__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .efe-servicios-menu__tags span {
+    padding: 5px 10px;
+    border: 1px solid rgba(212, 255, 63, 0.35);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d4ff3f;
+  }
+  .efe-servicios-menu__list {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+  }
+  .efe-servicios-menu__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 12px;
+    color: inherit;
+    transition: background 0.18s ease;
+  }
+  .efe-servicios-menu__item:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .efe-servicios-menu__num {
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: #d4ff3f;
+    padding-top: 2px;
+  }
+  .efe-servicios-menu__item-title {
+    display: block;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #f5f2ec;
+  }
+  .efe-servicios-menu__item-desc {
+    display: block;
+    margin-top: 4px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #8b8b93;
+  }
+  .efe-servicios-menu__all {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #d4ff3f;
+  }
+  .efe-servicios-menu__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .efe-servicios-menu__foot-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8b8b93;
+  }
+  .efe-servicios-menu__foot-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d4ff3f;
+    animation: efe-pulse 2.2s ease-in-out infinite;
+  }
+  @media (max-width: 1000px) {
+    .efe-servicios-menu__inner {
+      grid-template-columns: 1fr;
+    }
+    .efe-servicios-menu__feature {
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
   }
 
   #efe-header-cta {

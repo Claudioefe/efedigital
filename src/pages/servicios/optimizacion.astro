@@ -10,133 +10,128 @@ import {
 import { homeServicios } from "../../data/home-servicios";
 import { SERVICIOS_INDEXABLES } from "../../data/site-config";
 
-const title = "Desarrollo Web y E-commerce a Medida | efedigital";
+const title = "Optimización de Velocidad y Core Web Vitals | efedigital";
 const description =
-  "Sitios y tiendas online a medida en WordPress, sin page builders: catálogo, checkout y pagos que funcionan en cualquier dispositivo. Desde USD 300.";
+  "Detectamos qué frena tu sitio y lo corregimos: caché a medida, código innecesario y ajustes de servidor, medido con Core Web Vitals. Desde USD 300.";
 
 const breadcrumb = buildBreadcrumbSchema([
   { name: "Inicio", path: "/" },
   { name: "Servicios", path: "/servicios" },
-  { name: "Desarrollo web y e-commerce", path: "/servicios/desarrollo-web" },
+  { name: "Optimización", path: "/servicios/optimizacion" },
 ]);
 
-const devFaqs = [
+const optiFaqs = [
   {
-    pregunta: "¿Cuánto sale un desarrollo web?",
+    pregunta: "¿Cuánto sale una optimización?",
     respuesta:
-      "Depende del alcance. Como referencia, un sitio institucional arranca en USD 300 en adelante. Después de que nos cuentes tu proyecto —por mail, WhatsApp o una llamada— te confirmamos el precio cerrado exacto.",
+      "Depende de qué encontremos en el diagnóstico inicial: un sitio con poco código innecesario y buena caché sale menos que uno que nunca se tocó desde que se armó. Como referencia, arranca en USD 300. Te confirmamos precio cerrado después de que nos cuentes tu caso, por mail, WhatsApp o una llamada.",
   },
   {
-    pregunta: "¿Cuánto tardan en arrancar?",
+    pregunta: "¿Cuánto tarda?",
     respuesta:
-      "Entre una y dos semanas después de confirmar el precio cerrado. Si tenés algo urgente —el sitio caído, la tienda sin cobrar— lo metemos como primera etapa corta y seguimos con el resto después.",
+      "Entre una y dos semanas, según el tamaño del sitio y cuántos ajustes haga falta hacer. El diagnóstico inicial ya te da una idea del alcance antes de arrancar con los cambios.",
   },
   {
-    pregunta: "¿Trabajan sobre el sitio que ya tengo?",
+    pregunta: "¿Qué pasa si después de optimizar el sitio se vuelve a poner lento?",
     respuesta:
-      "Sí, es la mayoría de lo que hacemos. Tomamos el WordPress que armó otro equipo, con su tema y sus plugins, y lo corregimos o migramos sin romper lo que ya funciona ni perder posiciones en Google.",
+      'Es lo más común, y no es que la optimización "no sirvió": es que se instaló un plugin nuevo, se subieron imágenes pesadas sin comprimir, o WordPress se actualizó y algo cambió. Para eso existe el mantenimiento mensual, que revisa esto de forma continua en vez de dejar que se acumule.',
   },
   {
-    pregunta: "¿Usan Elementor u otro page builder?",
+    pregunta: "¿Esto reemplaza al mantenimiento mensual?",
     respuesta:
-      "No. Construimos con el editor de bloques nativo de WordPress y temas propios. Es una decisión técnica, no una limitación: los builders agregan peso que después hay que optimizar.",
+      "No, son complementarios. La optimización es el arreglo puntual de velocidad; el mantenimiento es lo que evita que ese trabajo se pierda con el tiempo. Muchos clientes arrancan con la optimización y después suman el plan mensual para sostenerla.",
   },
   {
-    pregunta: "¿Hacen la redacción de los textos del sitio?",
+    pregunta: "¿Necesito hacer primero la auditoría técnica de SEO/GEO/AEO, o esto alcanza?",
     respuesta:
-      "No directamente. Construimos el sitio y te decimos qué espacio de texto necesita cada sección, pero la redacción final es de tu equipo o de quien te maneje el contenido. Podemos coordinar directamente con esa persona si lo necesitás.",
-  },
-  {
-    pregunta: "¿Qué pasa si necesito algo que WordPress no puede hacer sin forzar cambios?",
-    respuesta:
-      "Ahí evaluamos desarrollo a medida. Te lo decimos desde el primer contacto, antes de cotizar: no vamos a forzar un CMS donde no entra la lógica de tu negocio.",
+      "No hace falta la auditoría completa si lo que te preocupa puntualmente es la velocidad. La auditoría mira más cosas (datos estructurados, indexación, legibilidad para IA); la optimización se enfoca solo en rendimiento. Si no estás seguro de cuál necesitás, contanos tu caso y te decimos cuál conviene.",
   },
 ];
 
-const servicio = homeServicios[0];
+const servicio = homeServicios[2];
 const schema = buildGraph(
   organizationSchema,
   breadcrumb,
   buildServiceSchema(servicio),
-  buildFaqPageSchema(devFaqs, "/servicios/desarrollo-web")
+  buildFaqPageSchema(optiFaqs, "/servicios/optimizacion")
 );
 
-const alcance = [
+const revisamos = [
   {
     num: "01",
-    badge: "WP",
-    titulo: "WordPress con bloques nativos",
-    desc: "Temas propios armados con el editor de bloques (Gutenberg) de WordPress. Sin Elementor, sin Divi, sin WPBakery: los page builders agregan código que no necesitás y le restan velocidad al sitio.",
-    nota: "Cada bloque se construye para el proyecto, no se arma con plantillas genéricas.",
+    badge: "DIAG",
+    titulo: "Diagnóstico de velocidad",
+    desc: "Partimos de tu informe de auditoría técnica si ya lo tenés, o medimos el estado actual con datos de campo y de laboratorio para saber exactamente qué está pesando: imágenes, scripts, plugins o el servidor.",
+    nota: "Es el punto de partida para corregir, no otro informe: de acá en más ya vamos directo al arreglo.",
   },
   {
     num: "02",
-    badge: "EC",
-    titulo: "E-commerce",
-    desc: "Tiendas con WooCommerce según el volumen y la complejidad del catálogo: carga de productos, checkout, pasarelas de pago y stock sincronizado.",
-    nota: "Elegimos la pasarela de pago según tu mercado: Mercado Pago, Todo Pago o la que ya uses.",
+    badge: "CACHE",
+    titulo: "Caché a medida",
+    desc: "Configuramos una estrategia de caché ajustada a tu sitio, no un plugin genérico con configuración por defecto, para que las páginas se sirvan rápido sin romper el contenido dinámico (carritos, formularios).",
+    nota: "Un plugin de caché mal configurado puede mostrar información vieja; por eso se ajusta a medida.",
   },
   {
     num: "03",
-    badge: "AM",
-    titulo: "Desarrollo a medida",
-    desc: "Cuando la lógica del negocio no entra en un CMS sin forzar cambios de proceso: catálogos complejos, integraciones con sistemas propios, lógicas de precio o stock particulares.",
-    nota: "Se evalúa en la primera charla si conviene WordPress o un desarrollo propio, antes de cotizar.",
+    badge: "CODE",
+    titulo: "Limpieza de código innecesario",
+    desc: "Sacamos scripts, estilos y plugins que cargan en todas las páginas aunque solo se usen en una, o que quedaron de una versión anterior del sitio y nadie los usa.",
+    nota: "Menos código para descargar es, casi siempre, la mejora con más impacto y menos riesgo.",
   },
   {
     num: "04",
-    badge: "INT",
-    titulo: "Integraciones y APIs",
-    desc: "Conectamos el sitio con las herramientas que ya usás —CRM, stock, facturación, pagos u otros sistemas— cuando tienen una API con la que se pueda trabajar.",
-    nota: "Si la herramienta no tiene API pública, lo decimos antes de empezar, no a mitad de proyecto.",
+    badge: "IMG",
+    titulo: "Optimización de imágenes y recursos",
+    desc: "Compresión, formatos modernos y carga diferida (lazy loading) para que las imágenes no sean lo que más tarda en cargar la página.",
+    nota: "En la mayoría de los sitios, las imágenes son la primera causa de lentitud.",
   },
   {
     num: "05",
-    badge: "MIG",
-    titulo: "Migraciones sin caídas",
-    desc: "Tomamos un sitio que armó otro equipo y lo migramos de servidor, de tema o de plataforma sin perder posiciones en Google ni tiempo de actividad.",
-    nota: "Se hace con el sitio viejo online hasta confirmar que el nuevo funciona igual o mejor.",
+    badge: "CDN",
+    titulo: "Ajustes de servidor y Cloudflare",
+    desc: "Configuración de CDN, compresión y cabeceras de caché a nivel de servidor, no solo del lado del sitio.",
+    nota: "Algunas mejoras no se ven en el código del sitio, se ven en cómo el servidor entrega ese código.",
   },
 ];
 
 const entrega = [
   {
     num: "01",
-    titulo: "Presupuesto con precio cerrado",
-    desc: "Después de la charla de 30 minutos te confirmamos el precio cerrado: alcance dividido en etapas, plazos reales y precio fijo. Sabés qué entra, qué no, y cuándo vas a ver cada parte funcionando.",
-    nota: "48 a 72 horas después de la charla inicial.",
+    titulo: "Medición inicial",
+    desc: "Sacamos una foto del estado actual con PageSpeed Insights y datos reales de usuarios, para tener un punto de partida documentado antes de tocar nada.",
+    nota: "Sin esta foto inicial, no hay forma de demostrar después que mejoró.",
   },
   {
     num: "02",
-    titulo: "Avances semanales",
-    desc: "Un enlace que podés probar cada semana, no recién al final. Ajustamos con tu feedback dentro de lo acordado; si aparece algo nuevo, se cotiza aparte y vos decidís.",
-    nota: "2 a 8 semanas según el alcance del proyecto.",
+    titulo: "Optimización aplicada y medida",
+    desc: "Aplicamos los cambios y volvemos a medir con las mismas herramientas, para mostrar la diferencia real, no una promesa.",
+    nota: "Se mide en el mismo entorno y condiciones que la medición inicial, para que la comparación sea justa.",
   },
   {
     num: "03",
-    titulo: "Lanzamiento y traspaso",
-    desc: "Puesta en marcha, capacitación básica y documentación. El código y los accesos quedan a tu nombre desde el día uno.",
-    nota: "Soporte mensual opcional después del lanzamiento, sin ataduras.",
+    titulo: "Informe antes/después",
+    desc: "Te dejamos un informe con las métricas de antes y después, y una recomendación sobre si conviene sumar mantenimiento mensual para sostener el resultado.",
+    nota: "El informe es tuyo, elijas o no seguir con mantenimiento.",
   },
 ];
 
-const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
+const herramientas = ["PageSpeed", "Core Web Vitals", "Caché", "Cloudflare", "Código innecesario"];
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  path="/servicios/desarrollo-web"
+  path="/servicios/optimizacion"
   schema={schema}
   noindex={!SERVICIOS_INDEXABLES}>
-  <div id="efe-thread-dev" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
+  <div id="efe-thread-opt" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none"></div>
 
   <section id="top" class="efe-section efe-section--tight" style="position:relative">
     <div class="efe-container">
       <div
         style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)"
       >
-        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Desarrollo web</div>
+        <div class="efe-eyebrow" style="margin-bottom:0">Servicio — Optimización web</div>
         <div
           style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
         >
@@ -144,7 +139,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
           <span>/</span>
           <a href="/servicios/" class="efe-crumb-link">Servicios</a>
           <span>/</span>
-          <span style="color:#F5F2EC">Desarrollo web</span>
+          <span style="color:#F5F2EC">Optimización</span>
         </div>
       </div>
 
@@ -152,78 +147,75 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
         <div>
           <h1 class="efe-h1" data-reveal>
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.05s">Desarrollo web</span></span
+              ><span class="efe-word" style="animation-delay:.05s">Optimización</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em"
-              ><span class="efe-word" style="animation-delay:.15s">y e-commerce</span></span
+              ><span class="efe-word" style="animation-delay:.15s">de velocidad y</span></span
             >
             {" "}
             <span style="display:block;overflow:hidden;padding-bottom:.06em">
               <span class="efe-word" style="animation-delay:.25s"
-                >a medida</span
+                >Core Web Vitals</span
               >
             </span>
           </h1>
 
           <p class="efe-lede" data-reveal data-delay="1" style="margin-top:clamp(24px,3vw,34px);max-width:52ch">
-            Sitios y tiendas online hechas para <span style="color:#EDEDF0">vender</span>, con temas propios basados en
-            bloques nativos de WordPress: catálogo, checkout y pagos que <span style="color:#EDEDF0"
-              >funcionan bien en cualquier dispositivo</span
-            >.
+            Detectamos qué está frenando tu sitio y lo corregimos: <span style="color:#EDEDF0"
+              >caché a medida, limpieza de código innecesario y ajustes de servidor</span
+            >, medidos con las métricas que Google usa para evaluar velocidad.
           </p>
 
           <div data-reveal data-delay="2" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:clamp(28px,3.4vw,40px)">
-            <a href="/contacto/" class="efe-btn efe-btn--primary">Empezar mi proyecto <span style="font-size:14px">↗</span></a>
-            <a href="#construimos" class="efe-btn efe-btn--ghost">Qué construimos</a>
+            <a href="/contacto/" class="efe-btn efe-btn--primary">Medir mi sitio <span style="font-size:14px">↗</span></a>
+            <a href="#revisamos" class="efe-btn efe-btn--ghost">Qué revisamos</a>
           </div>
 
           <ul data-reveal data-delay="3" style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none">
-            {stack.map((s) => (
-              <li class="efe-tag">{s}</li>
+            {herramientas.map((h) => (
+              <li class="efe-tag">{h}</li>
             ))}
           </ul>
         </div>
 
         <div data-reveal data-delay="1" class="efe-svc-panel">
           <div class="efe-svc-panel__head">
-            <span class="efe-svc-panel__dot"></span> Cómo trabajamos
+            <span class="efe-svc-panel__dot"></span> Qué revisamos
             <span class="efe-svc-panel__badge">Vista previa</span>
           </div>
           {
-            entrega.map((row) => (
+            revisamos.slice(0, 3).map((row) => (
               <div class="efe-svc-panel__row">
-                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:20px;color:#F5F2EC">{row.titulo}</p>
+                <p style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:18px;color:#F5F2EC">{row.titulo}</p>
                 <p style="margin:8px 0 0;font-size:13.5px;line-height:1.55;color:#8B8B93">{row.desc}</p>
-                <p class="efe-svc-panel__tag" style="margin:10px 0 0">{row.nota}</p>
               </div>
             ))
           }
-          <a href="#entrega" class="efe-svc-panel__footer">
-            Cómo se entrega, paso a paso <span>↗</span>
+          <a href="#revisamos" class="efe-svc-panel__footer">
+            Ver todo lo que revisamos <span>↗</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="construimos" class="efe-section efe-section--border-top" style="position:relative">
+  <section id="revisamos" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
-      <div class="efe-svc-intro-grid">
+      <div class="efe-svc-intro-grid" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)">
         <div data-reveal>
-          <div class="efe-eyebrow">01 — Alcance del desarrollo</div>
-          <h2 class="efe-h2">¿Qué tipo de <br />proyectos hacemos?</h2>
+          <div class="efe-eyebrow">01 — Qué revisamos</div>
+          <h2 class="efe-h2">¿Qué hacemos <br />en una <br />optimización?</h2>
         </div>
         <p class="efe-lede" data-reveal data-delay="1" style="max-width:52ch">
-          Trabajamos con WordPress cuando el negocio entra en un CMS estándar, y con desarrollo a medida cuando no.
-          En los dos casos, el foco es velocidad, mantenibilidad y que el sitio siga funcionando bien dentro de un
-          año, no solo el día del lanzamiento.
+          Acá el foco es un solo número: cuánto tarda tu sitio en cargar y responder, medido con Core Web Vitals
+          (LCP, INP, CLS), las métricas que Google usa para evaluar la experiencia de carga.
         </p>
       </div>
 
       <div class="efe-svc-grid" data-stagger style="margin-top:clamp(48px,5.5vw,72px)">
         {
-          alcance.map((item) => (
+          revisamos.map((item) => (
             <div data-scroll="tilt" class="efe-svc-card">
               <div class="efe-svc-card__top">
                 <span class="efe-svc-card__num">{item.num}</span>
@@ -236,9 +228,9 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
           ))
         }
         <a href="/contacto/" class="efe-svc-cta">
-          <div class="efe-svc-cta__eyebrow">Empecemos por tu proyecto</div>
-          <h3 class="efe-h3" style="color:#08080A">¿Necesitás un <br />sitio o tienda?</h3>
-          <span class="efe-svc-cta__btn">Empezar mi proyecto <span>↗</span></span>
+          <div class="efe-svc-cta__eyebrow">Empecemos por tu sitio</div>
+          <h3 class="efe-h3" style="color:#08080A">¿Querés medir <br />tu velocidad?</h3>
+          <span class="efe-svc-cta__btn">Medir mi sitio <span>↗</span></span>
         </a>
       </div>
     </div>
@@ -282,7 +274,7 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
       </div>
       <div data-reveal data-delay="1" style="display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.12)">
         {
-          devFaqs.map((f, i) => (
+          optiFaqs.map((f, i) => (
             <div class="efe-faq-item" style="border-bottom:1px solid rgba(255,255,255,.12)">
               <button type="button" class="efe-faq-toggle" aria-expanded="false" data-index={i}>
                 <span class="efe-faq-question">{f.pregunta}</span>
@@ -360,13 +352,6 @@ const stack = ["WordPress", "Gutenberg", "WooCommerce", "Desarrollo a medida"];
   .efe-svc-panel__row {
     padding: 22px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .efe-svc-panel__tag {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #d4ff3f;
   }
   .efe-svc-panel__footer {
     display: flex;

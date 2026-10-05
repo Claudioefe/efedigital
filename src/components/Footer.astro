@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-  cta = { titleHtml: "Hablemos de tu </br> proyecto", showButton: true },
+  cta = { titleHtml: "Hablemos de tu <br /> proyecto", showButton: true },
 } = Astro.props;
 const { titleHtml, subtitle, showButton = true } = cta;
 ---
@@ -34,7 +34,7 @@ const { titleHtml, subtitle, showButton = true } = cta;
     }
     {
       showButton && (
-        <a href="/contacto" class="efe-btn efe-btn--primary">
+        <a href="/contacto/" class="efe-btn efe-btn--primary">
           Escribinos <span style="font-size:14px">↗</span>
         </a>
       )
@@ -67,11 +67,12 @@ const { titleHtml, subtitle, showButton = true } = cta;
       aria-label="Pie de página"
       style="display:flex;flex-wrap:wrap;gap:22px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#8B8B93"
     >
-      <a href="/#servicios" class="efe-footer-link">Servicios</a>
+      <a href="/servicios/" class="efe-footer-link">Servicios</a>
+      <a href="/para-agencias/" class="efe-footer-link">Para agencias</a>
       <a href="/#enfoque" class="efe-footer-link">Enfoque</a>
-      <a href="/blog" class="efe-footer-link">Blog</a>
+      <a href="/blog/" class="efe-footer-link">Blog</a>
       <a href="/#faq" class="efe-footer-link">Preguntas</a>
-      <a href="/contacto" class="efe-footer-link">Contacto</a>
+      <a href="/contacto/" class="efe-footer-link">Contacto</a>
       <a
         href="https://www.instagram.com/efedigital/"
         target="_blank"

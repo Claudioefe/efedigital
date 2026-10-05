@@ -1,11 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactForm from "../components/ContactForm.astro";
-import { buildGraph, organizationSchema, contactPageSchema, buildBreadcrumbSchema } from "../data/schema";
+import {
+  buildGraph,
+  organizationSchema,
+  contactPageSchema,
+  buildBreadcrumbSchema,
+  CONTACT_DESCRIPTION,
+} from "../data/schema";
 
 const title = "Contacto | efedigital";
-const description =
-  "Contactanos para automatizar tu negocio. Desarrollo web, e-commerce, automatización e inteligencia artificial.";
+const description = CONTACT_DESCRIPTION;
 const breadcrumb = buildBreadcrumbSchema([
   { name: "Inicio", path: "/" },
   { name: "Contacto", path: "/contacto" },
@@ -14,7 +19,7 @@ const schema = buildGraph(organizationSchema, contactPageSchema, breadcrumb);
 
 const footerCta = {
   titleHtml:
-    'Llegaste hasta acá.<br />Estás a un paso de <span style="color:transparent;-webkit-text-stroke:1px #D4FF3F">transformar tu negocio</span>',
+    "Llegaste hasta acá. <br />Estás a un paso de transformar tu negocio",
   subtitle:
     "Completá el formulario y te contactaremos en menos de 24 horas para empezar a automatizar tu negocio.",
   showButton: false,

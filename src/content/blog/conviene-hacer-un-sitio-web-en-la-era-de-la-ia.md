@@ -30,4 +30,4 @@ Ahora, para que quede claro y no vendamos de más: un sitio web no te arregla el
 
 ## La pregunta que en realidad importa
 
-Si todavía dudás si te conviene, la pregunta no es "sitio o redes". Es: si alguien te busca hoy sin conocerte, ¿te encuentra? Si la respuesta es "solo si ya me sigue en Instagram", ahí tenés el problema. Armar un sitio institucional no es un proyecto largo: después de una charla de 30 minutos, en 48 a 72 horas ya tenés un presupuesto cerrado sobre la mesa. No es una inversión que tenga que esperar a que "la web vuelva a estar de moda". Ya está de moda, solo que ahora también le tiene que gustar a una IA.
+Si todavía dudás si te conviene, la pregunta no es "sitio o redes". Es: si alguien te busca hoy sin conocerte, ¿te encuentra? Si la respuesta es "solo si ya me sigue en Instagram", ahí tenés el problema. [Armar un sitio institucional](/servicios/desarrollo-web/) no es un proyecto largo: después de una charla de 30 minutos, en 48 a 72 horas ya tenés un presupuesto cerrado sobre la mesa. No es una inversión que tenga que esperar a que "la web vuelva a estar de moda". Ya está de moda, solo que ahora también le tiene que gustar a una IA.
