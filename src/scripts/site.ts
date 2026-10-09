@@ -138,6 +138,10 @@ function initIntro() {
   at(2880, finish);
 }
 
+// Mismos elementos que en global.css (sección "Cursor"): si uno aparece en una lista
+// y no en la otra, el cursor propio se oculta y el del sistema tampoco aparece.
+const INTERACTIVOS = "a,button,[data-magnetic],[role=button],summary,select,label,input,textarea";
+
 function initCursor() {
   if (!window.matchMedia("(pointer: fine)").matches) return;
   const ring = document.getElementById("efe-cursor-ring");
@@ -152,25 +156,12 @@ function initCursor() {
     tx = e.clientX;
     ty = e.clientY;
     dot.style.transform = `translate3d(${tx}px,${ty}px,0)`;
-    ring.style.opacity = "1";
-    dot.style.opacity = "1";
-    const target = e.target as HTMLElement;
-    // Sobre elementos interactivos el anillo colapsa a 0 (no crece): queda
-    // solo el punto. El borde también se apaga, si no quedaba un cuadradito
-    // de 2px (el ancho del borde) encima del punto.
-    const overInteractive = !!target.closest?.("a,button,[data-spotlight],input,textarea");
-    ring.style.width = overInteractive ? "0px" : "34px";
-    ring.style.height = overInteractive ? "0px" : "34px";
-    ring.style.margin = overInteractive ? "0px" : "-17px 0 0 -17px";
-    ring.style.borderColor = overInteractive ? "transparent" : "rgba(245,242,236,.5)";
-    // El punto pasa a blanco con mix-blend-mode:difference: contra fondos lima
-    // (el hover más usado del sitio) da un violeta bien visible en vez de
-    // camuflarse; contra el fondo oscuro se ve casi igual que el lima de
-    // siempre, así que en reposo no cambia nada.
-    dot.style.background = overInteractive ? "#FFFFFF" : "#D4FF3F";
-    dot.style.width = overInteractive ? "10px" : "5px";
-    dot.style.height = overInteractive ? "10px" : "5px";
-    dot.style.margin = overInteractive ? "-5px 0 0 -5px" : "-2.5px 0 0 -2.5px";
+    // Sobre links, botones y campos de texto se apaga el cursor propio y aparece el del
+    // sistema (manito / cursor de texto), que se ve sobre cualquier fondo. Antes el
+    // anillo y el punto se achicaban y se perdían, sobre todo contra los fondos lima.
+    const sobreInteractivo = !!(e.target as HTMLElement).closest?.(INTERACTIVOS);
+    ring.style.opacity = sobreInteractivo ? "0" : "1";
+    dot.style.opacity = sobreInteractivo ? "0" : "1";
   };
   const loop = () => {
     rx += (tx - rx) * 0.17;
@@ -183,6 +174,34 @@ function initCursor() {
   document.addEventListener("mouseleave", () => {
     ring.style.opacity = "0";
     dot.style.opacity = "0";
+  });
+}
+
+// Cuando la persona cambia de pestaña, el título de la pestaña pasa a un mensaje que
+// llama la atención (se ve en la barra de pestañas aunque esté en otra) y vuelve al
+// original apenas regresa. Con "reducir movimiento" el mensaje queda fijo, sin alternar.
+function initTabMessage() {
+  const mensajes = ["👋 ¡Volvé! Te esperamos", "⚡ ¿Hablamos de tu web?", "💬 Contanos tu caso"];
+  const reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let original = document.title;
+  let timer = 0;
+  let i = 0;
+  const mostrar = () => {
+    document.title = mensajes[i % mensajes.length];
+    i++;
+  };
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      if (timer) return;
+      original = document.title;
+      i = 0;
+      mostrar();
+      if (!reducir) timer = window.setInterval(mostrar, 1600);
+    } else {
+      window.clearInterval(timer);
+      timer = 0;
+      document.title = original;
+    }
   });
 }
 
@@ -414,7 +433,8 @@ function initScrollEngine() {
     }
     const parent = el.parentElement;
     const anchor = parent && parent.hasAttribute("data-sync") ? parent : el;
-    return { el, kind, anchor, d: parseFloat(el.dataset.scrollDelay || "0") };
+    // cur: progreso suavizado (-1 = todavía sin calcular).
+    return { el, kind, anchor, d: parseFloat(el.dataset.scrollDelay || "0"), cur: -1, visto: 0 };
   });
   scrubEls.forEach(({ el, kind }) => {
     el.style.willChange = "transform, opacity";
@@ -443,14 +463,35 @@ function initScrollEngine() {
       heroInner.style.filter = p > 0.02 ? `blur(${(p * 6).toFixed(2)}px)` : "none";
     }
 
-    scrubEls.forEach(({ el, kind, anchor, d }) => {
+    let animando = false;
+    scrubEls.forEach((st) => {
+      const { el, kind, anchor, d } = st;
       if (reduce) return;
       const r = (anchor || el).getBoundingClientRect();
       const raw = (vh - r.top) / (vh * 0.72 + r.height * 0.25);
-      // Si el elemento ya entra completo en pantalla se considera revelado: en páginas
-      // cortas las últimas tarjetas nunca llegaban a scrollear lo suficiente y quedaban
-      // atenuadas para siempre, dejando el texto atenuado por debajo del contraste AA.
-      const p = r.top >= 0 && r.bottom <= vh ? 1 : clamp(raw - d, 0, 1);
+      // Mientras se hace scroll el progreso sigue la posición de la tarjeta. Si queda
+      // entera en pantalla y se mantiene así un instante (350 ms), se considera revelada
+      // y se termina de abrir sola: en páginas cortas las últimas tarjetas nunca llegaban
+      // a scrollear lo suficiente y quedaban atenuadas para siempre, dejando el texto por
+      // debajo del contraste AA. Antes esa regla era inmediata y la tarjeta pasaba de ~85%
+      // a 100% en un solo cuadro (un golpe de ~15px).
+      const ahora = performance.now();
+      let objetivo = clamp(raw - d, 0, 1);
+      if (r.top >= 0 && r.bottom <= vh) {
+        if (!st.visto) st.visto = ahora;
+        if (ahora - st.visto > 350) objetivo = 1;
+        else animando = true;
+      } else st.visto = 0;
+      // El progreso tampoco salta al objetivo: se acerca de a poco, así cada giro de la
+      // rueda del mouse no se traduce en un salto. La primera vez arranca directo en el
+      // objetivo, sin animar al cargar.
+      if (st.cur < 0) st.cur = objetivo;
+      else {
+        st.cur += (objetivo - st.cur) * 0.1;
+        if (Math.abs(objetivo - st.cur) < 0.002) st.cur = objetivo;
+        else animando = true;
+      }
+      const p = st.cur;
       const e = 1 - Math.pow(1 - p, 3);
       if (kind === "tilt") {
         el.style.transform = `perspective(1100px) rotateX(${((1 - e) * 16).toFixed(2)}deg) translate3d(0,${((1 - e) * 90).toFixed(1)}px,0) scale(${(0.94 + e * 0.06).toFixed(4)})`;
@@ -480,6 +521,8 @@ function initScrollEngine() {
         f.style.width = (i < idx ? 100 : i === idx ? local * 100 : 0).toFixed(1) + "%";
       });
     }
+
+    if (animando) raf = requestAnimationFrame(update);
   };
   const onScroll = () => {
     if (raf === null) raf = requestAnimationFrame(update);
@@ -660,6 +703,7 @@ function initThread(
 onReady(() => {
   initIntro();
   initCursor();
+  initTabMessage();
   initWhatsappTracking();
   initReveals();
   initSpotlight();

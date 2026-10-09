@@ -349,12 +349,20 @@ textarea::placeholder {
 html[data-efe-cursor] body {
   cursor: none;
 }
+/* Sobre lo clickeable y los campos de texto se usa el cursor del sistema (manito /
+   texto). La lista debe coincidir con INTERACTIVOS en site.ts. */
 html[data-efe-cursor] a,
 html[data-efe-cursor] button,
 html[data-efe-cursor] [data-magnetic],
+html[data-efe-cursor] [role="button"],
+html[data-efe-cursor] summary,
+html[data-efe-cursor] select,
+html[data-efe-cursor] label {
+  cursor: pointer;
+}
 html[data-efe-cursor] input,
 html[data-efe-cursor] textarea {
-  cursor: none;
+  cursor: text;
 }
 
 html[data-efe-intro] {
