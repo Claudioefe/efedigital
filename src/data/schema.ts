@@ -48,8 +48,8 @@ export const organizationSchema = {
   },
   image: SOCIAL_IMAGE,
   description: SITE_DESCRIPTION,
-  email: "claudioefe@icloud.com",
-  telephone: "+5493764279444",
+  email: "efedigital.dev@gmail.com",
+  telephone: "+5493764997405",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Posadas",

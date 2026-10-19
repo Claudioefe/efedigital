@@ -66,8 +66,8 @@ ${notas}
 
 ## Datos de contacto
 - Ubicación: Posadas, Misiones, Argentina (atendemos remoto en toda Argentina y el exterior)
-- Email: claudioefe@icloud.com
-- WhatsApp: +54 9 376 4279444
+- Email: efedigital.dev@gmail.com
+- WhatsApp: +54 9 376 4997405
 `;
 
   return new Response(body, {

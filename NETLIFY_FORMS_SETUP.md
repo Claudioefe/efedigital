@@ -29,7 +29,7 @@ El build está fijado en `netlify.toml` (`npm run build`, publish dir `dist`), a
 1. Dashboard de Netlify → **Forms**
 2. Buscá el formulario **contacto**
 3. **Settings** → **Form notifications** → **Add notification** → **Email notification**
-4. Ingresá el email donde querés recibir los envíos (ej: `claudioefe@icloud.com`)
+4. Ingresá el email donde querés recibir los envíos (ej: `efedigital.dev@gmail.com`)
 
 ### Probar el formulario
 
