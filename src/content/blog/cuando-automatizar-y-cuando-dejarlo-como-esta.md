@@ -1,6 +1,6 @@
 ---
 titulo: "Cuándo automatizar y cuándo dejarlo como está"
-bajada: "Te conviene automatizar cuando el proceso se repite siempre igual y el ahorro le gana al costo. Cómo hacer la cuenta, con ejemplos concretos en dólares."
+bajada: "Te conviene automatizar cuando el proceso se repite siempre igual y el ahorro le gana al costo. Cómo hacer la cuenta, con ejemplos concretos."
 categoria: "Automatización"
 fecha: 2026-08-01
 destacada: true

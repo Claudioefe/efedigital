@@ -40,6 +40,18 @@ function initWhatsappTracking() {
   });
 }
 
+// Clicks a /cotizador/ desde cualquier parte del sitio. `data-cta` dice cuál botón fue
+// (home-banda, menu, etc.) para poder comparar ubicaciones en Analytics.
+function initCotizadorTracking() {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as HTMLElement)?.closest?.("a[href]") as HTMLAnchorElement | null;
+    if (!link || !/^\/cotizador\/?($|[?#])/.test(link.getAttribute("href") ?? "")) return;
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "click_cotizador", { send_to: "G-HY78M19P0F", ubicacion: link.dataset.cta ?? "otro" });
+    }
+  });
+}
+
 function initIntro() {
   const root = document.getElementById("efe-intro");
   if (!root) return;
@@ -705,6 +717,7 @@ onReady(() => {
   initCursor();
   initTabMessage();
   initWhatsappTracking();
+  initCotizadorTracking();
   initReveals();
   initSpotlight();
   late(initProgress, "#efe-progress");

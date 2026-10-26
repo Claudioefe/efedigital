@@ -26,7 +26,7 @@ export const homeServicios: HomeServicio[] = [
     titulo: "Mantenimiento & soporte técnico",
     desc: "Actualizaciones de WordPress y plugins, backups, monitoreo y seguridad, y ajustes a medida. Tu sitio actualizado, seguro y sin sorpresas.",
     href: "/servicios/mantenimiento/",
-    desde: 100,
+    desde: 60,
     unidad: "mes",
     tipoServicio: ["Mantenimiento web", "Soporte técnico", "Seguridad web"],
   },
@@ -35,7 +35,7 @@ export const homeServicios: HomeServicio[] = [
     titulo: "Optimización",
     desc: "Optimización profunda de velocidad, estrategias de caché a medida y limpieza de código innecesario para cumplir con las Core Web Vitals que Google mide.",
     href: "/servicios/optimizacion/",
-    desde: 300,
+    desde: 350,
     tipoServicio: ["Optimización de velocidad", "Core Web Vitals"],
   },
   {
@@ -44,7 +44,7 @@ export const homeServicios: HomeServicio[] = [
     desc: "Datos estructurados, rastreabilidad, indexación y arquitectura del sitio alineados con Google y con los motores de IA: ChatGPT, Gemini, Claude y Perplexity.",
     nota: "Te entregamos la auditoría con todo lo detectado para que tu equipo lo corrija. Si preferís que lo hagamos nosotros, te confirmamos un precio cerrado por esas mejoras.",
     href: "/servicios/auditoria-tecnica/",
-    desde: 100,
+    desde: 150,
     tipoServicio: ["Auditoría SEO técnica", "GEO", "AEO"],
   },
   {

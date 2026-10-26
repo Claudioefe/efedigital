@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Cotizador from "../components/Cotizador.astro";
+import { buildGraph, organizationSchema, buildBreadcrumbSchema, pageUrl } from "../data/schema";
+
+const title = "Cotizador de desarrollo web y servicios | efedigital";
+const description =
+  "Cotizá tu sitio, tienda online, mantenimiento, optimización o auditoría SEO en un minuto. Estimación sin compromiso.";
+
+const aplicacion = {
+  "@type": "WebApplication",
+  "@id": `${pageUrl("/cotizador")}#app`,
+  name: "Cotizador de servicios de efedigital",
+  url: pageUrl("/cotizador"),
+  description,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  inLanguage: "es-AR",
+  provider: { "@id": "https://efedigital.com.ar/#organization" },
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+const breadcrumb = buildBreadcrumbSchema([
+  { name: "Inicio", path: "/" },
+  { name: "Cotizador", path: "/cotizador" },
+]);
+const schema = buildGraph(organizationSchema, aplicacion, breadcrumb);
+
+const notas = [
+  {
+    num: "01",
+    titulo: "Es una estimación",
+    desc: "Los precios salen de las horas que lleva cada tarea. El precio cerrado lo confirmamos con vos antes de arrancar, cuando conocemos tu caso.",
+  },
+  {
+    num: "02",
+    titulo: "El rango deja margen",
+    desc: "El valor menor es el precio calculado con tus respuestas; el mayor deja un 30% de margen para los detalles que se definen al conversar el proyecto. Si más adelante pedís algo fuera de lo acordado, te lo cotizamos aparte antes de hacerlo.",
+  },
+  {
+    num: "03",
+    titulo: "Sin compromiso",
+    desc: "Dejás tu mail para ver la estimación y para que podamos escribirte. No hay que pagar nada ni confirmar nada para cotizar.",
+  },
+];
+---
+
+<BaseLayout title={title} description={description} path="/cotizador" schema={schema}>
+  <section id="top" class="efe-section efe-section--tight" style="position:relative">
+    <div class="efe-container">
+      <div
+        style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.1)"
+      >
+        <div class="efe-eyebrow" style="margin-bottom:0">Cotizador</div>
+        <div
+          style="display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B8B93"
+        >
+          <a href="/" class="efe-crumb-link">Inicio</a>
+          <span>/</span>
+          <span style="color:#F5F2EC">Cotizador</span>
+        </div>
+      </div>
+
+      <div style="margin-top:clamp(32px,4vw,56px);max-width:880px">
+        <h1 class="efe-h1" data-reveal>
+          <span style="display:block;overflow:hidden;padding-bottom:.06em"
+            ><span class="cz-word" style="animation-delay:.05s">Cotizá tu proyecto</span></span
+          >
+          {" "}
+          <span style="display:block;overflow:hidden;padding-bottom:.06em"
+            ><span class="cz-word" style="animation-delay:.15s">en un minuto</span></span
+          >
+        </h1>
+        <p class="efe-lede" data-reveal data-delay="1" style="margin-top:clamp(22px,2.6vw,32px);max-width:56ch">
+          Elegí qué necesitás, respondé unas preguntas y recibí una <span style="color:#EDEDF0">estimación al instante</span>.
+          Sin compromiso: el precio cerrado lo confirmamos antes de arrancar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cotizar" class="efe-section efe-section--border-top" style="position:relative">
+    <div class="efe-container">
+      <Cotizador />
+    </div>
+  </section>
+
+  <section id="como" class="efe-section efe-section--border-top" style="position:relative">
+    <div class="efe-container">
+      <div data-reveal>
+        <div class="efe-eyebrow">Cómo leer tu estimación</div>
+        <h2 class="efe-h2">Precios claros,<br />desde el principio</h2>
+      </div>
+      <div class="cz-notas" style="margin-top:clamp(40px,5vw,64px)">
+        {
+          notas.map((n) => (
+            <div class="cz-nota">
+              <span class="cz-nota__num">{n.num}</span>
+              <h3 class="efe-h3">{n.titulo}</h3>
+              <p>{n.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .cz-word {
+    display: inline-block;
+    animation: efe-rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .cz-notas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 1.8vw, 24px);
+  }
+  @media (min-width: 860px) {
+    .cz-notas {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .cz-nota {
+    padding: clamp(26px, 2.8vw, 34px);
+    background: #0d0d10;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .cz-nota__num {
+    display: block;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1;
+    color: rgba(245, 242, 236, 0.12);
+  }
+  .cz-nota h3 {
+    margin-top: 14px;
+  }
+  .cz-nota p {
+    margin: 12px 0 0;
+    font-size: 14.5px;
+    line-height: 1.58;
+    color: #c9c9ce;
+  }
+</style>

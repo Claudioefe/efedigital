@@ -1,0 +1,115 @@
+---
+const pasos = [
+  { n: "01", t: "Elegí qué necesitás", d: "Sitio, tienda, landing, mantenimiento, optimización o auditoría." },
+  { n: "02", t: "Respondé unas preguntas", d: "Alcance, diseño y detalles que cambian el precio." },
+  { n: "03", t: "Recibí tu estimación", d: "Con el desglose de cómo se calcula y los plazos orientativos." },
+];
+---
+
+<section id="cotizador" class="efe-section efe-section--border-top">
+  <div class="efe-container efe-cotband">
+    <div data-reveal>
+      <div class="efe-eyebrow">Cotizador</div>
+      <h2 class="efe-cotband__title">
+        ¿Cuánto cuesta <br />tu proyecto?
+      </h2>
+      <p class="efe-cotband__lede">
+        Armá tu estimación en un minuto, sin esperar a que te respondamos. Sin compromiso: el precio cerrado lo
+        confirmamos antes de arrancar.
+      </p>
+      <a
+        href="/cotizador/"
+        data-cta="home-banda"
+        class="efe-btn efe-btn--primary"
+        style="margin-top:clamp(24px,3vw,34px)"
+      >
+        Cotizá tu proyecto <span style="font-size:14px">↗</span>
+      </a>
+    </div>
+
+    <ol data-reveal data-delay="1" class="efe-cotband__list">
+      {
+        pasos.map((p) => (
+          <li class="efe-cotband__item">
+            <span class="efe-cotband__num" aria-hidden="true">{p.n}</span>
+            <span>
+              <span class="efe-cotband__item-title">{p.t}</span>
+              <span class="efe-cotband__item-desc">{p.d}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .efe-cotband {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .efe-cotband {
+      grid-template-columns: 1fr;
+    }
+  }
+  .efe-cotband__title {
+    margin: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(30px, 3.7vw, 54px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+  }
+  .efe-cotband__lede {
+    margin: 22px 0 0;
+    max-width: 50ch;
+    font-size: clamp(16px, 1.4vw, 18.5px);
+    line-height: 1.6;
+    color: #a9a9b1;
+    text-wrap: pretty;
+  }
+  .efe-cotband__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #0d0d10;
+  }
+  .efe-cotband__item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 22px 26px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .efe-cotband__item:last-child {
+    border-bottom: 0;
+  }
+  .efe-cotband__num {
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding-top: 4px;
+    color: #d4ff3f;
+  }
+  .efe-cotband__item-title {
+    display: block;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.1;
+    color: #f5f2ec;
+  }
+  .efe-cotband__item-desc {
+    display: block;
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #8b8b93;
+  }
+</style>

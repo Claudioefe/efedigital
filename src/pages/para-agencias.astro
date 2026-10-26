@@ -11,7 +11,7 @@ import {
 
 const title = "WordPress para agencias, en marca blanca | efedigital";
 const description =
-  "Somos el equipo técnico de tu agencia: desarrollo WordPress, mantenimiento, optimización y SEO técnico, bajo tu marca o como partner. Desde USD 100.";
+  "Somos el equipo técnico de tu agencia: desarrollo WordPress, mantenimiento, optimización y SEO técnico, bajo tu marca o como partner. Desde USD 60.";
 
 const [dev, mant, opt, audit, auto] = homeServicios;
 const precio = (s: (typeof homeServicios)[number]) => `Desde USD ${s.desde}${s.unidad === "mes" ? " por mes" : ""}`;
@@ -102,7 +102,7 @@ const faqs = [
   {
     pregunta: "¿Cuánto sale?",
     respuesta:
-      "Los precios son los mismos de referencia que figuran en cada servicio: desde USD 100 una auditoría técnica o un mes de mantenimiento, desde USD 300 un sitio institucional, una optimización o una automatización, y desde USD 500 una tienda. El precio final depende del alcance y te lo confirmamos antes de arrancar.",
+      "Los precios son los mismos de referencia que figuran en cada servicio: desde USD 60 un mes de mantenimiento, desde USD 150 una auditoría técnica, desde USD 300 un sitio institucional o una automatización, desde USD 350 una optimización y desde USD 500 una tienda. El precio final depende del alcance y te lo confirmamos antes de arrancar.",
   },
   {
     pregunta: "¿Puedo derivarles un solo proyecto o tengo que comprometerme con un volumen?",
@@ -145,7 +145,7 @@ const servicioAgencias = {
     "@type": "Offer",
     url: pageUrl("/para-agencias"),
     priceCurrency: "USD",
-    priceSpecification: { "@type": "PriceSpecification", priceCurrency: "USD", minPrice: 100 },
+    priceSpecification: { "@type": "PriceSpecification", priceCurrency: "USD", minPrice: 60 },
   },
 };
 
@@ -234,7 +234,7 @@ const schema = buildGraph(organizationSchema, breadcrumb, servicioAgencias, buil
     <div class="efe-container">
       <div class="efe-svc-intro-grid" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)">
         <div data-reveal>
-          <div class="efe-eyebrow">01 — Qué podés derivarnos</div>
+          <div class="efe-eyebrow">Qué podés derivarnos</div>
           <h2 class="efe-h2">Lo técnico lo<br />resolvemos nosotros</h2>
         </div>
         <p class="efe-lede" data-reveal data-delay="1" style="max-width:52ch">
@@ -269,7 +269,7 @@ const schema = buildGraph(organizationSchema, breadcrumb, servicioAgencias, buil
   <section id="trabajo" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
       <div data-reveal>
-        <div class="efe-eyebrow">02 — Cómo trabajamos juntos</div>
+        <div class="efe-eyebrow">Cómo trabajamos juntos</div>
         <h2 class="efe-h2">Simple de<br />sumar a tu equipo</h2>
       </div>
 
@@ -294,7 +294,7 @@ const schema = buildGraph(organizationSchema, breadcrumb, servicioAgencias, buil
   <section id="porque" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container">
       <div data-reveal>
-        <div class="efe-eyebrow">03 — Por qué efedigital</div>
+        <div class="efe-eyebrow">Por qué efedigital</div>
         <h2 class="efe-h2">Un proveedor que<br />no te complica</h2>
       </div>
 
@@ -318,7 +318,7 @@ const schema = buildGraph(organizationSchema, breadcrumb, servicioAgencias, buil
   <section id="preguntas" class="efe-section efe-section--border-top" style="position:relative">
     <div class="efe-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,80px);align-items:start">
       <div data-reveal>
-        <div class="efe-eyebrow">04 — Preguntas</div>
+        <div class="efe-eyebrow">Preguntas</div>
         <h2 style="margin:0;font-family:'Lora',serif;font-weight:700;font-size:clamp(34px,5.4vw,82px);line-height:.9;letter-spacing:-.042em">
           Lo que nos <br />preguntan
         </h2>

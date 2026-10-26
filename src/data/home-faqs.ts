@@ -7,7 +7,7 @@ export const faqs = [
   {
     pregunta: "¿Cuánto sale un proyecto?",
     respuesta:
-      'Depende del alcance, pero somos claros de entrada: después de que nos cuentes tu caso —por mail, WhatsApp o una llamada, lo que prefieras— te confirmamos el precio cerrado por etapa. Como referencia, un sitio institucional arranca en USD 300, una tienda en USD 500, una auditoría técnica en USD 100, una automatización puntual en USD 300, el mantenimiento mensual en USD 100 y una optimización de velocidad en USD 300. Nunca te vas a enterar de un costo a mitad de camino. Como guía general del mercado también podés mirar <a href="https://tarifario.info/" target="_blank" rel="noopener noreferrer">tarifario.info</a>, un tarifario público que usamos como referencia para mantener nuestros precios alineados con lo que se cobra en la industria.',
+      'Depende del alcance, pero somos claros de entrada: después de que nos cuentes tu caso —por mail, WhatsApp o una llamada, lo que prefieras— te confirmamos el precio cerrado por etapa. Como referencia, un sitio institucional arranca en USD 300, una tienda en USD 500, una auditoría técnica en USD 150, una automatización puntual en USD 300, el mantenimiento mensual en USD 60 y una optimización de velocidad en USD 350. Nunca te vas a enterar de un costo a mitad de camino. Como guía general del mercado también podés mirar <a href="https://tarifario.info/" target="_blank" rel="noopener noreferrer">tarifario.info</a>, un tarifario público que usamos como referencia para mantener nuestros precios alineados con lo que se cobra en la industria.',
   },
   {
     pregunta: "¿Cuánto tardan en arrancar?",

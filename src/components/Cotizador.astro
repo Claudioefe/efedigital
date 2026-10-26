@@ -1,0 +1,1535 @@
+---
+import { SERVICIOS } from "../data/cotizador/precios";
+import { wa } from "../data/cotizador/contacto";
+import { PEDIR_EMAIL } from "../data/cotizador/config";
+
+const ICONOS: Record<string, string> = {
+  institucional: '<rect x="3" y="4" width="18" height="16"/><path d="M3 9h18M6.5 6.5h.01M9.5 6.5h.01M7 13h10M7 16h6"/>',
+  landing: '<path d="M5 3h14v18H5z"/><path d="M8 7h8M8 10.5h5"/><path d="M8 15h8v3H8z"/>',
+  tienda: '<path d="M3 4h2.5l2 11h10.5l2-8H6.6"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>',
+  mantenimiento: '<path d="M14.5 6a4 4 0 0 0-5.2 5.2L4 16.5 7.5 20l5.3-5.3A4 4 0 0 0 18 9.5L15.2 12l-2.7-.7-.7-2.7z"/>',
+  optimizacion: '<path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/>',
+  auditoria: '<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5M8 10.5h5M10.5 8v5"/>',
+  automatizacion: '<path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 12a8 8 0 0 1-14 5.3L4 15"/><path d="M20 4v5h-5M4 20v-5h5"/>',
+};
+const conPreguntas = SERVICIOS.filter((s) => s.id !== "automatizacion");
+const textoAuto =
+  "Para automatizaciones necesitamos conocer tu caso: cada flujo depende de las herramientas que uses, así que no lo cotizamos desde acá. Escribinos y lo vemos.";
+const waAuto = wa("Hola! Quiero consultar por una automatización.");
+---
+
+<div id="cz-app" class="cz-app">
+  <div class="cz-main">
+    <noscript>
+      <p class="cz-error">El cotizador necesita JavaScript. Podés escribirnos por WhatsApp o mail y te cotizamos igual.</p>
+    </noscript>
+    <div class="cz-progress" style={`--cols:${PEDIR_EMAIL ? 3 : 2}`}>
+      <button type="button" data-barra="1" class="is-on" aria-label="Ir al paso 1"><i>01</i><span>Servicio</span></button>
+      <button type="button" data-barra="2" aria-label="Ir al paso 2" disabled><i>02</i><span>Detalles</span></button>
+      {PEDIR_EMAIL && (
+        <button type="button" data-barra="3" aria-label="Ir al paso 3" disabled><i>03</i><span>Contacto</span></button>
+      )}
+    </div>
+    <p class="cz-paso-label cz-sr" id="cz-paso-label" aria-live="polite">Paso 1 de 3 · ¿Qué necesitás?</p>
+
+    <!-- PASO 1 -->
+    <div data-paso="1">
+      <span class="cz-bignum" aria-hidden="true">01</span>
+      <h2 class="cz-titulo" tabindex="-1">¿Qué necesitás?</h2>
+      <p class="cz-ayuda">Elegí una opción. Si necesitás más de un servicio, podés hacer otra cotización después.</p>
+      <div class="cz-grid">
+        {
+          SERVICIOS.map((s) => (
+            <label class="cz-card">
+              <input type="radio" name="srv" value={s.id} class="cz-oculto" />
+              <span class="cz-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" set:html={ICONOS[s.id]} />
+              </span>
+              <span class="cz-card__check" aria-hidden="true">✓</span>
+              <span class="cz-card__title">{s.titulo}</span>
+              <span class="cz-card__desc">{s.resumen}</span>
+            </label>
+          ))
+        }
+      </div>
+      <p class="cz-error" id="cz-error-1" role="alert" hidden>Elegí un servicio para continuar.</p>
+      <div class="cz-acciones">
+        <button type="button" class="efe-btn efe-btn--primary" data-accion="siguiente-1">
+          Siguiente <span style="font-size:14px">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div data-paso="2" hidden>
+      <span class="cz-bignum" aria-hidden="true">02</span>
+      <h2 class="cz-titulo" tabindex="-1">Contanos un poco más</h2>
+      <p class="cz-ayuda">Dejamos marcada la opción más chica de cada pregunta; cambiala si no es tu caso.</p>
+      {
+        conPreguntas.map((s) => (
+          <fieldset class="cz-grupo" data-servicio={s.id} hidden>
+            <legend class="cz-grupo__titulo">{s.titulo}</legend>
+            {s.preguntas.map((q) => (
+              <div class="cz-pregunta">
+                <p class="cz-pregunta__label" id={`q-${s.id}-${q.id}`}>
+                  {q.label}
+                </p>
+                {q.ayuda && <p class="cz-pregunta__ayuda">{q.ayuda}</p>}
+                {q.fija ? (
+                  <p class="cz-fija">
+                    {q.opciones?.[0]?.label} <span>· incluido en la estimación</span>
+                  </p>
+                ) : q.tipo === "numero" ? (
+                  <input
+                    type="number"
+                    min="0"
+                    max={q.max}
+                    value="0"
+                    inputmode="numeric"
+                    class="cz-input cz-num"
+                    name={`${s.id}.${q.id}`}
+                    aria-labelledby={`q-${s.id}-${q.id}`}
+                  />
+                ) : (
+                  <div
+                    class:list={["cz-opciones", (q.opciones ?? []).length <= 3 && "cz-opciones--iguales"]}
+                    style={`--n:${(q.opciones ?? []).length}`}
+                    role={q.tipo === "una" ? "radiogroup" : "group"}
+                    aria-labelledby={`q-${s.id}-${q.id}`}
+                  >
+                    {(q.opciones ?? []).map((o, i) => (
+                      <label class="cz-opt">
+                        <input
+                          type={q.tipo === "una" ? "radio" : "checkbox"}
+                          name={`${s.id}.${q.id}`}
+                          value={o.id}
+                          checked={q.tipo === "una" && i === 0}
+                          data-horas={o.horas}
+                          data-resumen={o.resumen ? "1" : undefined}
+                          data-horasmes={o.horasMes}
+                          data-cap={o.capacidad}
+                          class="cz-oculto"
+                        />
+                        <span class="cz-opt__label">{o.label}</span>
+                        {o.desc && <span class="cz-opt__desc">{o.desc}</span>}
+                        {o.abierto && (
+                          <span class="cz-opt__n">
+                            <input
+                              type="number"
+                              min={o.abierto.desde}
+                              value={o.abierto.desde + o.abierto.bloque}
+                              inputmode="numeric"
+                              class="cz-input cz-num cz-num--chico"
+                              name={`${s.id}.${q.id}__n`}
+                              aria-label={`Cantidad aproximada de ${o.abierto.unidad}`}
+                              data-abierto
+                            />
+                            <span>{o.abierto.unidad} aprox.</span>
+                          </span>
+                        )}
+                      </label>
+                    ))}
+                  </div>
+                )}
+                {(q.opciones ?? []).some((o) => o.capacidad !== undefined) && <p class="cz-recom" data-recom hidden />}
+              </div>
+            ))}
+            {s.aviso && <p class="cz-aviso">{s.aviso}</p>}
+          </fieldset>
+        ))
+      }
+      <div class="cz-grupo cz-auto" data-servicio="automatizacion" hidden>
+        <p class="cz-grupo__titulo">Automatización</p>
+        <p class="cz-auto__texto">{textoAuto}</p>
+        <div class="cz-auto__botones">
+          <a href={waAuto} target="_blank" rel="noopener noreferrer" class="efe-btn efe-btn--ghost">WhatsApp ↗</a>
+          <a href="/contacto/" class="efe-btn efe-btn--ghost">Contactanos ↗</a>
+        </div>
+      </div>
+      <div class="cz-acciones">
+        <button type="button" class="efe-btn efe-btn--ghost" data-accion="volver-2">← Volver</button>
+        <button type="button" class="efe-btn efe-btn--primary" data-accion="siguiente-2">
+          {PEDIR_EMAIL ? "Siguiente" : "Ver mi estimación"} <span style="font-size:14px">{PEDIR_EMAIL ? "→" : "↗"}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div data-paso="3" hidden>
+      <span class="cz-bignum" aria-hidden="true">03</span>
+      <h2 class="cz-titulo" tabindex="-1">¿A dónde te mandamos la estimación?</h2>
+      <p class="cz-ayuda">La ves en pantalla al instante, y nosotros la recibimos para armar el precio cerrado con vos.</p>
+      <form
+        name="cotizador"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        id="cz-form"
+        class="cz-form"
+      >
+        <input type="hidden" name="form-name" value="cotizador" />
+        <p style="display:none">
+          <label>No completar si sos humano: <input name="bot-field" /></label>
+        </p>
+        <input type="hidden" name="servicios" />
+        <input type="hidden" name="detalle" />
+        <input type="hidden" name="estimacion" />
+        <input type="hidden" name="mensualidad" />
+        <input type="hidden" name="horas" />
+        <label class="cz-campo">
+          Email
+          <input type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" class="cz-input" />
+        </label>
+        <label class="cz-campo">
+          Nombre y apellido
+          <input type="text" name="nombre" required autocomplete="name" placeholder="Nombre y apellido" class="cz-input" />
+        </label>
+        <label class="cz-consent">
+          <input type="checkbox" name="consentimiento" value="si" required />
+          <span>
+            Acepto que efedigital me escriba a este mail con mi estimación y para coordinar el proyecto. Usamos tu mail
+            solo para eso.
+          </span>
+        </label>
+        <p class="cz-error" id="cz-error-3" role="alert" hidden></p>
+        <div class="cz-acciones">
+          <button type="button" class="efe-btn efe-btn--ghost" data-accion="volver-3">← Volver</button>
+          <button type="submit" class="efe-btn efe-btn--primary" id="cz-enviar">
+            <span id="cz-enviar-texto">Ver mi estimación</span> <span style="font-size:14px">↗</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- SOLO AUTOMATIZACIÓN -->
+    <div data-paso="auto" hidden>
+      <h2 class="cz-titulo" tabindex="-1">Automatización</h2>
+      <p class="cz-auto__texto cz-auto__texto--grande">{textoAuto}</p>
+      <div class="cz-acciones">
+        <a href={waAuto} target="_blank" rel="noopener noreferrer" class="efe-btn efe-btn--primary">Hablemos por WhatsApp ↗</a>
+        <a href="/contacto/" class="efe-btn efe-btn--ghost">Contactanos ↗</a>
+        <button type="button" class="efe-btn efe-btn--ghost" data-accion="volver-auto">← Volver</button>
+      </div>
+    </div>
+
+    <!-- RESULTADO (lo arma el script) -->
+    <div data-paso="resultado" hidden>
+      <div id="cz-resultado" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="cz-col">
+  <aside class="cz-side" aria-label="Resumen de tu proyecto">
+    <p class="cz-side__titulo">Tu proyecto</p>
+    <div id="cz-resumen" class="cz-resumen">
+      <p class="cz-side__vacio">Todavía no elegiste nada.</p>
+    </div>
+    <div class="cz-side__incl">
+      <p class="cz-side__titulo">Los precios no incluyen</p>
+      <ul>
+        <li>Hosting y dominio</li>
+        <li>Licencias de plugins o herramientas de pago</li>
+        <li>Comisiones de los medios de pago</li>
+      </ul>
+    </div>
+    {PEDIR_EMAIL && <p class="cz-side__nota" id="cz-side-nota">La estimación aparece al final, después de dejar tu mail.</p>}
+  </aside>
+  <div class="cz-agencia-card">
+    <p class="cz-agencia-card__t">¿Sos una agencia?</p>
+    <p class="cz-agencia-card__d">
+      ¿O querés trabajar con nosotros de forma continua? Contactanos y armamos una propuesta a medida.
+    </p>
+    <a href="/contacto/" class="cz-agencia-card__a">Contactanos ↗</a>
+  </div>
+  </div>
+</div>
+
+<style is:global>
+  .cz-app [hidden] {
+    display: none !important;
+  }
+  .cz-oculto {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .cz-app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+    scroll-margin-top: 90px;
+  }
+  @media (max-width: 980px) {
+    .cz-app {
+      grid-template-columns: 1fr;
+    }
+    .cz-side {
+      display: none;
+    }
+  }
+
+  .cz-main {
+    padding: clamp(24px, 3vw, 40px);
+    background:
+      radial-gradient(70% 40% at 0% 0%, rgba(212, 255, 63, 0.09), rgba(212, 255, 63, 0) 70%),
+      radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px) 0 0 / 22px 22px,
+      #0f0f13;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    min-width: 0;
+  }
+  .cz-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .cz-progress {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), 1fr);
+    gap: 6px;
+  }
+  .cz-progress button {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 14px 0 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #6c6c74;
+    cursor: default;
+    transition: color 0.25s ease;
+  }
+  .cz-progress button i {
+    font-style: normal;
+    font-weight: 500;
+  }
+  .cz-progress button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease, height 0.2s ease;
+  }
+  .cz-progress button.is-on {
+    color: #f5f2ec;
+  }
+  .cz-progress button.is-on i {
+    color: #d4ff3f;
+  }
+  .cz-progress button.is-on::before {
+    background: #d4ff3f;
+  }
+  .cz-progress button:not(:disabled) {
+    cursor: pointer;
+  }
+  .cz-progress button:not(:disabled):hover::before {
+    height: 5px;
+  }
+  .cz-progress button:focus-visible {
+    outline: 2px solid #d4ff3f;
+    outline-offset: 2px;
+  }
+  @media (max-width: 520px) {
+    .cz-progress button {
+      gap: 6px;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+  }
+  .cz-paso-label {
+    margin: 14px 0 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8b8b93;
+  }
+
+  .cz-titulo {
+    margin: clamp(24px, 3vw, 36px) 0 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    outline: none;
+  }
+  .cz-titulo:focus,
+  .cz-titulo:focus-visible {
+    outline: none;
+  }
+  .cz-ayuda {
+    margin: 12px 0 0;
+    max-width: 58ch;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #a9a9b1;
+  }
+
+  .cz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .cz-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 20px 22px;
+    background: #0d0d10;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, translate 0.25s ease, box-shadow 0.25s ease;
+  }
+  .cz-card:hover {
+    translate: 0 -3px;
+    border-color: rgba(212, 255, 63, 0.7);
+    background: #121218;
+    box-shadow: 4px 4px 0 rgba(212, 255, 63, 0.3);
+  }
+  .cz-card:has(input:focus-visible) {
+    outline: 2px solid #d4ff3f;
+    outline-offset: 2px;
+  }
+  .cz-card.is-on {
+    border-color: #d4ff3f;
+    background: linear-gradient(160deg, rgba(212, 255, 63, 0.14), rgba(212, 255, 63, 0.04));
+    box-shadow: 5px 5px 0 #d4ff3f;
+    translate: 0 -3px;
+  }
+  .cz-card__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 6px;
+    border: 1px solid rgba(212, 255, 63, 0.35);
+    background: rgba(212, 255, 63, 0.06);
+    color: #d4ff3f;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .cz-card:hover .cz-card__icon {
+    border-color: #d4ff3f;
+  }
+  .cz-card.is-on .cz-card__icon {
+    background: #d4ff3f;
+    border-color: #d4ff3f;
+    color: #08080a;
+  }
+  [data-paso] {
+    position: relative;
+  }
+  .cz-bignum {
+    position: absolute;
+    top: 6px;
+    right: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(64px, 9vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(212, 255, 63, 0.28);
+    pointer-events: none;
+    user-select: none;
+  }
+  @media (max-width: 520px) {
+    .cz-bignum {
+      display: none;
+    }
+  }
+  .cz-card__check {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 12px;
+    color: transparent;
+    transition: all 0.2s ease;
+  }
+  .cz-card.is-on .cz-card__check {
+    background: #d4ff3f;
+    border-color: #d4ff3f;
+    color: #08080a;
+  }
+  .cz-card__title {
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.15;
+    color: #f5f2ec;
+  }
+  .cz-card__desc {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #8b8b93;
+  }
+
+  .cz-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .cz-error {
+    margin: 16px 0 0;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 120, 120, 0.5);
+    background: rgba(255, 90, 90, 0.08);
+    font-size: 13.5px;
+    color: #ffb4b4;
+  }
+
+  .cz-grupo {
+    margin: 32px 0 0;
+    padding: 0 0 4px;
+    border: 0;
+    min-width: 0;
+  }
+  .cz-grupo__titulo {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    background: #d4ff3f;
+    color: #08080a;
+  }
+  .cz-grupo > legend + .cz-pregunta,
+  .cz-grupo > .cz-grupo__titulo + .cz-auto__texto {
+    margin-top: 16px;
+  }
+  .cz-pregunta {
+    margin-top: 26px;
+  }
+  .cz-pregunta + .cz-pregunta {
+    padding-top: 26px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .cz-pregunta__label {
+    margin: 0;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #f5f2ec;
+  }
+  .cz-pregunta__ayuda {
+    margin: 6px 0 0;
+    max-width: 62ch;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #8b8b93;
+  }
+  .cz-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  /* Preguntas con 2 o 3 opciones: cajas del mismo ancho. */
+  .cz-opciones--iguales {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    max-width: 760px;
+  }
+  .cz-opciones--iguales .cz-opt {
+    min-width: 0;
+  }
+  .cz-opciones--iguales .cz-opt__desc {
+    max-width: none;
+  }
+  @media (max-width: 640px) {
+    .cz-opciones--iguales {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cz-opt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 13px 16px 13px 46px;
+    min-width: 150px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .cz-opt::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 15px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cz-opt.is-on::before {
+    border-color: #d4ff3f;
+    background: #d4ff3f;
+    box-shadow: inset 0 0 0 3px #0f0f13;
+  }
+  .cz-opt:hover {
+    border-color: rgba(212, 255, 63, 0.6);
+    background: rgba(255, 255, 255, 0.025);
+  }
+  .cz-opt:has(input:focus-visible) {
+    outline: 2px solid #d4ff3f;
+    outline-offset: 2px;
+  }
+  .cz-fija {
+    margin: 12px 0 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #f5f2ec;
+  }
+  .cz-fija span {
+    color: #8b8b93;
+  }
+  .cz-opt.is-corto {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .cz-opt.is-corto:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: transparent;
+  }
+  .cz-recom {
+    margin: 12px 0 0;
+    padding: 10px 14px;
+    border: 1px solid rgba(212, 255, 63, 0.35);
+    background: rgba(212, 255, 63, 0.06);
+    font-size: 13px;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+  .cz-opt.is-on {
+    border-color: #d4ff3f;
+    background: rgba(212, 255, 63, 0.1);
+  }
+  .cz-opt__label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #f5f2ec;
+  }
+  .cz-opt__desc {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #8b8b93;
+    max-width: 30ch;
+  }
+  .cz-opt__n {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: #a9a9b1;
+  }
+  .cz-aviso {
+    margin: 18px 0 0;
+    padding-left: 14px;
+    border-left: 2px solid #d4ff3f;
+    max-width: 62ch;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #a9a9b1;
+  }
+
+  .cz-input {
+    padding: 13px 14px;
+    background: #141419;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #f5f2ec;
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    width: 100%;
+  }
+  .cz-input::placeholder {
+    color: #6c6c74;
+  }
+  .cz-input:focus {
+    outline: none;
+    border-color: #d4ff3f;
+    box-shadow: 0 0 0 3px rgba(212, 255, 63, 0.16);
+  }
+  .cz-num {
+    max-width: 130px;
+    margin-top: 12px;
+  }
+  .cz-num--chico {
+    margin: 0;
+    max-width: 90px;
+    padding: 8px 10px;
+  }
+
+  .cz-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 28px;
+    max-width: 680px;
+  }
+  .cz-form > :not(.cz-campo) {
+    grid-column: 1 / -1;
+  }
+  @media (max-width: 640px) {
+    .cz-form {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cz-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #8b8b93;
+  }
+  .cz-consent {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 13px;
+    line-height: 1.55;
+    color: #a9a9b1;
+    cursor: pointer;
+  }
+  .cz-consent input {
+    flex: none;
+    appearance: none;
+    margin: 2px 0 0;
+    width: 18px;
+    height: 18px;
+    background: #141419;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .cz-consent input:checked {
+    background: #d4ff3f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.5l2.6 2.6L10 3.4' fill='none' stroke='%2308080a' stroke-width='1.8'/%3E%3C/svg%3E") center / 12px no-repeat;
+    border-color: #d4ff3f;
+  }
+  .cz-consent input:focus-visible {
+    outline: 2px solid #d4ff3f;
+    outline-offset: 2px;
+  }
+
+  .cz-auto {
+    padding-top: 4px;
+  }
+  .cz-auto__texto {
+    margin: 12px 0 0;
+    max-width: 58ch;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #c9c9ce;
+  }
+  .cz-auto__texto--grande {
+    margin-top: 18px;
+    font-size: 17px;
+  }
+  .cz-auto__botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  /* Resumen lateral */
+  .cz-col {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cz-agencia-card {
+    padding: 20px 22px 22px;
+    background: #d4ff3f;
+    color: #08080a;
+  }
+  .cz-agencia-card__t {
+    margin: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.1;
+  }
+  .cz-agencia-card__d {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(8, 8, 10, 0.82);
+  }
+  .cz-agencia-card a.cz-agencia-card__a {
+    display: block;
+    margin-top: 16px;
+    padding: 13px 16px;
+    background: #08080a;
+    border: 1px solid #08080a;
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #d4ff3f;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .cz-agencia-card a.cz-agencia-card__a:hover,
+  .cz-agencia-card a.cz-agencia-card__a:focus-visible {
+    background: #f5f2ec;
+    border-color: #08080a;
+    color: #08080a;
+  }
+  .cz-side {
+    padding: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #0d0d10;
+  }
+  @media (max-width: 980px) {
+    .cz-col {
+      position: static;
+    }
+  }
+  .cz-side__titulo {
+    margin: 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .cz-side__incl {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .cz-side__incl ul {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #ffffff;
+  }
+  .cz-side__incl li {
+    padding-left: 12px;
+    border-left: 2px solid rgba(212, 255, 63, 0.6);
+  }
+  .cz-side__vacio {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: #ffffff;
+  }
+  .cz-side__nota {
+    margin: 18px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+  .cz-resumen {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .cz-res-item__t {
+    margin: 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #ffffff;
+  }
+  .cz-res-item__d {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  /* Resultado */
+  .cz-res-hero {
+    position: relative;
+    margin-top: clamp(22px, 3vw, 32px);
+    padding: clamp(20px, 2.6vw, 28px) clamp(20px, 2.6vw, 30px);
+    background: linear-gradient(100deg, rgba(212, 255, 63, 0.1), rgba(212, 255, 63, 0.02) 70%), #0d0d10;
+    border: 1px solid rgba(212, 255, 63, 0.35);
+    border-left: 4px solid #d4ff3f;
+    animation: cz-pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes cz-pop {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cz-res-hero {
+      animation: none;
+    }
+  }
+  .cz-res-hero .cz-res-kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+  .cz-res-hero .cz-res-kicker::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #d4ff3f;
+  }
+  .cz-res-usd,
+  .cz-res-a {
+    color: #d4ff3f;
+  }
+  .cz-res-usd {
+    font-size: 0.55em;
+    letter-spacing: 0;
+    margin-right: 0.12em;
+  }
+  .cz-res-a {
+    font-size: 0.6em;
+    font-style: italic;
+    margin: 0 0.1em;
+  }
+  .cz-res-kicker {
+    margin: clamp(24px, 3vw, 36px) 0 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d4ff3f;
+  }
+  .cz-res-monto {
+    margin: 14px 0 0;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: clamp(30px, 4.2vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #f5f2ec;
+  }
+  .cz-res-monto small {
+    font-size: 0.34em;
+    letter-spacing: -0.01em;
+    color: #a9a9b1;
+    font-weight: 700;
+  }
+  .cz-res-sub {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #8b8b93;
+  }
+  .cz-res-bloque {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .cz-res-bloque h3 {
+    margin: 0 0 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8b8b93;
+  }
+  .cz-res-linea {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    font-size: 14.5px;
+    color: #c9c9ce;
+  }
+  .cz-res-linea:has(+ .cz-res-linea--sub) {
+    border-bottom: 0;
+  }
+  .cz-res-linea--sub {
+    margin-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    color: #f5f2ec;
+  }
+  .cz-res-linea--desc,
+  .cz-res-linea--desc b {
+    color: #d4ff3f;
+  }
+  .cz-res-linea--total {
+    padding-top: 12px;
+    border-bottom: 0;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .cz-res-linea--total b {
+    font-size: 16px;
+    color: #ffffff;
+  }
+  .cz-res-linea:last-child {
+    border-bottom: 0;
+  }
+  .cz-res-linea b {
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 500;
+    font-size: 13px;
+    color: #f5f2ec;
+  }
+  .cz-res-srv {
+    margin: 14px 0 2px;
+    font-family: "Lora", serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #f5f2ec;
+  }
+  .cz-res-lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #a9a9b1;
+  }
+  .cz-res-lista li {
+    padding-left: 14px;
+    border-left: 2px solid rgba(212, 255, 63, 0.6);
+  }
+  .cz-res-pie {
+    margin: 26px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #8b8b93;
+  }
+</style>
+
+<script>
+  import { SERVICIOS, calcular, type Respuestas, type Resultado } from "../data/cotizador/precios";
+  import { WHATSAPP, wa } from "../data/cotizador/contacto";
+  import { PEDIR_EMAIL } from "../data/cotizador/config";
+
+  declare global {
+    interface Window {
+      gtag?: (...args: unknown[]) => void;
+    }
+  }
+
+  const app = document.getElementById("cz-app") as HTMLElement | null;
+  if (app) iniciar(app);
+
+  function iniciar(app: HTMLElement) {
+    const $$ = <T extends Element>(sel: string, root: ParentNode = app) => Array.from(root.querySelectorAll<T>(sel));
+    const $ = <T extends Element>(sel: string, root: ParentNode = app) => root.querySelector<T>(sel);
+
+    type Paso = "1" | "2" | "3" | "auto" | "resultado";
+    const TITULOS: Record<string, string> = { "1": "¿Qué necesitás?", "2": "Contanos un poco más", "3": "Tu estimación" };
+    const usd = (n: number) => new Intl.NumberFormat("es-AR").format(n);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const esLocal = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
+
+    const tituloServicio = (id: string) => SERVICIOS.find((s) => s.id === id)?.titulo ?? id;
+
+    const seleccion = (): string[] => {
+      const marcados = new Set($$<HTMLInputElement>('input[name="srv"]:checked').map((i) => i.value));
+      return SERVICIOS.map((s) => s.id).filter((id) => marcados.has(id));
+    };
+
+    const leerRespuestas = (sel: string[]): Respuestas => {
+      const out: Respuestas = {};
+      for (const id of sel) {
+        const srv = SERVICIOS.find((s) => s.id === id);
+        if (!srv) continue;
+        const r: Respuestas[string] = {};
+        for (const q of srv.preguntas) {
+          const nombre = `${id}.${q.id}`;
+          if (q.tipo === "numero") {
+            r[q.id] = Number($<HTMLInputElement>(`input[name="${nombre}"]`)?.value) || 0;
+          } else if (q.tipo === "una") {
+            r[q.id] = $<HTMLInputElement>(`input[name="${nombre}"]:checked`)?.value ?? "";
+          } else {
+            r[q.id] = $$<HTMLInputElement>(`input[name="${nombre}"]:checked`).map((i) => i.value);
+          }
+          const n = $<HTMLInputElement>(`input[name="${nombre}__n"]`);
+          if (n) r[`${q.id}__n`] = Number(n.value) || 0;
+        }
+        out[id] = r;
+      }
+      return out;
+    };
+
+    // ---------- estado visual ----------
+    // Mantenimiento: las tareas marcadas estiman horas al mes; los planes que no alcanzan se
+    // deshabilitan y se recomienda el más chico que cubre.
+    const aplicarRecomendacion = () => {
+      const fs = $<HTMLElement>('fieldset[data-servicio="mantenimiento"]');
+      if (!fs) return;
+      const est = $$<HTMLInputElement>("input[data-horasmes]:checked", fs).reduce((a, i) => a + Number(i.dataset.horasmes || 0), 0);
+      const planes = $$<HTMLInputElement>("input[data-cap]", fs);
+      if (!planes.length) return;
+      const rec = (est > 0 && planes.find((i) => Number(i.dataset.cap) >= est)) || planes[0];
+      const recIdx = planes.indexOf(rec);
+      planes.forEach((i, idx) => {
+        i.disabled = idx < recIdx;
+        i.closest(".cz-opt")?.classList.toggle("is-corto", idx < recIdx);
+      });
+      if (!planes.some((i) => i.checked && !i.disabled)) rec.checked = true;
+      const n = fs.querySelector<HTMLInputElement>("input[data-abierto]");
+      if (n) {
+        const minimo = Math.max(Number(n.defaultValue) - 1, Math.ceil(est));
+        n.min = String(minimo);
+        if (Number(n.value) < minimo) n.value = String(minimo);
+      }
+      const aviso = fs.querySelector<HTMLElement>("[data-recom]");
+      if (aviso) {
+        const nombre = rec.closest(".cz-opt")?.querySelector(".cz-opt__label")?.textContent?.trim() ?? "";
+        aviso.hidden = est <= 0;
+        aviso.textContent = `Con lo que marcaste estimamos unas ${est} horas al mes. Te recomendamos el plan «${nombre}»; los que quedan cortos están deshabilitados.`;
+      }
+    };
+
+    const sincronizar = () => {
+      aplicarRecomendacion();
+      $$<HTMLInputElement>('.cz-card input[type="radio"]').forEach((i) =>
+        i.closest(".cz-card")?.classList.toggle("is-on", i.checked)
+      );
+      $$<HTMLInputElement>(".cz-opt > input").forEach((i) => {
+        i.closest(".cz-opt")?.classList.toggle("is-on", i.checked);
+        const n = i.closest(".cz-opt")?.querySelector<HTMLInputElement>("input[data-abierto]");
+        if (n) n.disabled = !i.checked;
+      });
+      const err1 = $<HTMLElement>("#cz-error-1");
+      if (err1 && seleccion().length) err1.hidden = true;
+      renderResumen();
+    };
+
+    const renderResumen = () => {
+      const cont = $("#cz-resumen");
+      if (!cont) return;
+      const sel = seleccion();
+      if (!sel.length) {
+        cont.innerHTML = '<p class="cz-side__vacio">Todavía no elegiste nada.</p>';
+        return;
+      }
+      cont.innerHTML = "";
+      for (const id of sel) {
+        const srv = SERVICIOS.find((s) => s.id === id)!;
+        const item = document.createElement("div");
+        const t = document.createElement("p");
+        t.className = "cz-res-item__t";
+        t.textContent = srv.titulo;
+        item.append(t);
+        const detalle: string[] = [];
+        // Solo lo que cambia el precio: las opciones sin costo extra ("Ninguno", "No hace
+        // falta") no aportan nada a este resumen.
+        $$<HTMLInputElement>(`fieldset[data-servicio="${id}"] .cz-opt > input:checked`).forEach((i) => {
+          if (!Number(i.dataset.horas) && !i.dataset.resumen) return;
+          const l = i.closest(".cz-opt")?.querySelector(".cz-opt__label")?.textContent?.trim();
+          const n = i.closest(".cz-opt")?.querySelector<HTMLInputElement>("input[data-abierto]")?.value;
+          if (l) detalle.push(n ? `${l} (${n})` : l);
+        });
+        if (id === "automatizacion") detalle.push("Se cotiza hablando con vos");
+        if (detalle.length) {
+          const d = document.createElement("p");
+          d.className = "cz-res-item__d";
+          d.textContent = detalle.join(" · ");
+          item.append(d);
+        }
+        cont.append(item);
+      }
+    };
+
+    // ---------- navegación ----------
+    // ---------- medición (Google Analytics) ----------
+    // Embudo: cotizador_visto -> cotizador_inicio (eligió un servicio) -> cotizador_paso
+    // (cada paso que ve) -> cotizador_resultado. Si se va sin llegar al resultado se manda
+    // cotizador_abandono con el último paso y el tiempo. window.gtag solo existe en el dominio
+    // real, así que en local o en deploy previews esto no hace nada.
+    const track = (nombre: string, params: Record<string, unknown> = {}) => {
+      if (typeof window.gtag === "function") window.gtag("event", nombre, { send_to: "G-HY78M19P0F", ...params });
+    };
+    const NOMBRE_PASO: Record<string, string> = {
+      "1": "1_servicio",
+      "2": "2_detalles",
+      "3": "3_contacto",
+      auto: "automatizacion",
+      resultado: "4_resultado",
+    };
+    const medicion = {
+      inicio: 0, // marca de tiempo del primer servicio elegido (0 = todavía no empezó)
+      terminado: false,
+      pasos: new Set<string>(),
+      ultimoPaso: "1",
+      abandonoEnviado: false,
+    };
+    const servicioActual = () => seleccion()[0] ?? "";
+    const segundos = () => (medicion.inicio ? Math.round((Date.now() - medicion.inicio) / 1000) : 0);
+    const registrarPaso = (paso: string) => {
+      medicion.ultimoPaso = paso;
+      medicion.abandonoEnviado = false; // hubo avance: un nuevo abandono vuelve a contar
+      // El resultado ya tiene su propio evento (cotizador_resultado).
+      if (paso === "resultado" || !medicion.inicio || medicion.pasos.has(paso)) return;
+      medicion.pasos.add(paso);
+      track("cotizador_paso", { paso: NOMBRE_PASO[paso] ?? paso, servicio: servicioActual(), segundos: segundos() });
+    };
+    const empezar = () => {
+      if (medicion.inicio) return;
+      medicion.inicio = Date.now();
+      track("cotizador_inicio", { servicio: servicioActual() });
+    };
+    const reiniciarMedicion = () => {
+      medicion.inicio = 0;
+      medicion.terminado = false;
+      medicion.pasos.clear();
+      medicion.ultimoPaso = "1";
+      medicion.abandonoEnviado = false;
+    };
+    const avisarAbandono = () => {
+      if (!medicion.inicio || medicion.terminado || medicion.abandonoEnviado) return;
+      medicion.abandonoEnviado = true;
+      track("cotizador_abandono", {
+        ultimo_paso: NOMBRE_PASO[medicion.ultimoPaso] ?? medicion.ultimoPaso,
+        servicio: servicioActual(),
+        segundos: segundos(),
+        transport_type: "beacon",
+      });
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") avisarAbandono();
+    });
+    window.addEventListener("pagehide", avisarAbandono);
+    if ("IntersectionObserver" in window) {
+      const visto = new IntersectionObserver(
+        (entradas) => {
+          if (!entradas.some((e) => e.isIntersecting)) return;
+          track("cotizador_visto");
+          visto.disconnect();
+        },
+        { threshold: 0.35 }
+      );
+      visto.observe(app);
+    }
+
+    // Hasta qué paso numerado llegó la persona: la barra de progreso deja volver (o
+    // adelantar) solo a pasos ya recorridos. El botón "atrás" del navegador también
+    // recorre los pasos, porque cada uno se guarda en el historial.
+    let maxPaso = 1;
+    const mostrar = (paso: Paso, enfocar = true, desdeHistorial = false) => {
+      if (paso === "2") {
+        const sel = seleccion();
+        $$<HTMLElement>("[data-paso='2'] [data-servicio]").forEach((g) => (g.hidden = !sel.includes(g.dataset.servicio ?? "")));
+      }
+      $$<HTMLElement>("[data-paso]").forEach((el) => (el.hidden = el.dataset.paso !== paso));
+      const n = paso === "1" ? 1 : paso === "2" ? 2 : paso === "3" ? 3 : 0;
+      if (n) maxPaso = Math.max(maxPaso, n);
+      registrarPaso(paso);
+      if (!desdeHistorial) {
+        try {
+          if (history.state?.cz !== paso) history.pushState({ cz: paso }, "");
+        } catch {}
+      }
+      $$<HTMLButtonElement>("[data-barra]").forEach((b) => {
+        const i = Number(b.dataset.barra);
+        b.classList.toggle("is-on", i <= (n || 3));
+        b.disabled = i > maxPaso || i === n;
+      });
+      const nota = $<HTMLElement>("#cz-side-nota");
+      if (nota) nota.hidden = paso === "resultado";
+      const label = $("#cz-paso-label");
+      if (label)
+        label.textContent =
+          paso === "resultado" ? "Listo · Tu estimación" : paso === "auto" ? "Automatización" : `Paso ${n} de 3 · ${TITULOS[paso]}`;
+      if (enfocar) {
+        const h = $<HTMLElement>(`[data-paso="${paso}"] .cz-titulo`);
+        h?.focus({ preventScroll: true });
+        app.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      }
+    };
+
+    // ---------- acciones ----------
+    app.addEventListener("click", (e) => {
+      const barra = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-barra]");
+      if (barra && !barra.disabled) {
+        const i = barra.dataset.barra as "1" | "2" | "3";
+        // Con solo "Automatización" elegida no hay pasos 2 y 3: el paso 1 es el único destino.
+        const soloAuto = seleccion().length === 1 && seleccion()[0] === "automatizacion";
+        mostrar(soloAuto && i !== "1" ? "1" : i);
+        return;
+      }
+      const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-accion]");
+      if (!btn) return;
+      const accion = btn.dataset.accion;
+      if (accion === "siguiente-1") {
+        const sel = seleccion();
+        const err = $("#cz-error-1");
+        if (!sel.length) {
+          if (err) err.hidden = false;
+          return;
+        }
+        if (err) err.hidden = true;
+        if (sel.length === 1 && sel[0] === "automatizacion") mostrar("auto");
+        else mostrar("2");
+      } else if (accion === "volver-2" || accion === "volver-auto") mostrar("1");
+      else if (accion === "siguiente-2") {
+        if (PEDIR_EMAIL) mostrar("3");
+        else {
+          // Modo prueba: sin email, directo al resultado (no se envía nada ni se mide el lead).
+          const sel = seleccion();
+          renderResultado(sel, calcular(sel, leerRespuestas(sel)));
+        }
+      }
+      else if (accion === "volver-3" || accion === "editar") mostrar("2");
+      else if (accion === "reiniciar") {
+        // Vuelve cada campo al valor con el que vino el HTML (la primera opción marcada,
+        // las cantidades en su valor inicial, nada elegido en el paso 1).
+        $$<HTMLInputElement>("input").forEach((i) => {
+          i.checked = i.defaultChecked;
+          if (i.type === "number") i.value = i.defaultValue;
+        });
+        $<HTMLFormElement>("#cz-form")?.reset();
+        sincronizar();
+        maxPaso = 1;
+        reiniciarMedicion();
+        mostrar("1");
+      }
+    });
+
+    window.addEventListener("popstate", (e) => {
+      const paso = e.state?.cz as Paso | undefined;
+      const sel = seleccion();
+      // Sin selección no hay nada que mostrar más allá del paso 1.
+      if (!paso || !sel.length || (paso === "resultado" && !$("#cz-resultado")?.innerHTML)) mostrar("1", false, true);
+      else mostrar(paso, false, true);
+    });
+
+    app.addEventListener("change", (e) => {
+      if ((e.target as HTMLInputElement).name === "srv") empezar();
+      sincronizar();
+    });
+    // Las cantidades actualizan el resumen mientras se escribe, no recién al salir del campo.
+    app.addEventListener("input", (e) => {
+      if ((e.target as HTMLElement).matches("input[type=number]")) renderResumen();
+    });
+    // Tocar la cantidad de un escalón abierto ("más de 100") lo selecciona.
+    app.addEventListener("focusin", (e) => {
+      const n = (e.target as HTMLElement).closest<HTMLInputElement>("input[data-abierto]");
+      if (!n) return;
+      const radio = n.closest(".cz-opt")?.querySelector<HTMLInputElement>("input[type=radio]");
+      if (radio && !radio.checked) {
+        radio.checked = true;
+        sincronizar();
+      }
+    });
+
+    // ---------- resultado ----------
+    const rango = (min: number, max: number) => `USD ${usd(min)} a ${usd(max)}`;
+
+    const textoLineas = (res: Resultado) =>
+      res.lineas
+        .map((l) => `${l.servicio} | ${l.concepto} | USD ${l.usd}${l.mensual ? "/mes" : ""} | ${l.horas} h`)
+        .join("\n");
+
+    const renderResultado = (sel: string[], res: Resultado) => {
+      const cont = $("#cz-resultado");
+      if (!cont) return;
+      const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+      const monto = (min: number, max: number) =>
+        `<span class="cz-res-usd">USD</span>${usd(min)}<span class="cz-res-a"> a </span>${usd(max)}`;
+      let html = '<div class="cz-res-hero"><p class="cz-res-kicker">Tu estimación</p>';
+      if (res.unico > 0)
+        html += `<p class="cz-res-monto">${monto(res.unico, res.unicoMax)}</p><p class="cz-res-sub">Proyecto, pago único</p>`;
+      if (res.mensual > 0)
+        html += `<p class="cz-res-monto"${res.unico > 0 ? ' style="margin-top:26px"' : ""}><span class="cz-res-usd">USD</span>${usd(res.mensual)} <small>por mes</small></p><p class="cz-res-sub">Mantenimiento mensual</p>`;
+      html += "</div>";
+
+      const servicios = [...new Set(res.lineas.map((l) => l.servicio))];
+      html += '<div class="cz-res-bloque"><h3>Cómo lo calculamos</h3>';
+      for (const s of servicios) {
+        html += `<p class="cz-res-srv">${esc(s)}</p>`;
+        const delServicio = res.lineas.filter((x) => x.servicio === s);
+        const descuento = delServicio.find((x) => x.descuento);
+        const normales = delServicio.filter((x) => !x.descuento);
+        const fila = (clase: string, texto: string, monto: string) =>
+          `<div class="cz-res-linea${clase}"><span>${esc(texto)}</span><b>${monto}</b></div>`;
+        for (const l of normales) html += fila("", l.concepto, `USD ${usd(l.usd)}${l.mensual ? "/mes" : ""}`);
+        if (descuento) {
+          const subtotal = normales.filter((x) => !x.mensual).reduce((a, x) => a + x.usd, 0);
+          html += fila(" cz-res-linea--sub", "Subtotal", `USD ${usd(subtotal)}`);
+          html += fila(" cz-res-linea--desc", descuento.concepto, `−USD ${usd(Math.abs(descuento.usd))}`);
+          html += fila(" cz-res-linea--total", "Total", `USD ${usd(subtotal + descuento.usd)}`);
+        }
+      }
+      html += "</div>";
+
+      const plazos = sel
+        .filter((id) => id !== "automatizacion")
+        .map((id) => SERVICIOS.find((s) => s.id === id))
+        .filter((s) => s?.plazo)
+        .map((s) => `<li><b>${esc(s!.titulo)}:</b> ${esc(s!.plazo!)}</li>`);
+      if (plazos.length) html += `<div class="cz-res-bloque"><h3>Plazos orientativos</h3><ul class="cz-res-lista">${plazos.join("")}</ul></div>`;
+
+      const avisos = new Set<string>();
+      for (const id of sel) {
+        const a = SERVICIOS.find((s) => s.id === id)?.aviso;
+        if (a) avisos.add(a);
+      }
+      if (res.lineas.some((l) => l.diseno))
+        avisos.add(
+          "El diseño incluye un primer bosquejo de la home, una página interna, la página de contacto y una entrada de blog, con hasta 3 rondas de cambios. Los cambios adicionales se cotizan aparte."
+        );
+      if (res.promoMant) {
+        const pm = res.promoMant;
+        avisos.add(
+          `El descuento del ${pm.descuentoPct}% ${pm.paraTienda ? "en la tienda" : "en el sitio"} se aplica al contratar el ${pm.nombre} de mantenimiento (USD ${pm.plan} por mes) con una permanencia mínima de ${pm.meses} meses. Incluye backups, actualizaciones y seguridad, más ${pm.horas} horas al mes para correcciones o tareas nuevas. Las horas no se acumulan para el mes siguiente.`
+        );
+      }
+      for (const p of res.pedidos) avisos.add(`${p.split(" | ").slice(1).join(" | ")}.`);
+      if (sel.some((id) => ["institucional", "landing", "tienda", "mantenimiento"].includes(id)))
+        avisos.add(
+          "Los precios no incluyen hosting y dominio, licencias de plugins o herramientas de pago, ni comisiones de los medios de pago."
+        );
+      if (res.conAutomatizacion)
+        avisos.add("Para automatizaciones necesitamos conocer tu caso: escribinos y lo vemos, no se incluye en esta estimación.");
+      if (res.unico > 0) avisos.add("El valor menor es el precio calculado con lo que respondiste; el mayor deja un 30% de margen para los detalles que se definen cuando conversamos el proyecto. El precio cerrado lo confirmamos antes de arrancar. Si más adelante pedís algo que no estaba acordado, te lo cotizamos aparte antes de hacerlo.");
+      if (res.mensual > 0) avisos.add("El mantenimiento mensual es un valor fijo, sin rango.");
+      html += `<div class="cz-res-bloque"><h3>A tener en cuenta</h3><ul class="cz-res-lista">${[...avisos].map((a) => `<li>${esc(a)}</li>`).join("")}</ul></div>`;
+
+      const resumenWa = `Hola! Hice una cotización en el cotizador de efedigital: ${sel.map(tituloServicio).join(", ")}. Estimación: ${[
+        res.unico > 0 ? rango(res.unico, res.unicoMax) : "",
+        res.mensual > 0 ? `USD ${usd(res.mensual)} por mes` : "",
+      ]
+        .filter(Boolean)
+        .join(" + ")}.`;
+      html += `<div class="cz-acciones" style="margin-top:32px">
+        <a class="efe-btn efe-btn--primary" href="${wa(resumenWa)}" target="_blank" rel="noopener noreferrer">Hablemos por WhatsApp ↗</a>
+        <button type="button" class="efe-btn efe-btn--ghost" data-accion="editar">← Modificar respuestas</button>
+        <button type="button" class="efe-btn efe-btn--ghost" data-accion="reiniciar">Hacer otra cotización</button>
+      </div>
+      <p class="cz-res-pie">Estimación sin compromiso. El precio cerrado se confirma antes de arrancar.${PEDIR_EMAIL ? " Te escribimos a tu mail con los próximos pasos." : ""}</p>`;
+      cont.innerHTML = html;
+      medicion.terminado = true;
+      track("cotizador_resultado", {
+        servicio: sel[0] ?? "",
+        value: res.unico || res.mensual,
+        currency: "USD",
+        con_mantenimiento: !!res.promoMant,
+        segundos: segundos(),
+      });
+      mostrar("resultado");
+    };
+
+    // ---------- envío ----------
+    const form = $<HTMLFormElement>("#cz-form");
+    const btnEnviar = $<HTMLButtonElement>("#cz-enviar");
+    const textoEnviar = $("#cz-enviar-texto");
+    const errorForm = $<HTMLElement>("#cz-error-3");
+    let enviando = false;
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (enviando || !form) return;
+      const sel = seleccion();
+      if (!sel.length) return mostrar("1");
+      const res = calcular(sel, leerRespuestas(sel));
+      const set = (n: string, v: string) => {
+        const i = form.elements.namedItem(n) as HTMLInputElement | null;
+        if (i) i.value = v;
+      };
+      set("servicios", sel.map(tituloServicio).join(", "));
+      set("detalle", [textoLineas(res) || "Sin ítems con precio", ...res.pedidos.map((p) => `Pedidos | ${p}`)].join("\n"));
+      set("estimacion", res.unico > 0 ? rango(res.unico, res.unicoMax) : "");
+      set("mensualidad", res.mensual > 0 ? `USD ${usd(res.mensual)} por mes` : "");
+      set("horas", String(res.horas));
+
+      enviando = true;
+      btnEnviar?.setAttribute("disabled", "true");
+      if (textoEnviar) textoEnviar.textContent = "Enviando…";
+      if (errorForm) errorForm.hidden = true;
+      try {
+        // En local (npm run dev:cotizador / preview) no hay Netlify Forms: se muestra el
+        // resultado igual, sin enviar nada, para poder revisar el flujo completo.
+        if (!esLocal) {
+          const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
+          const r = await fetch(form.getAttribute("action") || "/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body,
+          });
+          if (!r.ok) throw new Error("submit failed");
+        }
+        if (typeof window.gtag === "function") {
+          // Misma conversión de Google Ads que el formulario de contacto (ContactForm.astro).
+          window.gtag("event", "conversion", { send_to: "AW-18451433875/rbaXCOyP4_ccEJOTqt5E" });
+          window.gtag("event", "generate_lead", { send_to: "G-HY78M19P0F", form_name: "cotizador" });
+        }
+        renderResultado(sel, res);
+      } catch {
+        track("cotizador_error_envio", { servicio: servicioActual() });
+        if (errorForm) {
+          errorForm.textContent = `No pudimos enviar tu pedido. Reintentá en un momento o escribinos por WhatsApp (${WHATSAPP}).`;
+          errorForm.hidden = false;
+        }
+      } finally {
+        enviando = false;
+        btnEnviar?.removeAttribute("disabled");
+        if (textoEnviar) textoEnviar.textContent = "Ver mi estimación";
+      }
+    });
+
+    sincronizar();
+    try {
+      history.replaceState({ cz: "1" }, "");
+    } catch {}
+    mostrar("1", false, true);
+  }
+</script>
