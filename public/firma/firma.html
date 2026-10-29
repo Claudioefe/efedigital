@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Firma de email · efedigital</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f4f4f2; margin: 0; padding: 32px 16px; color: #222; }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 24px; }
+    button { margin-top: 16px; padding: 10px 18px; font-size: 15px; font-weight: 600; background: #08080A; color: #D4FF3F; border: 0; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #222; }
+    ol { line-height: 1.6; font-size: 15px; }
+    #ok { margin-left: 12px; font-size: 14px; color: #2a7a2a; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 style="font-size:20px">Firma de email · efedigital</h1>
+    <ol>
+      <li>Tocá <strong>Copiar firma</strong>.</li>
+      <li>En Gmail: <strong>Configuración (⚙) → Ver toda la configuración → General → Firma</strong>.</li>
+      <li>Creá una firma nueva (o editá una), pegá con <strong>Cmd/Ctrl + V</strong> y guardá los cambios al final de la página.</li>
+    </ol>
+
+    <div class="card">
+      <!-- ===== INICIO DE LA FIRMA (esto es lo que se copia) ===== -->
+      <div id="firma">
+        <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;color:#08080A;">
+          <tr>
+            <td style="padding:0 0 12px 0;">
+              <a href="https://efedigital.com.ar" target="_blank" style="text-decoration:none;">
+                <img src="https://efedigital.com.ar/firma/logo-firma.gif" alt="efedigital" width="240" height="93" style="display:block;border:0;width:240px;height:93px;border-radius:6px;" />
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size:16px;font-weight:bold;line-height:20px;color:#08080A;">Claudio</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;line-height:18px;color:#555555;padding:0 0 8px 0;">Desarrollo, mantenimiento y soporte web</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px;line-height:20px;color:#08080A;">
+              <a href="https://wa.me/5493764997405" target="_blank" style="color:#08080A;text-decoration:none;">WhatsApp +54 9 376 499-7405</a><br />
+              <a href="mailto:efedigital.dev@gmail.com" style="color:#08080A;text-decoration:none;">efedigital.dev@gmail.com</a><br />
+              <a href="https://efedigital.com.ar" target="_blank" style="color:#08080A;text-decoration:none;font-weight:bold;">efedigital.com.ar</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0 0 0;font-size:13px;line-height:18px;">
+              <a href="https://efedigital.com.ar/cotizador/" target="_blank" style="display:inline-block;background:#D4FF3F;color:#08080A;font-weight:bold;text-decoration:none;padding:7px 14px;border-radius:4px;">¿Cuánto cuesta tu proyecto? Cotizá acá</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- ===== FIN DE LA FIRMA ===== -->
+    </div>
+
+    <button id="copiar" type="button">Copiar firma</button><span id="ok" role="status"></span>
+  </div>
+
+  <script>
+    document.getElementById("copiar").addEventListener("click", function () {
+      var nodo = document.getElementById("firma");
+      var sel = window.getSelection();
+      var rango = document.createRange();
+      rango.selectNode(nodo);
+      sel.removeAllRanges();
+      sel.addRange(rango);
+      var copiado = false;
+      try { copiado = document.execCommand("copy"); } catch (e) {}
+      document.getElementById("ok").textContent = copiado
+        ? "Copiada. Ahora pegala en Gmail."
+        : "No pude copiar solo; la firma quedó seleccionada, apretá Cmd/Ctrl + C.";
+    });
+  </script>
+</body>
+</html>
